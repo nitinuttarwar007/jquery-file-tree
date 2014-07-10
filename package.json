@@ -1,0 +1,33 @@
+{
+  "name": "jQuery-File-Tree",
+  "version": "0.0.0",
+  "description": "A highy customisable jQuery filtree plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vkbansal/jquery-file-tree.git"
+  },
+  "keywords": [
+    "filetree",
+    "file-tree",
+    "tree",
+    "folder",
+    "plugin"
+  ],
+  "author": "Vivek Kumar Bansal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vkbansal/jquery-file-tree/issues"
+  },
+  "homepage": "https://github.com/vkbansal/jquery-file-tree",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-coffee": "^2.0.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.3.1",
+    "gulp-util": "^2.2.20"
+  }
+}
