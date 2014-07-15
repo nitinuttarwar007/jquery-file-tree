@@ -1,0 +1,53 @@
+ul.filetree * {
+  list-style: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+ul.filetree a,
+ul.filetree a:hover,
+ul.filetree a:active,
+ul.filetree a:focus {
+  text-decoration: none;
+  color: inherit;
+  vertical-align: top;
+  margin-left: 10px;
+}
+ul.filetree li {
+  position: relative;
+  line-height: 20px;
+}
+ul.filetree li.folder.collapsed > ul {
+  display: none;
+}
+ul.filetree li.folder.expanded > ul {
+  display: block;
+}
+ul.filetree li > ul {
+  padding-left: 20px;
+}
+ul.filetree button.arrow {
+  background: transparent;
+  border: none;
+  width: 5px;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+ul.filetree button.arrow:before {
+  content: '';
+  width: 0;
+  height: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #000;
+}

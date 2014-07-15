@@ -49,6 +49,18 @@ A highly customisable jQuery filetree plugin for displaying folder structures.
             <td>null</td>
             <td>jQuery Selector of the div where the files of selected folder are to be shown. Only applicable when <code>hideFiles</code> is set to <code>true</code>.</td>
         </tr>
+        <tr>
+            <td>nodeName</td>
+            <td>string</td>
+            <td>'name'</td>
+            <td>The key whose value is to be used for display text</td>
+        </tr>
+        <tr>
+            <td>nodeTitle</td>
+            <td>string</td>
+            <td>'name'</td>
+            <td>The key whose value is to be used for title attribute in anchor link</td>
+        </tr>
     </tbody>
 </table>
 
@@ -90,7 +102,7 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
         ]
     }, {
         "name": "B",
-        "type": "folder"
+        "type": "folder",
         "children": [
             {
                 "name": "01",
@@ -102,7 +114,7 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
                 "type": "file"
             },{
                 "name": "B",
-                "type": "folder"
+                "type": "folder",
                 "children": []
             }
         ]    
