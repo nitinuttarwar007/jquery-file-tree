@@ -20,10 +20,14 @@ do ($ = jQuery, window, document) ->
 			@init()
 
 		init: ->
-			data = JSON.parse(@settings.data)
+			data = @settings.data
 			@_createTree.call(@, @element, data)
 			$(@element).addClass('filetree')
 			@_addListeners()
+			return
+
+		open:->
+			console.log @element
 			return
 
 		_createTree: (elem, data)->
@@ -93,66 +97,45 @@ do ($ = jQuery, window, document) ->
 			return
 
 		_openFolder: (elem)->
-			$root = $(@element)
-			$elem = $(elem)
+			$elem = $(elem).parent('li')
 			that = @
 
 			ev_start = $.Event('open.folder.filetree')
 			ev_end= $.Event('opened.folder.filetree')
 
 			ul = $elem.find('ul').eq(0)
-			$root.trigger(ev_start,$elem)
+			$elem.find('a').eq(0).trigger(ev_start)
 
 			ul.slideDown(
 				that.settings.animationSpeed
 				->
 					$elem.removeClass('collapsed').addClass('expanded')
 					ul.removeAttr('style')
-					$root.trigger(ev_end,$elem)
+					$elem.find('a').eq(0).trigger(ev_end)
 					return
 			)
 
 			false
 
 		_closeFolder: (elem)->
-			$root = $(@element)
-			$elem = $(elem)
+			$elem = $(elem).parent('li')
 			that = @
 
 			ev_start = $.Event 'close.folder.filetree'
 			ev_end= $.Event 'closed.folder.filetree'
 
 			ul = $elem.find('ul').eq(0)
-			$root.trigger(ev_start,$elem)
+			$elem.find('a').eq(0).trigger(ev_start)
 
 			ul.slideUp(
 				that.settings.animationSpeed
 				->
 					$elem.removeClass('expanded').addClass('collapsed')
 					ul.removeAttr('style')
-					$root.trigger(ev_end,$elem)
+					$elem.find('a').eq(0).trigger(ev_end)
 					return
 			)
 
-			false
-
-		_clickFolder: (elem)->
-			$root = $(@element)
-			$elem = $(elem)
-
-			ev = $.Event 'click.folder.filtree'
-			#console.log 'folder clicked'
-			
-			$root.trigger ev, $elem
-			false
-
-		_clickFile: (elem)->
-			$root = $(@element)
-			$elem = $(elem)
-			#console.log 'file clicked'
-			ev = $.Event 'click.file.filtree'
-
-			$root.trigger ev, $root
 			false
 
 		_addListeners: ->
@@ -163,33 +146,38 @@ do ($ = jQuery, window, document) ->
 				'click'
 				'li.folder.collapsed.has-children > button.arrow'
 				(event) ->
-					that._openFolder($(@).parent('li'))
+					that._openFolder @
 			)
 
 			$root.on(
 				'click'
 				'li.folder.expanded.has-children > button.arrow'
 				(event) ->
-					that._closeFolder($(@).parent('li'))
+					that._closeFolder @
 			)
 
 			$root.on(
 				'click'
 				'li.folder > a'
 				(event) ->
-					that._clickFolder($(@).parent('li'))
-					event.preventDefault()
-					event.stopPropagation()
-					#false
+					$(@).triggerHandler('click.folder.filetree')
+					event.stopImmediatePropagation()
 			)
 
 			$root.on(
 				'click'
 				'li.file > a'
 				(event) ->
-					that._clickFile($(@).parent('li'))
-					event.preventDefault()
+					$(@).triggerHandler('click.file.filtree')
+					event.stopImmediatePropagation()
+			)
+
+			$root.on(
+				'click'
+				'li.folder, li.file'
+				(event)->
 					#false
+					return
 			)
 			return
 
@@ -210,7 +198,7 @@ do ($ = jQuery, window, document) ->
 			data = $this.data('$.filetree')
 			
 			unless data
-				$this.data "$.filetree", new FileTree @, options
+				$this.data "$.filetree", (data = new FileTree(@, options))
 
 			if typeof options is 'string'
 				data[options].call($this)
