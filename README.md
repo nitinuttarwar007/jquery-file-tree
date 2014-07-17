@@ -2,12 +2,13 @@
 A highly customisable jQuery filetree plugin for displaying folder structures.
 
 ##Usage
-<pre><code>$(document).ready(function(){
+```js
+$(document).ready(function(){
 
     $('#example').filtree([options]);
     
 });
-</code></pre>
+```
 ##Options
 <table>
     <thead>
@@ -44,12 +45,6 @@ A highly customisable jQuery filetree plugin for displaying folder structures.
             <td>Hides files and displays only folders</td>
         </tr>
         <tr>
-            <td>fileContainer</td>
-            <td>string</td>
-            <td>null</td>
-            <td>jQuery Selector of the div where the files of selected folder are to be shown. Only applicable when <code>hideFiles</code> is set to <code>true</code>.</td>
-        </tr>
-        <tr>
             <td>nodeName</td>
             <td>string</td>
             <td>'name'</td>
@@ -66,7 +61,7 @@ A highly customisable jQuery filetree plugin for displaying folder structures.
 
 ##Data format
 The data required is in recursive format with <code>name</code>, <code>type</code> and <code>children</code> keys required for <em>folder</em> type and <code>name</code>, <code>type</code> and <code>ext</code> keys required for <em>file</em> type.
-<pre><code>
+```js
 [
     {
         "name": "A",
@@ -120,7 +115,9 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
         ]    
     }
 ]
-</code></pre>
+```
+> **Note**: Any extra information passed is bound on the respective anchor using <code>$('a').data(key,value)</code>. Hence, it can be retreived using <code>$(event.target).data(key)</code> on any of the events mentioned below.
+
 ##Events
 <table>
     <thead>
@@ -146,6 +143,40 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
             <td>closed.folder.filtree</td>
             <td>Fired when a folder is completely closed/collapsed</td>
         </tr>
+        <tr>
+            <td>click.folder.filtree</td>
+            <td>Fired when a folder is clicked</td>
+        </tr>
+        <tr>
+            <td>click.file.filtree</td>
+            <td>Fired when a file is clicked</td>
+        </tr>
     </tbody>
 </table>
-File and folder <code>click</code> events can be handled via native jQuery methods
+
+##Methods
+Following methods can be used in conjunction to the events mentioned above
+
+####open
+Opens a folder
+```js
+$('#example').on('click.folder.filetree', function(e){
+   $(this).filetree('open', e.target); 
+});
+```
+
+####close
+Closes a folder
+```js
+$('#example').on('click.folder.filetree', function(e){
+   $(this).filetree('close', e.target); 
+});
+```
+
+####toggle
+Toggles a folder
+```js
+$('#example').on('click.folder.filetree', function(e){
+   $(this).filetree('toggle', e.target); 
+});
+```

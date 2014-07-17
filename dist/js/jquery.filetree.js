@@ -22,15 +22,34 @@
     }
 
     FileTree.prototype.init = function() {
-      var data;
+      var $root, data;
       data = this.settings.data;
-      this._createTree.call(this, this.element, data);
-      $(this.element).addClass('filetree');
+      $root = $(this.element);
+      if ($root.prop('tagName').toLowerCase() === 'ul') {
+        $root.addClass('filetree');
+      } else {
+        $root = $(document.createElement('ul')).addClass('filetree').appendTo($root);
+      }
+      this._createTree.call(this, $root, data);
       this._addListeners();
     };
 
-    FileTree.prototype.open = function() {
-      console.log(this.element);
+    FileTree.prototype.open = function(elem) {
+      return this._openFolder(elem);
+    };
+
+    FileTree.prototype.close = function(elem) {
+      return this._closeFolder(elem);
+    };
+
+    FileTree.prototype.toggle = function(elem) {
+      var $parent;
+      $parent = $(elem).closest('li');
+      if ($parent.hasClass('collapsed')) {
+        return this._openFolder(elem);
+      } else if ($parent.hasClass('expanded')) {
+        return this._closeFolder(elem);
+      }
     };
 
     FileTree.prototype._createTree = function(elem, data) {
@@ -90,34 +109,64 @@
     };
 
     FileTree.prototype._openFolder = function(elem) {
-      var $elem, ev_end, ev_start, that, ul;
-      $elem = $(elem).parent('li');
+      var $a, $parent, $ul, ev_end, ev_start, that;
+      $parent = $(elem).closest('li');
+      if (!$parent.hasClass('folder')) {
+        return false;
+      }
+      $a = $parent.find('a').eq(0);
+      $ul = $parent.find('ul').eq(0);
       that = this;
       ev_start = $.Event('open.folder.filetree');
       ev_end = $.Event('opened.folder.filetree');
-      ul = $elem.find('ul').eq(0);
-      $elem.find('a').eq(0).trigger(ev_start);
-      ul.slideDown(that.settings.animationSpeed, function() {
-        $elem.removeClass('collapsed').addClass('expanded');
-        ul.removeAttr('style');
-        $elem.find('a').eq(0).trigger(ev_end);
+      $a.trigger(ev_start);
+      $ul.slideDown(that.settings.animationSpeed, function() {
+        $parent.removeClass('collapsed').addClass('expanded');
+        $ul.removeAttr('style');
+        $a.trigger(ev_end);
       });
       return false;
     };
 
     FileTree.prototype._closeFolder = function(elem) {
-      var $elem, ev_end, ev_start, that, ul;
-      $elem = $(elem).parent('li');
+      var $a, $parent, $ul, ev_end, ev_start, that;
+      $parent = $(elem).closest('li');
+      if (!$parent.hasClass('folder')) {
+        return false;
+      }
+      $a = $parent.find('a').eq(0);
+      $ul = $parent.find('ul').eq(0);
       that = this;
       ev_start = $.Event('close.folder.filetree');
       ev_end = $.Event('closed.folder.filetree');
-      ul = $elem.find('ul').eq(0);
-      $elem.find('a').eq(0).trigger(ev_start);
-      ul.slideUp(that.settings.animationSpeed, function() {
-        $elem.removeClass('expanded').addClass('collapsed');
-        ul.removeAttr('style');
-        $elem.find('a').eq(0).trigger(ev_end);
+      $a.trigger(ev_start);
+      $ul.slideUp(that.settings.animationSpeed, function() {
+        $parent.removeClass('expanded').addClass('collapsed');
+        $ul.removeAttr('style');
+        $a.trigger(ev_end);
       });
+      return false;
+    };
+
+    FileTree.prototype._clickFolder = function(elem) {
+      var $a, $parent, ev;
+      $a = $(elem);
+      $parent = $a.closest('li');
+      ev = $.Event('click.folder.filetree', {
+        bubbles: false
+      });
+      $a.trigger(ev);
+      return false;
+    };
+
+    FileTree.prototype._clickFile = function(elem) {
+      var $a, $parent, ev;
+      $a = $(elem);
+      $parent = $a.closest('li');
+      ev = $.Event('click.file.filetree', {
+        bubbles: false
+      });
+      $a.trigger(ev);
       return false;
     };
 
@@ -132,14 +181,14 @@
         return that._closeFolder(this);
       });
       $root.on('click', 'li.folder > a', function(event) {
-        $(this).triggerHandler('click.folder.filetree');
-        return event.stopImmediatePropagation();
+        return that._clickFolder(this);
       });
       $root.on('click', 'li.file > a', function(event) {
-        $(this).triggerHandler('click.file.filtree');
-        return event.stopImmediatePropagation();
+        return that._clickFile(this);
       });
-      $root.on('click', 'li.folder, li.file', function(event) {});
+      $root.on('click', 'li.folder, li.file', function(event) {
+        return false;
+      });
     };
 
     FileTree.prototype._nameSort = function(a, b) {
@@ -159,7 +208,7 @@
   /*
   		PLUGIN DEFINITION
    */
-  Plugin = function(options) {
+  Plugin = function(options, obj) {
     return this.each(function() {
       var $this, data;
       $this = $(this);
@@ -168,7 +217,7 @@
         $this.data("$.filetree", (data = new FileTree(this, options)));
       }
       if (typeof options === 'string') {
-        return data[options].call($this);
+        return data[options].call(data, obj);
       }
     });
   };

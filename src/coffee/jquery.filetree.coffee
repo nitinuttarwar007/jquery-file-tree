@@ -21,19 +21,35 @@ do ($ = jQuery, window, document) ->
 
 		init: ->
 			data = @settings.data
-			@_createTree.call(@, @element, data)
-			$(@element).addClass('filetree')
+			$root = $(@element)
+
+			if $root.prop('tagName').toLowerCase() is 'ul'
+				$root.addClass('filetree')
+			else
+				$root = $(document.createElement('ul')).addClass('filetree').appendTo($root)
+
+			@_createTree.call(@, $root, data)
 			@_addListeners()
 			return
 
-		open:->
-			console.log @element
-			return
+		open:(elem)->
+			@_openFolder(elem)
+		
+		close:(elem)->
+			@_closeFolder(elem)
+
+		toggle:(elem)->
+			$parent = $(elem).closest('li')
+			if $parent.hasClass 'collapsed'
+				@_openFolder(elem)
+			else if $parent.hasClass 'expanded'
+				@_closeFolder(elem)
 
 		_createTree: (elem, data)->
 
 			$elem = $(elem)
 			
+			#Sort files and folders separately and combine them
 			_files = []
 			_folders = []
 
@@ -48,6 +64,7 @@ do ($ = jQuery, window, document) ->
 
 			data = _folders.concat(_files)
 
+			#check if given element is 'ul'
 			if $elem.prop('tagName').toLowerCase() is 'ul'
 			 	ul = $elem
 			else
@@ -97,45 +114,65 @@ do ($ = jQuery, window, document) ->
 			return
 
 		_openFolder: (elem)->
-			$elem = $(elem).parent('li')
+			$parent = $(elem).closest('li')
+
+			if not $parent.hasClass 'folder'
+				return false
+
+			$a = $parent.find('a').eq(0)
+			$ul = $parent.find('ul').eq(0)
 			that = @
 
 			ev_start = $.Event('open.folder.filetree')
 			ev_end= $.Event('opened.folder.filetree')
-
-			ul = $elem.find('ul').eq(0)
-			$elem.find('a').eq(0).trigger(ev_start)
-
-			ul.slideDown(
+			
+			$a.trigger(ev_start)
+			$ul.slideDown(
 				that.settings.animationSpeed
 				->
-					$elem.removeClass('collapsed').addClass('expanded')
-					ul.removeAttr('style')
-					$elem.find('a').eq(0).trigger(ev_end)
+					$parent.removeClass('collapsed').addClass('expanded')
+					$ul.removeAttr('style')
+					$a.trigger(ev_end)
 					return
 			)
-
 			false
 
 		_closeFolder: (elem)->
-			$elem = $(elem).parent('li')
+			$parent = $(elem).closest('li')
+
+			if not $parent.hasClass 'folder'
+				return false
+			
+			$a = $parent.find('a').eq(0)
+			$ul = $parent.find('ul').eq(0)
 			that = @
 
 			ev_start = $.Event 'close.folder.filetree'
 			ev_end= $.Event 'closed.folder.filetree'
 
-			ul = $elem.find('ul').eq(0)
-			$elem.find('a').eq(0).trigger(ev_start)
-
-			ul.slideUp(
+			$a.trigger(ev_start)
+			$ul.slideUp(
 				that.settings.animationSpeed
 				->
-					$elem.removeClass('expanded').addClass('collapsed')
-					ul.removeAttr('style')
-					$elem.find('a').eq(0).trigger(ev_end)
+					$parent.removeClass('expanded').addClass('collapsed')
+					$ul.removeAttr('style')
+					$a.trigger(ev_end)
 					return
 			)
+			false
 
+		_clickFolder:(elem)->
+			$a = $(elem)
+			$parent = $a.closest('li')
+			ev  = $.Event 'click.folder.filetree', { bubbles: false }
+			$a.trigger(ev)
+			false
+
+		_clickFile:(elem)->
+			$a = $(elem)
+			$parent = $a.closest('li')
+			ev  = $.Event 'click.file.filetree', { bubbles: false }
+			$a.trigger(ev)
 			false
 
 		_addListeners: ->
@@ -160,24 +197,23 @@ do ($ = jQuery, window, document) ->
 				'click'
 				'li.folder > a'
 				(event) ->
-					$(@).triggerHandler('click.folder.filetree')
-					event.stopImmediatePropagation()
+					that._clickFolder @
+					
 			)
 
 			$root.on(
 				'click'
 				'li.file > a'
 				(event) ->
-					$(@).triggerHandler('click.file.filtree')
-					event.stopImmediatePropagation()
+					that._clickFile @
+					
 			)
 
 			$root.on(
 				'click'
 				'li.folder, li.file'
 				(event)->
-					#false
-					return
+					false
 			)
 			return
 
@@ -192,7 +228,7 @@ do ($ = jQuery, window, document) ->
 	###
 		PLUGIN DEFINITION
 	###
-	Plugin = (options) ->
+	Plugin = (options, obj) ->
 		@each ->
 			$this = $(this)
 			data = $this.data('$.filetree')
@@ -201,7 +237,7 @@ do ($ = jQuery, window, document) ->
 				$this.data "$.filetree", (data = new FileTree(@, options))
 
 			if typeof options is 'string'
-				data[options].call($this)
+				data[options].call(data,obj)
 
 	old = $.fn.filetree
 
