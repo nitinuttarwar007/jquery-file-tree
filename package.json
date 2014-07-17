@@ -1,6 +1,6 @@
 {
   "name": "jQuery-File-Tree",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A highy customisable jQuery filtree plugin",
   "main": "index.js",
   "scripts": {
