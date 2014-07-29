@@ -32,6 +32,7 @@
       }
       this._createTree.call(this, $root, data);
       this._addListeners();
+      return $root;
     };
 
     FileTree.prototype.open = function(elem) {
@@ -105,7 +106,7 @@
           this._createTree.call(this, li, item.children);
         }
       }
-      $elem.append(ul);
+      return $elem.append(ul);
     };
 
     FileTree.prototype._openFolder = function(elem) {
@@ -123,7 +124,7 @@
       $ul.slideDown(that.settings.animationSpeed, function() {
         $parent.removeClass('collapsed').addClass('expanded');
         $ul.removeAttr('style');
-        $a.trigger(ev_end);
+        return $a.trigger(ev_end);
       });
       return false;
     };
@@ -143,7 +144,7 @@
       $ul.slideUp(that.settings.animationSpeed, function() {
         $parent.removeClass('expanded').addClass('collapsed');
         $ul.removeAttr('style');
-        $a.trigger(ev_end);
+        return $a.trigger(ev_end);
       });
       return false;
     };

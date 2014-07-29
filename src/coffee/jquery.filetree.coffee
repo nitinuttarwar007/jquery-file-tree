@@ -30,7 +30,8 @@ do ($ = jQuery, window, document) ->
 
 			@_createTree.call(@, $root, data)
 			@_addListeners()
-			return
+			
+			return $root
 
 		open:(elem)->
 			@_openFolder(elem)
@@ -111,8 +112,6 @@ do ($ = jQuery, window, document) ->
 				
 			$elem.append(ul)
 
-			return
-
 		_openFolder: (elem)->
 			$parent = $(elem).closest('li')
 
@@ -133,7 +132,6 @@ do ($ = jQuery, window, document) ->
 					$parent.removeClass('collapsed').addClass('expanded')
 					$ul.removeAttr('style')
 					$a.trigger(ev_end)
-					return
 			)
 			false
 
@@ -157,7 +155,6 @@ do ($ = jQuery, window, document) ->
 					$parent.removeClass('expanded').addClass('collapsed')
 					$ul.removeAttr('style')
 					$a.trigger(ev_end)
-					return
 			)
 			false
 

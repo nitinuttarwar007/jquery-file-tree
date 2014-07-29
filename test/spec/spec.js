@@ -97,10 +97,11 @@ describe("filetree", function() {
             
             setTimeout(function(){ 
                 $('li.folder a').eq(0).trigger('click'); 
-            }, 400);
+            }, 500);
             
             jasmine.clock().tick(400);
-            jasmine.clock().tick(400);
+            jasmine.clock().tick(100);
+            jasmine.clock().tick(401);
 
             expect('closed.folder.filetree').toHaveBeenTriggeredOn('li.folder:first a');
             expect(spy).toHaveBeenTriggered();
