@@ -26,12 +26,6 @@ describe("filetree", function() {
             setupEmptyFixture();
             init(data);
             button = $('li.folder').eq(0).find('button');
-            
-
-        });
-
-        afterEach(function() {
-            
         });
 
 
@@ -77,4 +71,29 @@ describe("filetree", function() {
         });
         
     });
+
+    describe("Classes", function(){
+
+        beforeEach(function(){
+            setupEmptyFixture();
+            init(data);
+            button = $('li.folder').eq(0).find('button');
+        });
+
+        it("should assign proper classes", function(){
+
+            folder = $('li.folder').eq(0);
+            
+            expect(folder).toHaveClass('collapsed');
+
+            button.trigger('click');
+
+            expect(folder).toHaveClass('expanded');
+    
+            button.trigger('click');
+
+            expect(folder).toHaveClass('collapsed');
+            
+        })
+    })
 });
