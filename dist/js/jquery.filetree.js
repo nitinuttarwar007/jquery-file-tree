@@ -23,14 +23,23 @@
 
     FileTree.prototype.init = function() {
       var $root, data;
-      data = this.settings.data;
       $root = $(this.element);
-      if ($root.prop('tagName').toLowerCase() === 'ul') {
-        $root.addClass('filetree');
+      data = this.settings.data;
+      if ($.isArray(data) && data.length > 0) {
+        if ($root.prop('tagName').toLowerCase() === 'ul') {
+          $root.addClass('filetree');
+        } else {
+          $root = $(document.createElement('ul')).addClass('filetree').appendTo($root);
+        }
+        this._createTree.call(this, $root, data);
       } else {
-        $root = $(document.createElement('ul')).addClass('filetree').appendTo($root);
+        if ($root.prop('tagName').toLowerCase() === 'ul') {
+          $root.addClass('filetree');
+        } else {
+          $root = $root.find('ul').eq(0).addClass('filetree');
+        }
+        this._parseTree.call(this, $root);
       }
-      this._createTree.call(this, $root, data);
       this._addListeners();
       return $root;
     };
@@ -191,6 +200,8 @@
         return false;
       });
     };
+
+    FileTree.prototype._parseTree = function(elem) {};
 
     FileTree.prototype._nameSort = function(a, b) {
       if (a.name.toLowerCase() < b.name.toLowerCase()) {

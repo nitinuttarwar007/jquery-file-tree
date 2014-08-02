@@ -20,15 +20,25 @@ do ($ = jQuery, window = window, document = document) ->
 			@init()
 
 		init: ->
-			data = @settings.data
 			$root = $(@element)
+			
+			data = @settings.data
 
-			if $root.prop('tagName').toLowerCase() is 'ul'
-				$root.addClass('filetree')
+			if $.isArray(data) and data.length > 0 
+				if $root.prop('tagName').toLowerCase() is 'ul'
+					$root.addClass('filetree')
+				else
+					$root = $(document.createElement('ul')).addClass('filetree').appendTo($root)
+
+				@_createTree.call(@, $root, data)
 			else
-				$root = $(document.createElement('ul')).addClass('filetree').appendTo($root)
+				if $root.prop('tagName').toLowerCase() is 'ul'
+					$root.addClass('filetree')
+				else
+					$root = $root.find('ul').eq(0).addClass('filetree')
 
-			@_createTree.call(@, $root, data)
+				@_parseTree.call(@, $root)
+
 			@_addListeners()
 			
 			return $root
@@ -213,6 +223,8 @@ do ($ = jQuery, window = window, document = document) ->
 					false
 			)
 			return
+
+		_parseTree: (elem)->
 
 		_nameSort:(a,b)->
 			if a.name.toLowerCase() < b.name.toLowerCase()
