@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename')
     less = require('gulp-less'),
-    minify = require('gulp-minify-css');
+    minify = require('gulp-minify-css'),
+    lr = require('gulp-livereload');
 
     
 gulp.task('coffee', function () {
@@ -13,7 +14,7 @@ gulp.task('coffee', function () {
         .pipe(gulp.dest('./dist/js/'))
         .pipe(uglify())
         .pipe(rename({suffix : '.min'}))
-        .pipe(gulp.dest('./dist/js/')) 
+        .pipe(gulp.dest('./dist/js/'));
 });
 
 gulp.task('less', function () {
@@ -22,12 +23,14 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./dist/css/'))
         .pipe(minify())
         .pipe(rename({suffix : '.min'}))
-        .pipe(gulp.dest('./dist/css/')) 
+        .pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('default', ['watch']);
 
 gulp.task('watch', ['coffee','less'], function(){
-    gulp.watch('./src/coffee/*.coffee', ['coffee']);
-    gulp.watch('./src/less/*.less', ['less']);
+    lr.listen();
+    gulp.watch('./src/coffee/*.coffee', ['coffee']).on('change', lr.changed);
+    gulp.watch('./src/less/*.less', ['less']).on('change', lr.changed);
+    gulp.watch('./test/spec/*.js').on('change', lr.changed);
 });
