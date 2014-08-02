@@ -225,6 +225,17 @@ do ($ = jQuery, window = window, document = document) ->
 			return
 
 		_parseTree: (elem)->
+			$elem = $(elem)
+
+			files = $elem.find("> li")
+
+			for file in files
+				children = $(file).children()
+				if children.length > 0
+					$(file).addClass('folder').contents().filter(-> @nodeType is 3).wrap('<a href="#"></a>').end()
+				else
+					$(file).addClass('file').wrapInner('<a href="#"></a>') 
+			return
 
 		_nameSort:(a,b)->
 			if a.name.toLowerCase() < b.name.toLowerCase()

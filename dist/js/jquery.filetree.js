@@ -201,7 +201,22 @@
       });
     };
 
-    FileTree.prototype._parseTree = function(elem) {};
+    FileTree.prototype._parseTree = function(elem) {
+      var $elem, children, file, files, _i, _len;
+      $elem = $(elem);
+      files = $elem.find("> li");
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        children = $(file).children();
+        if (children.length > 0) {
+          $(file).addClass('folder').contents().filter(function() {
+            return this.nodeType === 3;
+          }).wrap('<a href="#"></a>').end();
+        } else {
+          $(file).addClass('file').wrapInner('<a href="#"></a>');
+        }
+      }
+    };
 
     FileTree.prototype._nameSort = function(a, b) {
       if (a.name.toLowerCase() < b.name.toLowerCase()) {

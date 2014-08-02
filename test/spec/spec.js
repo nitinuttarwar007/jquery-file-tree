@@ -3,7 +3,7 @@ function setupEmptyFixture(){
 }
 
 function setupUlFixture(){
-    jasmine.getFixtures().set('<ul id="test"></ul>');
+    jasmine.getFixtures().set('<ul id="test"><li>A<ul><li>AA<ul><li>003</li><li>004</li></ul></li><li>001</li><li>002</li></ul></li><li>B<ul><li>B</li><li>01</li><li>02</li></ul></li></ul>');
 }
 
 
@@ -95,5 +95,25 @@ describe("filetree", function() {
             expect(folder).toHaveClass('collapsed');
             
         })
-    })
+    });
+
+    describe("DOM as source", function(){
+
+        beforeEach(function(){
+            setupUlFixture();
+            init([]);
+            button = $('li.folder').eq(0).find('button');
+        });
+
+        it("must assign proper classes",function(){
+            root = $('#test');
+            expect(root).toHaveClass('filetree');
+        });
+
+        it("should wrap text in anchors", function() {
+            expect($('li')).toContainElement('a');
+            expect($('li > a')).not.toContainElement('ul');
+        });
+
+    });
 });
