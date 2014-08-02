@@ -1,4 +1,4 @@
-do ($ = jQuery, window, document) ->
+do ($ = jQuery, window = window, document = document) ->
 
 	# Create the defaults once
 	defaults =
