@@ -208,20 +208,25 @@
     };
 
     FileTree.prototype._parseTree = function(elem) {
-      var $elem, children, file, files, _i, _len;
+      var $elem, arrow, children, file, files, item, sublist, _i, _j, _len, _len1;
       $elem = $(elem);
       files = $elem.find("> li");
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
-        children = $(file).children();
+        sublist = $(file).find("> ul");
+        children = $(sublist).find("> li");
         if (children.length > 0) {
-          $(file).addClass('folder').contents().filter(function() {
-            return this.nodeType === 3;
-          }).wrap('<a href="#"></a>').end();
+          arrow = $(document.createElement('button')).addClass('arrow');
+          $(file).addClass('folder has-children collapsed').prepend(arrow);
+          for (_j = 0, _len1 = sublist.length; _j < _len1; _j++) {
+            item = sublist[_j];
+            this._parseTree(item);
+          }
         } else {
-          $(file).addClass('file').wrapInner('<a href="#"></a>');
+          $(file).addClass('file');
         }
       }
+      return $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file');
     };
 
     FileTree.prototype._nameSort = function(a, b) {

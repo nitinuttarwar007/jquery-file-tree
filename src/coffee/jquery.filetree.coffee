@@ -236,12 +236,17 @@
 			files = $elem.find("> li")
 
 			for file in files
-				children = $(file).children()
+				sublist = $(file).find("> ul")
+				children = $(sublist).find("> li")
+				
 				if children.length > 0
-					$(file).addClass('folder').contents().filter(-> @nodeType is 3).wrap('<a href="#"></a>').end()
+					arrow = $(document.createElement('button')).addClass('arrow')
+					$(file).addClass('folder has-children collapsed').prepend(arrow)
+					@_parseTree item for item in sublist
 				else
-					$(file).addClass('file').wrapInner('<a href="#"></a>') 
-			return
+					$(file).addClass('file')
+
+			$elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file')
 
 		_nameSort:(a,b)->
 			if a.name.toLowerCase() < b.name.toLowerCase()
