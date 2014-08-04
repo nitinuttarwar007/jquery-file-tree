@@ -1,4 +1,10 @@
-do ($ = jQuery, window = window, document = document) ->
+((factory)->
+	if typeof define is 'function' and define.amd
+		define(['jquery'], factory)
+	else 
+		factory(jQuery)
+	return
+)(($) ->
 
 	# Create the defaults once
 	defaults =
@@ -272,3 +278,4 @@ do ($ = jQuery, window = window, document = document) ->
 		@
 
 	return
+)
