@@ -220,4 +220,4 @@ $('#example').on('click.folder.filetree', function(e){
 ```
 
 ##Changelog
-You can find change log [here](blob/master/CHANGELOG.md)
+You can find change log [here](CHANGELOG.md)
