@@ -60,7 +60,11 @@ $(document).ready(function(){
 </table>
 
 ##Data format
-The data required is in recursive format with <code>name</code>, <code>type</code> and <code>children</code> keys required for <em>folder</em> type and <code>name</code>, <code>type</code> and <code>ext</code> keys required for <em>file</em> type.
+
+###JSON
+- <code>name</code> and <code>type</code> keys required for all
+- <code>ext</code> is optional. If provided, a class (with the value of the key) will be added to <code>li</code>. This can be used to customize the folder/file icons
+- <code>children</code> must be provided only for folders
 ```js
 [
     {
@@ -118,6 +122,40 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
 ```
 > **Note**: Any extra information passed is bound on the respective anchor using <code>$('a').data(key,value)</code>. Hence, it can be retreived using <code>$(event.target).data(key)</code> on any of the events mentioned below.
 
+###DOM
+If you need to use an exisiting <code>ul</code> as a filtree, just call filetree method on it without specifying the data.
+```html
+<ul id="my-filetree">
+    <li><a href="#">Folder A</a>
+        <ul>
+            <li><a href="#">Folder AA</a>
+                <ul>
+                    <li><a href="#">File 003</a></li>
+                    <li><a href="#">File 004</a></li>
+                </ul>
+            </li>
+            <li><a href="#">File 001</a></li>
+            <li><a href="#">File 002</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Folder B</a>
+        <ul>
+            <li>
+                <a href="#" data-type="folder">Folder B</a>
+            </li>
+            <li><a href="#">File 01</a></li>
+            <li><a href="#">File 02</a></li>
+        </ul>
+    </li>
+</ul>
+```
+
+```js
+$('#my-filtree').filtree();
+```
+
+> Each li will be considered as a file unless it has a non-empty <code>ul</code> as its child or has an attribute of <code>data-type="folder"</code> on its anchor link.
+
 ##Events
 <table>
     <thead>
@@ -157,7 +195,7 @@ The data required is in recursive format with <code>name</code>, <code>type</cod
 ##Methods
 Following methods can be used in conjunction to the events mentioned above
 
-####open
+###open
 Opens a folder
 ```js
 $('#example').on('click.folder.filetree', function(e){
@@ -165,7 +203,7 @@ $('#example').on('click.folder.filetree', function(e){
 });
 ```
 
-####close
+###close
 Closes a folder
 ```js
 $('#example').on('click.folder.filetree', function(e){
@@ -173,10 +211,13 @@ $('#example').on('click.folder.filetree', function(e){
 });
 ```
 
-####toggle
+###toggle
 Toggles a folder
 ```js
 $('#example').on('click.folder.filetree', function(e){
    $(this).filetree('toggle', e.target); 
 });
 ```
+
+##Changelog
+You can find change log [here](blob/master/CHANGELOG.md)
