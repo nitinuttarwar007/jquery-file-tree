@@ -1,4 +1,22 @@
-do ($ = jQuery, window = window, document = document) ->
+# (function (factory) {
+#     if (typeof define === 'function' && define.amd) {
+#         // AMD. Register as an anonymous module.
+#         define(['jquery'], factory);
+#     } else {
+#         // Browser globals
+#         factory(jQuery);
+#     }
+# }(function ($) {
+#     $.fn.jqueryPlugin = function () {};
+# }));
+
+((factory)->
+	if typeof define is 'function' and define.amd
+		define(['jquery'], factory)
+	else 
+		factory(jQuery)
+	return
+)(($) ->
 
 	# Create the defaults once
 	defaults =
@@ -261,3 +279,4 @@ do ($ = jQuery, window = window, document = document) ->
 		@
 
 	return
+)
