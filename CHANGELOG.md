@@ -1,8 +1,7 @@
 #Change Log
 
 ##master
+04/08/2014
 - Added [jasmine](https://github.com/pivotal/jasmine) tests
 - Added [UMD](https://github.com/umdjs/umd) support
-
-##v0.0.1
-Initial Release
+- Added basic support for DOM as datasource
