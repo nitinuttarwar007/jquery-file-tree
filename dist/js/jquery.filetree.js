@@ -5,7 +5,7 @@
     factory(jQuery);
   }
 })(function($) {
-  var FileTree, Plugin, defaults, old;
+  var FileTree, Plugin, defaults, map, old;
   defaults = {
     data: [],
     animationSpeed: 400,
@@ -15,6 +15,7 @@
     nodeName: 'name',
     nodeTitle: 'name'
   };
+  map = Array.prototype.map;
 
   /*
   		FILETREE CLASS DEFINITION
@@ -173,6 +174,26 @@
       return false;
     };
 
+    FileTree.prototype._triggerClickEvent = function(eventName) {
+      var $a, $root, data, ev, path;
+      $a = $(this);
+      $root = $(this.element);
+      ev = $.Event(eventName, {
+        bubbles: false
+      });
+      data = $a.data();
+
+      /*
+      				Get path of the file
+       */
+      path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end();
+      data.path = map.call(path, function(a) {
+        return a.innerText;
+      }).reverse().join('/');
+      $a.trigger(ev, data);
+      return false;
+    };
+
     FileTree.prototype._addListeners = function() {
       var $root, that;
       $root = $(this.element);
@@ -184,40 +205,16 @@
         return that._closeFolder(this);
       });
       $root.on('click', 'li.folder > a', function(event) {
-        var $a, ev;
-        $a = $(this);
-        ev = $.Event('click.folder.filetree', {
-          bubbles: false
-        });
-        $a.trigger(ev);
-        return false;
+        return that._triggerClickEvent.call(this, 'click.folder.filetree');
       });
       $root.on('click', 'li.file > a', function(event) {
-        var $a, ev;
-        $a = $(this);
-        ev = $.Event('click.file.filetree', {
-          bubbles: false
-        });
-        $a.trigger(ev);
-        return false;
+        return that._triggerClickEvent.call(this, 'click.file.filetree');
       });
       $root.on('dblclick', 'li.folder > a', function(event) {
-        var $a, ev;
-        $a = $(this);
-        ev = $.Event('dblclick.folder.filetree', {
-          bubbles: false
-        });
-        $a.trigger(ev);
-        return false;
+        return that._triggerClickEvent.call(this, 'dblclick.folder.filetree');
       });
       $root.on('dblclick', 'li.file > a', function(event) {
-        var $a, ev;
-        $a = $(this);
-        ev = $.Event('dblclick.file.filetree', {
-          bubbles: false
-        });
-        $a.trigger(ev);
-        return false;
+        return that._triggerClickEvent.call(this, 'dblclick.file.filetree');
       });
     };
 

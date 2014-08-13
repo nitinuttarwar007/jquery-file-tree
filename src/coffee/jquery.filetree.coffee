@@ -16,6 +16,8 @@
 		nodeName: 'name'
 		nodeTitle: 'name'
 
+	map = Array::map
+
 	###
 		FILETREE CLASS DEFINITION
 	###
@@ -179,7 +181,23 @@
 					$ul.removeAttr('style')
 					$a.trigger(ev_end)
 			)
-			false	
+			false
+
+		_triggerClickEvent: (eventName)->
+			$a = $(@)
+			$root = $(@element)
+			ev  = $.Event eventName, { bubbles: false }
+
+			data = $a.data()
+
+			###
+				Get path of the file
+			###
+			path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end()
+			data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
+
+			$a.trigger ev, data
+			false
 
 		_addListeners: ->
 			$root = $(@element)
@@ -203,40 +221,28 @@
 				'click'
 				'li.folder > a'
 				(event) ->
-					$a = $(@)
-					ev  = $.Event 'click.folder.filetree', { bubbles: false }
-					$a.trigger(ev)
-					false
+					that._triggerClickEvent.call(@, 'click.folder.filetree')
 			)
 
 			$root.on(
 				'click'
 				'li.file > a'
 				(event) ->
-					$a = $(@)
-					ev  = $.Event 'click.file.filetree', { bubbles: false }
-					$a.trigger(ev)
-					false
+					that._triggerClickEvent.call(@, 'click.file.filetree')
 			)
 
 			$root.on(
 				'dblclick'
 				'li.folder > a'
 				(event) ->
-					$a = $(@)
-					ev  = $.Event 'dblclick.folder.filetree', { bubbles: false }
-					$a.trigger(ev)
-					false
+					that._triggerClickEvent.call(@, 'dblclick.folder.filetree')
 			)
 
 			$root.on(
 				'dblclick'
 				'li.file > a'
 				(event) ->
-					$a = $(@)
-					ev  = $.Event 'dblclick.file.filetree', { bubbles: false }
-					$a.trigger(ev)
-					false			
+					that._triggerClickEvent.call(@, 'dblclick.file.filetree')
 			)
 
 			return
