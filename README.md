@@ -223,7 +223,7 @@ $('#example').on('click.folder.filetree', function(e){
 selects a file/folder
 ```js
 $('#example').on('click.folder.filetree click.file.filetree', function(e){
-   $(this).filetree('toggle', e.target);
+   $(this).filetree('select', e.target);
 });
 ```
 
