@@ -75,12 +75,10 @@ $(document).ready(function(){
                 "name": "001",
                 "ext" : "txt",
                 "type": "file"
-                
             },{
                 "name": "002",
                 "ext" : "txt",
                 "type": "file"
-                
             },{
                 "name": "AA",
                 "type": "folder",
@@ -89,12 +87,10 @@ $(document).ready(function(){
                         "name": "003",
                         "ext" : "txt",
                         "type": "file"
-                        
                     },{
                         "name": "004",
                         "ext" : "txt",
                         "type": "file"
-                        
                     }
                 ]
             }
