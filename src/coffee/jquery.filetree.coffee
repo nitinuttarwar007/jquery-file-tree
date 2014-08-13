@@ -62,6 +62,10 @@
 			else if $parent.hasClass 'expanded'
 				@_closeFolder(elem)
 
+		select:(elem)->
+			$(@element).find('li.selected').removeClass('selected')
+			$(elem).closest('li').addClass('selected')
+
 		destroy:()->
 			$(@element).off().empty()
 

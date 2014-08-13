@@ -219,6 +219,14 @@ $('#example').on('click.folder.filetree', function(e){
 });
 ```
 
+###select
+selects a file/folder
+```js
+$('#example').on('click.folder.filetree click.file.filetree', function(e){
+   $(this).filetree('toggle', e.target);
+});
+```
+
 ###destroy
 Destroys the file tree.
 ```js

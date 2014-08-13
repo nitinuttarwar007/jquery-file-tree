@@ -68,6 +68,11 @@
       }
     };
 
+    FileTree.prototype.select = function(elem) {
+      $(this.element).find('li.selected').removeClass('selected');
+      return $(elem).closest('li').addClass('selected');
+    };
+
     FileTree.prototype.destroy = function() {
       return $(this.element).off().empty();
     };
