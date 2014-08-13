@@ -200,6 +200,8 @@ $('#my-filtree').filtree();
     </tbody>
 </table>
 
+> Event handler takes two parameters: event and data
+
 ##Methods
 Following methods can be used in conjunction to the events mentioned above
 
