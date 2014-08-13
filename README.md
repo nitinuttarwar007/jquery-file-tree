@@ -219,5 +219,11 @@ $('#example').on('click.folder.filetree', function(e){
 });
 ```
 
+###destroy
+Destroys the file tree.
+```js
+$('#example').filetree('destroy');
+```
+
 ##Changelog
 You can find change log [here](CHANGELOG.md)

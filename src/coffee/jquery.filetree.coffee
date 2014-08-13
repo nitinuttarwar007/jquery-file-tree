@@ -62,6 +62,9 @@
 			else if $parent.hasClass 'expanded'
 				@_closeFolder(elem)
 
+		destroy:()->
+			$(@element).off().empty()
+
 		_createTree: (elem, data)->
 
 			$elem = $(elem)

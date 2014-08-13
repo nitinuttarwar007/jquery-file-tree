@@ -68,6 +68,10 @@
       }
     };
 
+    FileTree.prototype.destroy = function() {
+      return $(this.element).off().empty();
+    };
+
     FileTree.prototype._createTree = function(elem, data) {
       var $elem, a, arrow, file, item, key, li, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
       $elem = $(elem);

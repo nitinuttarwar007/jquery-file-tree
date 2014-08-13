@@ -72,6 +72,41 @@ describe("filetree", function() {
         
     });
 
+    describe("Methods", function(){
+        beforeEach(function(){
+            setupEmptyFixture();
+            init(data);
+            button = $('li.folder').eq(0).find('button');
+        });
+
+        it("should destroy properly", function(){
+            $('#test').filetree('destroy');
+
+            var spy_open = spyOnEvent('li.folder:first > a', 'open.folder.filetree');
+            var spy_opened = spyOnEvent('li.folder:first > a', 'opened.folder.filetree');
+            var spy_close = spyOnEvent('li.folder:first > a', 'close.folder.filetree');
+            var spy_closed = spyOnEvent('li.folder:first > a', 'closed.folder.filetree');
+
+            button.trigger('click');
+
+            expect('open.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
+            expect(spy_open).not.toHaveBeenTriggered();
+            
+            expect('opened.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
+            expect(spy_opened).not.toHaveBeenTriggered();
+    
+            button.trigger('click');
+
+            expect('close.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
+            expect(spy_close).not.toHaveBeenTriggered();
+
+            expect('closed.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
+            expect(spy_closed).not.toHaveBeenTriggered();
+
+            expect('#test').toBeEmpty();
+        })
+    });
+
     describe("Classes", function(){
 
         beforeEach(function(){
