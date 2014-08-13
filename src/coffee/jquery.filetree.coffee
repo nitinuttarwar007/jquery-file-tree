@@ -270,7 +270,7 @@
 			unless data
 				$this.data "$.filetree", (data = new FileTree(@, options))
 
-			if typeof options is 'string'
+			if typeof options is 'string' and options.substr(0,1) isnt '_'
 				data[options].call(data,obj)
 
 	old = $.fn.filetree

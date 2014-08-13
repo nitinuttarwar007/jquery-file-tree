@@ -258,7 +258,7 @@
       if (!data) {
         $this.data("$.filetree", (data = new FileTree(this, options)));
       }
-      if (typeof options === 'string') {
+      if (typeof options === 'string' && options.substr(0, 1) !== '_') {
         return data[options].call(data, obj);
       }
     });
