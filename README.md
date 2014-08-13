@@ -189,6 +189,14 @@ $('#my-filtree').filtree();
             <td>click.file.filtree</td>
             <td>Fired when a file is clicked</td>
         </tr>
+        <tr>
+            <td>dblclick.folder.filtree</td>
+            <td>Fired when a folder is double-clicked</td>
+        </tr>
+        <tr>
+            <td>dblclick.file.filtree</td>
+            <td>Fired when a file is double-clicked</td>
+        </tr>
     </tbody>
 </table>
 

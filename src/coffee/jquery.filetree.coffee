@@ -230,7 +230,25 @@
 			)
 
 			$root.on(
-				'click'
+				'dblclick'
+				'li.folder > a'
+				(event) ->
+					$a = $(@)
+					ev  = $.Event 'dblclick.folder.filetree', { bubbles: false }
+					$a.trigger(ev)
+			)
+
+			$root.on(
+				'dblclick'
+				'li.file > a'
+				(event) ->
+					$a = $(@)
+					ev  = $.Event 'dblclick.file.filetree', { bubbles: false }
+					$a.trigger(ev)			
+			)
+
+			$root.on(
+				'click dblclick'
 				'li.folder, li.file'
 				(event)->
 					false

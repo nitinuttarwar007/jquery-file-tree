@@ -211,7 +211,23 @@
       $root.on('click', 'li.file > a', function(event) {
         return that._clickFile(this);
       });
-      $root.on('click', 'li.folder, li.file', function(event) {
+      $root.on('dblclick', 'li.folder > a', function(event) {
+        var $a, ev;
+        $a = $(this);
+        ev = $.Event('dblclick.folder.filetree', {
+          bubbles: false
+        });
+        return $a.trigger(ev);
+      });
+      $root.on('dblclick', 'li.file > a', function(event) {
+        var $a, ev;
+        $a = $(this);
+        ev = $.Event('dblclick.file.filetree', {
+          bubbles: false
+        });
+        return $a.trigger(ev);
+      });
+      $root.on('click dblclick', 'li.folder, li.file', function(event) {
         return false;
       });
     };
