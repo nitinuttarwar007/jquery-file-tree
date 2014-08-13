@@ -179,21 +179,7 @@
 					$ul.removeAttr('style')
 					$a.trigger(ev_end)
 			)
-			false
-
-		_clickFolder:(elem)->
-			$a = $(elem)
-			$parent = $a.closest('li')
-			ev  = $.Event 'click.folder.filetree', { bubbles: false }
-			$a.trigger(ev)
-			false
-
-		_clickFile:(elem)->
-			$a = $(elem)
-			$parent = $a.closest('li')
-			ev  = $.Event 'click.file.filetree', { bubbles: false }
-			$a.trigger(ev)
-			false
+			false	
 
 		_addListeners: ->
 			$root = $(@element)
@@ -217,16 +203,20 @@
 				'click'
 				'li.folder > a'
 				(event) ->
-					that._clickFolder @
-					
+					$a = $(@)
+					ev  = $.Event 'click.folder.filetree', { bubbles: false }
+					$a.trigger(ev)
+					false
 			)
 
 			$root.on(
 				'click'
 				'li.file > a'
 				(event) ->
-					that._clickFile @
-					
+					$a = $(@)
+					ev  = $.Event 'click.file.filetree', { bubbles: false }
+					$a.trigger(ev)
+					false
 			)
 
 			$root.on(
@@ -236,6 +226,7 @@
 					$a = $(@)
 					ev  = $.Event 'dblclick.folder.filetree', { bubbles: false }
 					$a.trigger(ev)
+					false
 			)
 
 			$root.on(
@@ -244,15 +235,10 @@
 				(event) ->
 					$a = $(@)
 					ev  = $.Event 'dblclick.file.filetree', { bubbles: false }
-					$a.trigger(ev)			
+					$a.trigger(ev)
+					false			
 			)
 
-			$root.on(
-				'click dblclick'
-				'li.folder, li.file'
-				(event)->
-					false
-			)
 			return
 
 		_parseTree: (elem)->

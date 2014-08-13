@@ -173,28 +173,6 @@
       return false;
     };
 
-    FileTree.prototype._clickFolder = function(elem) {
-      var $a, $parent, ev;
-      $a = $(elem);
-      $parent = $a.closest('li');
-      ev = $.Event('click.folder.filetree', {
-        bubbles: false
-      });
-      $a.trigger(ev);
-      return false;
-    };
-
-    FileTree.prototype._clickFile = function(elem) {
-      var $a, $parent, ev;
-      $a = $(elem);
-      $parent = $a.closest('li');
-      ev = $.Event('click.file.filetree', {
-        bubbles: false
-      });
-      $a.trigger(ev);
-      return false;
-    };
-
     FileTree.prototype._addListeners = function() {
       var $root, that;
       $root = $(this.element);
@@ -206,10 +184,22 @@
         return that._closeFolder(this);
       });
       $root.on('click', 'li.folder > a', function(event) {
-        return that._clickFolder(this);
+        var $a, ev;
+        $a = $(this);
+        ev = $.Event('click.folder.filetree', {
+          bubbles: false
+        });
+        $a.trigger(ev);
+        return false;
       });
       $root.on('click', 'li.file > a', function(event) {
-        return that._clickFile(this);
+        var $a, ev;
+        $a = $(this);
+        ev = $.Event('click.file.filetree', {
+          bubbles: false
+        });
+        $a.trigger(ev);
+        return false;
       });
       $root.on('dblclick', 'li.folder > a', function(event) {
         var $a, ev;
@@ -217,7 +207,8 @@
         ev = $.Event('dblclick.folder.filetree', {
           bubbles: false
         });
-        return $a.trigger(ev);
+        $a.trigger(ev);
+        return false;
       });
       $root.on('dblclick', 'li.file > a', function(event) {
         var $a, ev;
@@ -225,9 +216,7 @@
         ev = $.Event('dblclick.file.filetree', {
           bubbles: false
         });
-        return $a.trigger(ev);
-      });
-      $root.on('click dblclick', 'li.folder, li.file', function(event) {
+        $a.trigger(ev);
         return false;
       });
     };
