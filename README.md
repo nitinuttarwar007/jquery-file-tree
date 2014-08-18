@@ -241,3 +241,8 @@ $('#example').filetree('destroy');
 
 ##Changelog
 You can find change log [here](CHANGELOG.md)
+
+##TODO
+- Add <code>url</code> option for dynamic AJAX loading
+- Add options to cutomize AJAX loading (dynamic) 
+- Add <code>append</code> method for manual AJAX loading
