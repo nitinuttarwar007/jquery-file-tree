@@ -1,6 +1,9 @@
 #Change Log
 
 ##master
+12/9/2014
+- Added options to automatocally load data via AJAX
+
 13/08/2014
 - Added <code>destroy</code> method
 - Added <code>select</code> method
