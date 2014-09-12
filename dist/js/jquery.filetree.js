@@ -13,12 +13,15 @@
     hideFiles: false,
     fileContainer: null,
     nodeName: 'name',
-    nodeTitle: 'name'
+    nodeTitle: 'name',
+    ajax: false,
+    url: "./",
+    post: {}
   };
   map = Array.prototype.map;
 
   /*
-  		FILETREE CLASS DEFINITION
+      FILETREE CLASS DEFINITION
    */
   FileTree = (function() {
     function FileTree(element, options) {
@@ -29,25 +32,21 @@
     }
 
     FileTree.prototype.init = function() {
-      var $root, data;
-      $root = $(this.element);
+      var $root, data, self;
+      $root = this._getRootElement($(this.element));
       data = this.settings.data;
-      if ($.isArray(data) && data.length > 0) {
-        if ($root.prop('tagName').toLowerCase() === 'ul') {
-          $root.addClass('filetree');
-        } else {
-          $root = $(document.createElement('ul')).addClass('filetree').appendTo($root);
-        }
+      self = this;
+      if (this.settings.ajax === true) {
+        $.ajax(this.settings.url, this.settings.post).then(function(data) {
+          return self._createTree.call(self, $root, data);
+        });
+      } else if ($.isArray(data) && data.length > 0) {
         this._createTree.call(this, $root, data);
       } else {
-        if ($root.prop('tagName').toLowerCase() === 'ul') {
-          $root.addClass('filetree');
-        } else {
-          $root = $root.find('ul').eq(0).addClass('filetree');
-        }
         this._parseTree.call(this, $root);
       }
       this._addListeners();
+      data = null;
       return $root;
     };
 
@@ -76,6 +75,16 @@
 
     FileTree.prototype.destroy = function() {
       return $(this.element).off().empty();
+    };
+
+    FileTree.prototype._getRootElement = function(elem, method) {
+      if ($(elem).prop('tagName').toLowerCase() === 'ul') {
+        return $(elem).addClass('filetree');
+      } else if ($(elem).find('ul').length > 0) {
+        return $(elem).find('ul').eq(0).addClass('filetree');
+      } else {
+        return $(document.createElement('ul')).addClass('filetree').appendTo($(elem));
+      }
     };
 
     FileTree.prototype._createTree = function(elem, data) {
@@ -184,7 +193,7 @@
       data = $a.data();
 
       /*
-      				Get path of the file
+          Get path of the file
        */
       path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end();
       data.path = map.call(path, function(a) {
@@ -255,7 +264,7 @@
   })();
 
   /*
-  		PLUGIN DEFINITION
+      PLUGIN DEFINITION
    */
   Plugin = function(options, obj) {
     return this.each(function() {
@@ -275,7 +284,7 @@
   $.fn.filetree.Constructor = FileTree;
 
   /*
-  		NO CONFLICT
+      NO CONFLICT
    */
   $.fn.filetree.noConflict = function() {
     $.fn.filetree = old;

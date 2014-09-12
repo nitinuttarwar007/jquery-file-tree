@@ -1,303 +1,312 @@
 ((factory)->
-	if typeof define is 'function' and define.amd
-		define(['jquery'], factory)
-	else 
-		factory(jQuery)
-	return
+    if typeof define is 'function' and define.amd
+        define(['jquery'], factory)
+    else 
+        factory(jQuery)
+    return
 )(($) ->
 
-	# Create the defaults once
-	defaults =
-		data: []
-		animationSpeed : 400
-		folderTrigger: "click"
-		hideFiles: false
-		fileContainer: null
-		nodeName: 'name'
-		nodeTitle: 'name'
+    # Create the defaults once
+    defaults =
+        data: []
+        animationSpeed : 400
+        folderTrigger: "click"
+        hideFiles: false
+        fileContainer: null
+        nodeName: 'name'
+        nodeTitle: 'name'
+        ajax: false
+        url: "./"
+        post: {}
 
-	map = Array::map
+    map = Array::map
 
-	###
-		FILETREE CLASS DEFINITION
-	###
-	class FileTree
-		constructor: (@element, options) ->
-			@settings = $.extend {}, defaults, options
-			@_defaults = defaults
-			@init()
+    ###
+        FILETREE CLASS DEFINITION
+    ###
+    class FileTree
+        constructor: (@element, options) ->
+            @settings = $.extend {}, defaults, options
+            @_defaults = defaults
+            @init()
 
-		init: ->
-			$root = $(@element)
-			
-			data = @settings.data
+        init: ->
+            $root = @_getRootElement $ @element
+            
+            data = @settings.data
 
-			if $.isArray(data) and data.length > 0 
-				if $root.prop('tagName').toLowerCase() is 'ul'
-					$root.addClass('filetree')
-				else
-					$root = $(document.createElement('ul')).addClass('filetree').appendTo($root)
+            self = @
 
-				@_createTree.call(@, $root, data)
-			else
-				if $root.prop('tagName').toLowerCase() is 'ul'
-					$root.addClass('filetree')
-				else
-					$root = $root.find('ul').eq(0).addClass('filetree')
+            if @settings.ajax is true
+                $.ajax( @settings.url, @settings.post)
+                    .then (data) -> 
+                        self._createTree.call(self, $root, data)
+            else if $.isArray(data) and data.length > 0 
+                @_createTree.call(@, $root, data)
+            else
+                @_parseTree.call(@, $root)
 
-				@_parseTree.call(@, $root)
+            @_addListeners()
+            
+            data = null
 
-			@_addListeners()
-			
-			return $root
+            return $root
 
-		open:(elem)->
-			@_openFolder(elem)
-		
-		close:(elem)->
-			@_closeFolder(elem)
+        open:(elem)->
+            @_openFolder(elem)
+        
+        close:(elem)->
+            @_closeFolder(elem)
 
-		toggle:(elem)->
-			$parent = $(elem).closest('li')
-			if $parent.hasClass 'collapsed'
-				@_openFolder(elem)
-			else if $parent.hasClass 'expanded'
-				@_closeFolder(elem)
+        toggle:(elem)->
+            $parent = $(elem).closest('li')
+            if $parent.hasClass 'collapsed'
+                @_openFolder(elem)
+            else if $parent.hasClass 'expanded'
+                @_closeFolder(elem)
 
-		select:(elem)->
-			$(@element).find('li.selected').removeClass('selected')
-			$(elem).closest('li').addClass('selected')
+        select:(elem)->
+            $(@element).find('li.selected').removeClass('selected')
+            $(elem).closest('li').addClass('selected')
 
-		destroy:()->
-			$(@element).off().empty()
+        destroy:()->
+            $(@element).off().empty()
 
-		_createTree: (elem, data)->
+        _getRootElement: (elem,method)->
+            if $(elem).prop('tagName').toLowerCase() is 'ul'
+                    $(elem).addClass('filetree')
+            else if  $(elem).find('ul').length > 0
+                    $(elem).find('ul').eq(0).addClass('filetree')
+            else
+                $(document.createElement('ul')).addClass('filetree').appendTo($(elem))
 
-			$elem = $(elem)
-			
-			#Sort files and folders separately and combine them
-			_files = []
-			_folders = []
+        _createTree: (elem, data)->
 
-			for file in data
-				if file.type is 'folder'
-					_folders.push(file)
-				if file.type is 'file'
-					_files.push(file)
+            $elem = $(elem)
+            
+            #Sort files and folders separately and combine them
+            _files = []
+            _folders = []
 
-			_files.sort(@_nameSort)
-			_folders.sort(@_nameSort)
+            for file in data
+                if file.type is 'folder'
+                    _folders.push(file)
+                if file.type is 'file'
+                    _files.push(file)
 
-			data = _folders.concat(_files)
+            _files.sort(@_nameSort)
+            _folders.sort(@_nameSort)
 
-			#check if given element is 'ul'
-			if $elem.prop('tagName').toLowerCase() is 'ul'
-			 	ul = $elem
-			else
-				ul = $(document.createElement('ul'))
+            data = _folders.concat(_files)
 
-			for item in data
-				li = $(document.createElement('li'))
-					.addClass(item.type)
+            #check if given element is 'ul'
+            if $elem.prop('tagName').toLowerCase() is 'ul'
+                ul = $elem
+            else
+                ul = $(document.createElement('ul'))
 
-				if item.type is 'file' and @settings.hideFiles is true
-					li.addClass('hidden')
+            for item in data
+                li = $(document.createElement('li'))
+                    .addClass(item.type)
 
-				a = $(document.createElement('a'))
-					.attr('href' , '#')
-					.attr('title',item[@settings.nodeTitle])
-					.html(item[@settings.nodeName])
+                if item.type is 'file' and @settings.hideFiles is true
+                    li.addClass('hidden')
 
-				for key,value of item
-					if item.hasOwnProperty(key) and key isnt 'children'
-						a.data(key, value)
+                a = $(document.createElement('a'))
+                    .attr('href' , '#')
+                    .attr('title',item[@settings.nodeTitle])
+                    .html(item[@settings.nodeName])
 
-				li.append(a)
-				ul.append(li)
-	
-				if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0
+                for key,value of item
+                    if item.hasOwnProperty(key) and key isnt 'children'
+                        a.data(key, value)
 
-					li.addClass('collapsed').addClass('has-children')
+                li.append(a)
+                ul.append(li)
+    
+                if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0
 
-					arrow = $(document.createElement('button')).addClass('arrow')
+                    li.addClass('collapsed').addClass('has-children')
 
-					li.prepend(arrow)
+                    arrow = $(document.createElement('button')).addClass('arrow')
 
-					if @settings.hideFiles is true
-						_subfolders = $.grep(
-										item.children
-										(e) ->
-											e.type is 'folder'
-									)
-						if _subfolders.length > 0
-							li.removeClass('collapsed').removeClass('has-children')
-							li.find('button').removeClass('arrow').addClass('no-arrow')
+                    li.prepend(arrow)
 
-					@_createTree.call(@,li,item.children)
-				
-			$elem.append(ul)
+                    if @settings.hideFiles is true
+                        _subfolders = $.grep(
+                                        item.children
+                                        (e) ->
+                                            e.type is 'folder'
+                                    )
+                        if _subfolders.length > 0
+                            li.removeClass('collapsed').removeClass('has-children')
+                            li.find('button').removeClass('arrow').addClass('no-arrow')
 
-		_openFolder: (elem)->
-			$parent = $(elem).closest('li')
+                    @_createTree.call(@,li,item.children)
+                
+            $elem.append(ul)
 
-			if not $parent.hasClass 'folder'
-				return false
+        _openFolder: (elem)->
+            $parent = $(elem).closest('li')
 
-			$a = $parent.find('a').eq(0)
-			$ul = $parent.find('ul').eq(0)
-			that = @
+            if not $parent.hasClass 'folder'
+                return false
 
-			ev_start = $.Event('open.folder.filetree')
-			ev_end= $.Event('opened.folder.filetree')
-			
-			$a.trigger(ev_start)
-			$ul.slideDown(
-				that.settings.animationSpeed
-				->
-					$parent.removeClass('collapsed').addClass('expanded')
-					$ul.removeAttr('style')
-					$a.trigger(ev_end)
-			)
-			false
+            $a = $parent.find('a').eq(0)
+            $ul = $parent.find('ul').eq(0)
+            that = @
 
-		_closeFolder: (elem)->
-			$parent = $(elem).closest('li')
+            ev_start = $.Event('open.folder.filetree')
+            ev_end= $.Event('opened.folder.filetree')
+            
+            $a.trigger(ev_start)
+            $ul.slideDown(
+                that.settings.animationSpeed
+                ->
+                    $parent.removeClass('collapsed').addClass('expanded')
+                    $ul.removeAttr('style')
+                    $a.trigger(ev_end)
+            )
+            false
 
-			if not $parent.hasClass 'folder'
-				return false
-			
-			$a = $parent.find('a').eq(0)
-			$ul = $parent.find('ul').eq(0)
-			that = @
+        _closeFolder: (elem)->
+            $parent = $(elem).closest('li')
 
-			ev_start = $.Event 'close.folder.filetree'
-			ev_end= $.Event 'closed.folder.filetree'
+            if not $parent.hasClass 'folder'
+                return false
+            
+            $a = $parent.find('a').eq(0)
+            $ul = $parent.find('ul').eq(0)
+            that = @
 
-			$a.trigger(ev_start)
-			$ul.slideUp(
-				that.settings.animationSpeed
-				->
-					$parent.removeClass('expanded').addClass('collapsed')
-					$ul.removeAttr('style')
-					$a.trigger(ev_end)
-			)
-			false
+            ev_start = $.Event 'close.folder.filetree'
+            ev_end= $.Event 'closed.folder.filetree'
 
-		_triggerClickEvent: (eventName)->
-			$a = $(@)
-			$root = $(@element)
-			ev  = $.Event eventName, { bubbles: false }
+            $a.trigger(ev_start)
+            $ul.slideUp(
+                that.settings.animationSpeed
+                ->
+                    $parent.removeClass('expanded').addClass('collapsed')
+                    $ul.removeAttr('style')
+                    $a.trigger(ev_end)
+            )
+            false
 
-			data = $a.data()
+        _triggerClickEvent: (eventName)->
+            $a = $(@)
+            $root = $(@element)
+            ev  = $.Event eventName, { bubbles: false }
 
-			###
-				Get path of the file
-			###
-			path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end()
-			data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
+            data = $a.data()
 
-			$a.trigger ev, data
-			false
+            ###
+                Get path of the file
+            ###
+            path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end()
+            data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
 
-		_addListeners: ->
-			$root = $(@element)
-			that = @
-			
-			$root.on(
-				'click'
-				'li.folder.collapsed.has-children > button.arrow'
-				(event) ->
-					that._openFolder @
-			)
+            $a.trigger ev, data
+            false
 
-			$root.on(
-				'click'
-				'li.folder.expanded.has-children > button.arrow'
-				(event) ->
-					that._closeFolder @
-			)
+        _addListeners: ->
+            $root = $(@element)
+            that = @
+            
+            $root.on(
+                'click'
+                'li.folder.collapsed.has-children > button.arrow'
+                (event) ->
+                    that._openFolder @
+            )
 
-			$root.on(
-				'click'
-				'li.folder > a'
-				(event) ->
-					that._triggerClickEvent.call(@, 'click.folder.filetree')
-			)
+            $root.on(
+                'click'
+                'li.folder.expanded.has-children > button.arrow'
+                (event) ->
+                    that._closeFolder @
+            )
 
-			$root.on(
-				'click'
-				'li.file > a'
-				(event) ->
-					that._triggerClickEvent.call(@, 'click.file.filetree')
-			)
+            $root.on(
+                'click'
+                'li.folder > a'
+                (event) ->
+                    that._triggerClickEvent.call(@, 'click.folder.filetree')
+            )
 
-			$root.on(
-				'dblclick'
-				'li.folder > a'
-				(event) ->
-					that._triggerClickEvent.call(@, 'dblclick.folder.filetree')
-			)
+            $root.on(
+                'click'
+                'li.file > a'
+                (event) ->
+                    that._triggerClickEvent.call(@, 'click.file.filetree')
+            )
 
-			$root.on(
-				'dblclick'
-				'li.file > a'
-				(event) ->
-					that._triggerClickEvent.call(@, 'dblclick.file.filetree')
-			)
+            $root.on(
+                'dblclick'
+                'li.folder > a'
+                (event) ->
+                    that._triggerClickEvent.call(@, 'dblclick.folder.filetree')
+            )
 
-			return
+            $root.on(
+                'dblclick'
+                'li.file > a'
+                (event) ->
+                    that._triggerClickEvent.call(@, 'dblclick.file.filetree')
+            )
 
-		_parseTree: (elem)->
-			$elem = $(elem)
+            return
 
-			files = $elem.find("> li")
+        _parseTree: (elem)->
+            $elem = $(elem)
 
-			for file in files
-				sublist = $(file).find("> ul")
-				children = $(sublist).find("> li")
-				
-				if children.length > 0
-					arrow = $(document.createElement('button')).addClass('arrow')
-					$(file).addClass('folder has-children collapsed').prepend(arrow)
-					@_parseTree item for item in sublist
-				else
-					$(file).addClass('file')
+            files = $elem.find("> li")
 
-			$elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file')
+            for file in files
+                sublist = $(file).find("> ul")
+                children = $(sublist).find("> li")
+                
+                if children.length > 0
+                    arrow = $(document.createElement('button')).addClass('arrow')
+                    $(file).addClass('folder has-children collapsed').prepend(arrow)
+                    @_parseTree item for item in sublist
+                else
+                    $(file).addClass('file')
 
-		_nameSort:(a,b)->
-			if a.name.toLowerCase() < b.name.toLowerCase()
-				-1
-			else if a.name.toLowerCase() > b.name.toLowerCase()
-				1
-			else
-				0 
+            $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file')
 
-	###
-		PLUGIN DEFINITION
-	###
-	Plugin = (options, obj) ->
-		@each ->
-			$this = $(this)
-			data = $this.data('$.filetree')
-			
-			unless data
-				$this.data "$.filetree", (data = new FileTree(@, options))
+        _nameSort:(a,b)->
+            if a.name.toLowerCase() < b.name.toLowerCase()
+                -1
+            else if a.name.toLowerCase() > b.name.toLowerCase()
+                1
+            else
+                0 
 
-			if typeof options is 'string' and options.substr(0,1) isnt '_'
-				data[options].call(data,obj)
+    ###
+        PLUGIN DEFINITION
+    ###
+    Plugin = (options, obj) ->
+        @each ->
+            $this = $(this)
+            data = $this.data('$.filetree')
+            
+            unless data
+                $this.data "$.filetree", (data = new FileTree(@, options))
 
-	old = $.fn.filetree
+            if typeof options is 'string' and options.substr(0,1) isnt '_'
+                data[options].call(data,obj)
 
-	$.fn.filetree = Plugin
-	$.fn.filetree.Constructor = FileTree
+    old = $.fn.filetree
 
-	###
-		NO CONFLICT
-	###
-	$.fn.filetree.noConflict = ->
-		$.fn.filetree = old
-		@
+    $.fn.filetree = Plugin
+    $.fn.filetree.Constructor = FileTree
 
-	return
+    ###
+        NO CONFLICT
+    ###
+    $.fn.filetree.noConflict = ->
+        $.fn.filetree = old
+        @
+
+    return
 )

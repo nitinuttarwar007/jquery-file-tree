@@ -56,10 +56,33 @@ $(document).ready(function(){
             <td>'name'</td>
             <td>The key whose value is to be used for title attribute in anchor link</td>
         </tr>
+        <tr>
+            <td>ajax</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Determines if data is to be fetched via AJAX</td>
+        </tr>
+        <tr>
+            <td>url</td>
+            <td>string</td>
+            <td>"./"</td>
+            <td>URL to be used for ajax call</td>
+        </tr>
+        <tr>
+            <td>post</td>
+            <td>object</td>
+            <td>{}</td>
+            <td><code>$.ajax</code> <a href="http://api.jquery.com/jquery.ajax/">settings</a> that are to be used while making the ajax call</td>
+        </tr>
+
     </tbody>
 </table>
 
 ##Data format
+The following data formats are in order of precedence
+
+###AJAX
+The response must be a JSON object in a format shown below.
 
 ###JSON
 - <code>name</code> and <code>type</code> keys required for all
@@ -243,6 +266,4 @@ $('#example').filetree('destroy');
 You can find change log [here](CHANGELOG.md)
 
 ##TODO
-- Add <code>url</code> option for dynamic AJAX loading
-- Add options to cutomize AJAX loading (dynamic) 
-- Add <code>append</code> method for manual AJAX loading
+- Add <code>append</code> method for appending new nodes to existing nodes
