@@ -39,7 +39,7 @@ describe("filetree", function() {
             expect('click.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
             expect(spy_folder).toHaveBeenTriggered();
 
-            $('li.folder').eq(0).find('a').trigger('click');
+            $('li.file').eq(0).find('a').trigger('click');
             
             expect('click.file.filetree').toHaveBeenTriggeredOn('li.file:first > a');
             expect(spy_file).toHaveBeenTriggered();
