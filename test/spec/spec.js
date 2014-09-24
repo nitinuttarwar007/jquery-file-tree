@@ -25,7 +25,7 @@ describe("filetree", function() {
         beforeEach(function(){
             setupEmptyFixture();
             init(data);
-            button = $('li.folder').eq(0).find('button');
+            button = $('li.folder').eq(0).find('> button');
         });
 
 
@@ -34,12 +34,12 @@ describe("filetree", function() {
             var spy_folder = spyOnEvent('li.folder:first > a', 'click.folder.filetree');
             var spy_file = spyOnEvent('li.file:first > a', 'click.file.filetree');
 
-            $('li.folder').eq(0).find('a').trigger('click');
+            $('li.folder:first > a').trigger('click');
             
             expect('click.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
             expect(spy_folder).toHaveBeenTriggered();
 
-            $('li.file').eq(0).find('a').trigger('click');
+            $('li.file:first > a').trigger('click');
             
             expect('click.file.filetree').toHaveBeenTriggeredOn('li.file:first > a');
             expect(spy_file).toHaveBeenTriggered();
