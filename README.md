@@ -45,16 +45,28 @@ $(document).ready(function(){
             <td>Hides files and displays only folders</td>
         </tr>
         <tr>
-            <td>nodeName</td>
+            <td>fileNodeName</td>
             <td>string</td>
             <td>'name'</td>
-            <td>The key whose value is to be used for display text</td>
+            <td>The key whose value is to be used for display text for files</td>
         </tr>
         <tr>
-            <td>nodeTitle</td>
+            <td>fileNodeTitle</td>
             <td>string</td>
             <td>'name'</td>
-            <td>The key whose value is to be used for title attribute in anchor link</td>
+            <td>The key whose value is to be used for title attribute in anchor link for files</td>
+        </tr>
+        <tr>
+            <td>folderNodeName</td>
+            <td>string</td>
+            <td>'name'</td>
+            <td>The key whose value is to be used for display text for folders</td>
+        </tr>
+        <tr>
+            <td>folderNodeTitle</td>
+            <td>string</td>
+            <td>'name'</td>
+            <td>The key whose value is to be used for title attribute in anchor link for folders</td>
         </tr>
         <tr>
             <td>ajax</td>

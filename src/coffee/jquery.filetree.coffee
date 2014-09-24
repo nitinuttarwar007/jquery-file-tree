@@ -13,8 +13,10 @@
         folderTrigger: "click"
         hideFiles: false
         fileContainer: null
-        nodeName: 'name'
-        nodeTitle: 'name'
+        fileNodeName: 'name'
+        folderNodeName: 'name'
+        fileNodeTitle: 'name'
+        folderNodeTitle: 'name'
         ajax: false
         url: "./"
         post: {}
@@ -114,8 +116,13 @@
 
                 a = $(document.createElement('a'))
                     .attr('href' , '#')
-                    .attr('title',item[@settings.nodeTitle])
-                    .html(item[@settings.nodeName])
+
+                if item.type is 'file'
+                    a.attr('title',item[@settings.fileNodeTitle])
+                        .html(item[@settings.fileNodeName])
+                else if item.type is 'folder'
+                    a.attr('title',item[@settings.folderNodeTitle])
+                        .html(item[@settings.folderNodeName])
 
                 for key,value of item
                     if item.hasOwnProperty(key) and key isnt 'children'

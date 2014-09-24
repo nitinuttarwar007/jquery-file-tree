@@ -12,8 +12,10 @@
     folderTrigger: "click",
     hideFiles: false,
     fileContainer: null,
-    nodeName: 'name',
-    nodeTitle: 'name',
+    fileNodeName: 'name',
+    folderNodeName: 'name',
+    fileNodeTitle: 'name',
+    folderNodeTitle: 'name',
     ajax: false,
     url: "./",
     post: {}
@@ -115,7 +117,12 @@
         if (item.type === 'file' && this.settings.hideFiles === true) {
           li.addClass('is-hidden');
         }
-        a = $(document.createElement('a')).attr('href', '#').attr('title', item[this.settings.nodeTitle]).html(item[this.settings.nodeName]);
+        a = $(document.createElement('a')).attr('href', '#');
+        if (item.type === 'file') {
+          a.attr('title', item[this.settings.fileNodeTitle]).html(item[this.settings.fileNodeName]);
+        } else if (item.type === 'folder') {
+          a.attr('title', item[this.settings.folderNodeTitle]).html(item[this.settings.folderNodeName]);
+        }
         for (key in item) {
           value = item[key];
           if (item.hasOwnProperty(key) && key !== 'children') {
