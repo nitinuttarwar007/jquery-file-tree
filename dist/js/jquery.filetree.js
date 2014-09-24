@@ -61,16 +61,16 @@
     FileTree.prototype.toggle = function(elem) {
       var $parent;
       $parent = $(elem).closest('li');
-      if ($parent.hasClass('collapsed')) {
+      if ($parent.hasClass('is-collapsed')) {
         return this._openFolder(elem);
-      } else if ($parent.hasClass('expanded')) {
+      } else if ($parent.hasClass('is-expanded')) {
         return this._closeFolder(elem);
       }
     };
 
     FileTree.prototype.select = function(elem) {
-      $(this.element).find('li.selected').removeClass('selected');
-      return $(elem).closest('li').addClass('selected');
+      $(this.element).find('li.is-selected').removeClass('is-selected');
+      return $(elem).closest('li').addClass('is-selected');
     };
 
     FileTree.prototype.destroy = function() {
@@ -113,7 +113,7 @@
         item = data[_j];
         li = $(document.createElement('li')).addClass(item.type);
         if (item.type === 'file' && this.settings.hideFiles === true) {
-          li.addClass('hidden');
+          li.addClass('is-hidden');
         }
         a = $(document.createElement('a')).attr('href', '#').attr('title', item[this.settings.nodeTitle]).html(item[this.settings.nodeName]);
         for (key in item) {
@@ -125,7 +125,7 @@
         li.append(a);
         ul.append(li);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {
-          li.addClass('collapsed').addClass('has-children');
+          li.addClass('is-collapsed').addClass('has-children');
           arrow = $(document.createElement('button')).addClass('arrow');
           li.prepend(arrow);
           if (this.settings.hideFiles === true) {
@@ -133,7 +133,7 @@
               return e.type === 'folder';
             });
             if (_subfolders.length > 0) {
-              li.removeClass('collapsed').removeClass('has-children');
+              li.removeClass('is-collapsed').removeClass('has-children');
               li.find('button').removeClass('arrow').addClass('no-arrow');
             }
           }
@@ -156,7 +156,7 @@
       ev_end = $.Event('opened.folder.filetree');
       $a.trigger(ev_start);
       return $ul.slideDown(that.settings.animationSpeed, function() {
-        $parent.removeClass('collapsed').addClass('expanded');
+        $parent.removeClass('is-collapsed').addClass('is-expanded');
         $ul.removeAttr('style');
         return $a.trigger(ev_end);
       });
@@ -175,7 +175,7 @@
       ev_end = $.Event('closed.folder.filetree');
       $a.trigger(ev_start);
       return $ul.slideUp(that.settings.animationSpeed, function() {
-        $parent.removeClass('expanded').addClass('collapsed');
+        $parent.removeClass('is-expanded').addClass('is-collapsed');
         $ul.removeAttr('style');
         return $a.trigger(ev_end);
       });
@@ -206,11 +206,11 @@
       var $root, that;
       $root = $(this.element);
       that = this;
-      $root.on('click', 'li.folder.collapsed.has-children > button.arrow', function(event) {
+      $root.on('click', 'li.folder.is-collapsed.has-children > button.arrow', function(event) {
         that._openFolder(this);
         return event.stopPropagation();
       });
-      $root.on('click', 'li.folder.expanded.has-children > button.arrow', function(event) {
+      $root.on('click', 'li.folder.is-expanded.has-children > button.arrow', function(event) {
         that._closeFolder(this);
         return event.stopPropagation();
       });
@@ -245,7 +245,7 @@
         children = $(sublist).find("> li");
         if (children.length > 0) {
           arrow = $(document.createElement('button')).addClass('arrow');
-          $(file).addClass('folder has-children collapsed').prepend(arrow);
+          $(file).addClass('folder has-children is-collapsed').prepend(arrow);
           for (_j = 0, _len1 = sublist.length; _j < _len1; _j++) {
             item = sublist[_j];
             this._parseTree(item);

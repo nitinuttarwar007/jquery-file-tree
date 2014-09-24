@@ -60,14 +60,14 @@
 
         toggle:(elem)->
             $parent = $(elem).closest('li')
-            if $parent.hasClass 'collapsed'
+            if $parent.hasClass 'is-collapsed'
                 @_openFolder(elem)
-            else if $parent.hasClass 'expanded'
+            else if $parent.hasClass 'is-expanded'
                 @_closeFolder(elem)
 
         select:(elem)->
-            $(@element).find('li.selected').removeClass('selected')
-            $(elem).closest('li').addClass('selected')
+            $(@element).find('li.is-selected').removeClass('is-selected')
+            $(elem).closest('li').addClass('is-selected')
 
         destroy:()->
             $(@element).off().empty()
@@ -110,7 +110,7 @@
                     .addClass(item.type)
 
                 if item.type is 'file' and @settings.hideFiles is true
-                    li.addClass('hidden')
+                    li.addClass('is-hidden')
 
                 a = $(document.createElement('a'))
                     .attr('href' , '#')
@@ -126,7 +126,7 @@
     
                 if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0
 
-                    li.addClass('collapsed').addClass('has-children')
+                    li.addClass('is-collapsed').addClass('has-children')
 
                     arrow = $(document.createElement('button')).addClass('arrow')
 
@@ -139,7 +139,7 @@
                                             e.type is 'folder'
                                     )
                         if _subfolders.length > 0
-                            li.removeClass('collapsed').removeClass('has-children')
+                            li.removeClass('is-collapsed').removeClass('has-children')
                             li.find('button').removeClass('arrow').addClass('no-arrow')
 
                     @_createTree.call(@,li,item.children)
@@ -163,7 +163,7 @@
             $ul.slideDown(
                 that.settings.animationSpeed
                 ->
-                    $parent.removeClass('collapsed').addClass('expanded')
+                    $parent.removeClass('is-collapsed').addClass('is-expanded')
                     $ul.removeAttr('style')
                     $a.trigger(ev_end)
             )
@@ -185,7 +185,7 @@
             $ul.slideUp(
                 that.settings.animationSpeed
                 ->
-                    $parent.removeClass('expanded').addClass('collapsed')
+                    $parent.removeClass('is-expanded').addClass('is-collapsed')
                     $ul.removeAttr('style')
                     $a.trigger(ev_end)
             )
@@ -212,7 +212,7 @@
             
             $root.on(
                 'click'
-                'li.folder.collapsed.has-children > button.arrow'
+                'li.folder.is-collapsed.has-children > button.arrow'
                 (event) ->
                     that._openFolder @
                     event.stopPropagation()
@@ -220,7 +220,7 @@
 
             $root.on(
                 'click'
-                'li.folder.expanded.has-children > button.arrow'
+                'li.folder.is-expanded.has-children > button.arrow'
                 (event) ->
                     that._closeFolder @
                     event.stopPropagation()
@@ -278,7 +278,7 @@
                 
                 if children.length > 0
                     arrow = $(document.createElement('button')).addClass('arrow')
-                    $(file).addClass('folder has-children collapsed').prepend(arrow)
+                    $(file).addClass('folder has-children is-collapsed').prepend(arrow)
                     @_parseTree item for item in sublist
                 else
                     $(file).addClass('file')
