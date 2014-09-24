@@ -155,12 +155,11 @@
       ev_start = $.Event('open.folder.filetree');
       ev_end = $.Event('opened.folder.filetree');
       $a.trigger(ev_start);
-      $ul.slideDown(that.settings.animationSpeed, function() {
+      return $ul.slideDown(that.settings.animationSpeed, function() {
         $parent.removeClass('collapsed').addClass('expanded');
         $ul.removeAttr('style');
         return $a.trigger(ev_end);
       });
-      return false;
     };
 
     FileTree.prototype._closeFolder = function(elem) {
@@ -175,12 +174,11 @@
       ev_start = $.Event('close.folder.filetree');
       ev_end = $.Event('closed.folder.filetree');
       $a.trigger(ev_start);
-      $ul.slideUp(that.settings.animationSpeed, function() {
+      return $ul.slideUp(that.settings.animationSpeed, function() {
         $parent.removeClass('expanded').addClass('collapsed');
         $ul.removeAttr('style');
         return $a.trigger(ev_end);
       });
-      return false;
     };
 
     FileTree.prototype._triggerClickEvent = function(eventName) {
@@ -199,8 +197,7 @@
       data.path = map.call(path, function(a) {
         return a.innerText;
       }).reverse().join('/');
-      $a.trigger(ev, data);
-      return false;
+      return $a.trigger(ev, data);
     };
 
     FileTree.prototype._addListeners = function() {
@@ -208,22 +205,31 @@
       $root = $(this.element);
       that = this;
       $root.on('click', 'li.folder.collapsed.has-children > button.arrow', function(event) {
-        return that._openFolder(this);
+        that._openFolder(this);
+        return event.stopPropagation();
       });
       $root.on('click', 'li.folder.expanded.has-children > button.arrow', function(event) {
-        return that._closeFolder(this);
+        that._closeFolder(this);
+        return event.stopPropagation();
       });
       $root.on('click', 'li.folder > a', function(event) {
-        return that._triggerClickEvent.call(this, 'click.folder.filetree');
+        that._triggerClickEvent.call(this, 'click.folder.filetree');
+        return event.stopPropagation();
       });
       $root.on('click', 'li.file > a', function(event) {
-        return that._triggerClickEvent.call(this, 'click.file.filetree');
+        that._triggerClickEvent.call(this, 'click.file.filetree');
+        return event.stopPropagation();
+      });
+      $root.on('click', 'li.file, li.folder', function(event) {
+        return event.stopPropagation();
       });
       $root.on('dblclick', 'li.folder > a', function(event) {
-        return that._triggerClickEvent.call(this, 'dblclick.folder.filetree');
+        that._triggerClickEvent.call(this, 'dblclick.folder.filetree');
+        return event.stopPropagation();
       });
       $root.on('dblclick', 'li.file > a', function(event) {
-        return that._triggerClickEvent.call(this, 'dblclick.file.filetree');
+        that._triggerClickEvent.call(this, 'dblclick.file.filetree');
+        return event.stopPropagation();
       });
     };
 

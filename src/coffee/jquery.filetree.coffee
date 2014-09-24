@@ -167,7 +167,6 @@
                     $ul.removeAttr('style')
                     $a.trigger(ev_end)
             )
-            false
 
         _closeFolder: (elem)->
             $parent = $(elem).closest('li')
@@ -190,7 +189,6 @@
                     $ul.removeAttr('style')
                     $a.trigger(ev_end)
             )
-            false
 
         _triggerClickEvent: (eventName)->
             $a = $(@)
@@ -206,7 +204,6 @@
             data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
 
             $a.trigger ev, data
-            false
 
         _addListeners: ->
             $root = $(@element)
@@ -217,6 +214,7 @@
                 'li.folder.collapsed.has-children > button.arrow'
                 (event) ->
                     that._openFolder @
+                    event.stopPropagation()
             )
 
             $root.on(
@@ -224,6 +222,7 @@
                 'li.folder.expanded.has-children > button.arrow'
                 (event) ->
                     that._closeFolder @
+                    event.stopPropagation()
             )
 
             $root.on(
@@ -231,6 +230,7 @@
                 'li.folder > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'click.folder.filetree')
+                    event.stopPropagation()
             )
 
             $root.on(
@@ -238,6 +238,14 @@
                 'li.file > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'click.file.filetree')
+                    event.stopPropagation()
+            )
+
+            $root.on(
+                'click'
+                'li.file, li.folder'
+                (event) ->
+                    event.stopPropagation()
             )
 
             $root.on(
@@ -245,6 +253,7 @@
                 'li.folder > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'dblclick.folder.filetree')
+                    event.stopPropagation()
             )
 
             $root.on(
@@ -252,6 +261,7 @@
                 'li.file > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'dblclick.file.filetree')
+                    event.stopPropagation()
             )
 
             return
