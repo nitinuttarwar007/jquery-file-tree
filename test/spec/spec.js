@@ -145,7 +145,7 @@ describe("filetree", function() {
             expect(root).toHaveClass('filetree');
         });
 
-        it("should wrap text in anchors", function() {
+        xit("should wrap text in anchors", function() {
             expect($('li')).toContainElement('a');
             expect($('li > a')).not.toContainElement('ul');
         });
