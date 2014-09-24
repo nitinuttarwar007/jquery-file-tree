@@ -14,7 +14,8 @@ gulp.task('coffee', function () {
         .pipe(gulp.dest('./dist/js/'))
         .pipe(uglify())
         .pipe(rename({suffix : '.min'}))
-        .pipe(gulp.dest('./dist/js/'));
+        .pipe(gulp.dest('./dist/js/'))
+        .pipe(lr({auto: false}));
 });
 
 gulp.task('less', function () {
@@ -23,14 +24,15 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./dist/css/'))
         .pipe(minify())
         .pipe(rename({suffix : '.min'}))
-        .pipe(gulp.dest('./dist/css/'));
+        .pipe(gulp.dest('./dist/css/'))
+        .pipe(lr({auto: false}));
 });
 
 gulp.task('default', ['watch']);
 
 gulp.task('watch', ['coffee','less'], function(){
     lr.listen();
-    gulp.watch('./src/coffee/*.coffee', ['coffee']).on('change', lr.changed);
-    gulp.watch('./src/less/*.less', ['less']).on('change', lr.changed);
+    gulp.watch('./src/coffee/*.coffee', ['coffee']);
+    gulp.watch('./src/less/*.less', ['less']);
     gulp.watch('./test/spec/*.js').on('change', lr.changed);
 });
