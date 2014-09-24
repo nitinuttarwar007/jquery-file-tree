@@ -200,8 +200,9 @@
             ###
                 Get path of the file
             ###
-            path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end()
-            data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
+            if typeof data.path is 'undefined'
+                path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end()
+                data.path  = map.call(path, (a)-> a.innerText).reverse().join('/')
 
             $a.trigger ev, data
 

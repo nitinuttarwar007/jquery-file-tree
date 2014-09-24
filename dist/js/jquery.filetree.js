@@ -193,10 +193,12 @@
       /*
           Get path of the file
        */
-      path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end();
-      data.path = map.call(path, function(a) {
-        return a.innerText;
-      }).reverse().join('/');
+      if (typeof data.path === 'undefined') {
+        path = $a.parentsUntil($root, 'li').clone().children('ul,button').remove().end();
+        data.path = map.call(path, function(a) {
+          return a.innerText;
+        }).reverse().join('/');
+      }
       return $a.trigger(ev, data);
     };
 
