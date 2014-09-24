@@ -246,7 +246,7 @@
                 'click'
                 'li.file, li.folder'
                 (event) ->
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(

@@ -223,7 +223,7 @@
         return event.stopPropagation();
       });
       $root.on('click', 'li.file, li.folder', function(event) {
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('dblclick', 'li.folder > a', function(event) {
         that._triggerClickEvent.call(this, 'dblclick.folder.filetree');
