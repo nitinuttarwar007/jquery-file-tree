@@ -6,7 +6,7 @@ logs
 pids
 *.pid
 *.seed
-
+*.glue
 
 # Dependency directory
 # Deployed apps should consider commenting this line out:
