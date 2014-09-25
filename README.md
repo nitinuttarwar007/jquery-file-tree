@@ -81,7 +81,7 @@ $(document).ready(function(){
             <td>URL to be used for ajax call</td>
         </tr>
         <tr>
-            <td>post</td>
+            <td>requestSettings</td>
             <td>object</td>
             <td>{}</td>
             <td><code>$.ajax</code> <a href="http://api.jquery.com/jquery.ajax/">settings</a> that are to be used while making the ajax call</td>

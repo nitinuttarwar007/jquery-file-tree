@@ -10,7 +10,7 @@
 - Changed options
   - `nodeName` to `fileNodeName`
   - `nodeTitle` to `fileNodeTitle`
-
+  - `post` to `requestSettings`
 
 ###non-breaking changes
 - bug fixes #2

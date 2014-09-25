@@ -19,7 +19,7 @@
         folderNodeTitle: 'name'
         ajax: false
         url: "./"
-        post: {}
+        requestSettings: {}
 
     map = Array::map
 
@@ -40,7 +40,7 @@
             self = @
 
             if @settings.ajax is true
-                $.ajax( @settings.url, @settings.post)
+                $.ajax( @settings.url, @settings.requestSettings)
                     .then (data) -> 
                         self._createTree.call(self, $root, data)
             else if $.isArray(data) and data.length > 0 

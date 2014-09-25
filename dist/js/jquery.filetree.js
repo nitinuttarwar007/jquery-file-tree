@@ -18,7 +18,7 @@
     folderNodeTitle: 'name',
     ajax: false,
     url: "./",
-    post: {}
+    requestSettings: {}
   };
   map = Array.prototype.map;
 
@@ -39,7 +39,7 @@
       data = this.settings.data;
       self = this;
       if (this.settings.ajax === true) {
-        $.ajax(this.settings.url, this.settings.post).then(function(data) {
+        $.ajax(this.settings.url, this.settings.requestSettings).then(function(data) {
           return self._createTree.call(self, $root, data);
         });
       } else if ($.isArray(data) && data.length > 0) {
