@@ -1,16 +1,22 @@
 #Change Log
 
 ##master
-12/9/2014
-- Added options to automatocally load data via AJAX
 
-13/08/2014
-- Added <code>destroy</code> method
-- Added <code>select</code> method
-- Added <code>dblclick.folder.filetree</code> and <code>dblclick.file.filetree</code> events 
-- Added additional <code>data</code> parameter to event handler
+###breaking changes
+- Renamed Classes (2de8a5390d8effb6c266a72842e2e485fcd4c7e7)
+  - `.collapsed` to `.is-collapsed`
+  - `.expanded` to `.is-expanded`
+  - `.hidden` to `.is-hidden`
+- Changed options (04aaf3a3aa1a5aae6edd9b463fb120f726b08ab4)
+  - `nodeName` to `fileNodeName`
+  - `nodeTitle` to `fileNodeTitle`
 
-04/08/2014
-- Added [jasmine](https://github.com/pivotal/jasmine) tests
-- Added [UMD](https://github.com/umdjs/umd) support
-- Added basic support for DOM as datasource
+
+###non-breaking changes
+- bug fixes #2
+
+###new-features
+- Added options for folder nodes: `folderNodeName` and `folderNodeTitle` (04aaf3a3aa1a5aae6edd9b463fb120f726b08ab4)
+
+#v0.0.2
+- Added options to automatocally load data via AJAX (d8a6442909c960716b31d34a285baeda83df70fe)
