@@ -17,6 +17,7 @@
 
 ###new-features
 - Added options for folder nodes: `folderNodeName` and `folderNodeTitle`
+- Added `responseHandler` for customizing ajax response data
 
 #v0.0.2
 - Added options to automatocally load data via AJAX

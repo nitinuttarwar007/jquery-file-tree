@@ -18,7 +18,10 @@
     folderNodeTitle: 'name',
     ajax: false,
     url: "./",
-    requestSettings: {}
+    requestSettings: {},
+    responseHandler: function(data) {
+      return data;
+    }
   };
   map = Array.prototype.map;
 
@@ -40,6 +43,7 @@
       self = this;
       if (this.settings.ajax === true) {
         $.ajax(this.settings.url, this.settings.requestSettings).then(function(data) {
+          data = self.settings.responseHandler(data);
           return self._createTree.call(self, $root, data);
         });
       } else if ($.isArray(data) && data.length > 0) {

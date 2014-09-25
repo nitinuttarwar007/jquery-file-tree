@@ -20,6 +20,7 @@
         ajax: false
         url: "./"
         requestSettings: {}
+        responseHandler: (data)-> data
 
     map = Array::map
 
@@ -41,7 +42,8 @@
 
             if @settings.ajax is true
                 $.ajax( @settings.url, @settings.requestSettings)
-                    .then (data) -> 
+                    .then (data) ->
+                        data = self.settings.responseHandler(data)
                         self._createTree.call(self, $root, data)
             else if $.isArray(data) and data.length > 0 
                 @_createTree.call(@, $root, data)

@@ -86,6 +86,12 @@ $(document).ready(function(){
             <td>{}</td>
             <td><code>$.ajax</code> <a href="http://api.jquery.com/jquery.ajax/">settings</a> that are to be used while making the ajax call</td>
         </tr>
+        <tr>
+            <td>responseHandler</td>
+            <td>function</td>
+            <td>function(data){ return data; }</td>
+            <td>A function that can be used to customize the ajax response data. <b>Note: Remember to return data at end</b></td>
+        </tr>
 
     </tbody>
 </table>
