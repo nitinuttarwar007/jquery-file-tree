@@ -28,8 +28,8 @@ describe("filetree", function() {
             button = $('li.folder').eq(0).find('> button');
         });
 
-
-        it("should trigger click events", function() {
+        
+        it("should trigger click events properly", function() {
             
             var spy_folder = spyOnEvent('li.folder:first > a', 'click.folder.filetree');
             var spy_file = spyOnEvent('li.file:first > a', 'click.file.filetree');
@@ -119,15 +119,15 @@ describe("filetree", function() {
 
             folder = $('li.folder').eq(0);
             
-            expect(folder).toHaveClass('collapsed');
+            expect(folder).toHaveClass('is-collapsed');
 
             button.trigger('click');
 
-            expect(folder).toHaveClass('expanded');
+            expect(folder).toHaveClass('is-expanded');
     
             button.trigger('click');
 
-            expect(folder).toHaveClass('collapsed');
+            expect(folder).toHaveClass('is-collapsed');
             
         })
     });
@@ -140,14 +140,14 @@ describe("filetree", function() {
             button = $('li.folder').eq(0).find('button');
         });
 
-        it("must assign proper classes",function(){
+        it("must initialize properly",function(){
             root = $('#test');
             expect(root).toHaveClass('filetree');
         });
 
         xit("should wrap text in anchors", function() {
-            expect($('li')).toContainElement('a');
-            expect($('li > a')).not.toContainElement('ul');
+            expect($('li').eq(0)).toContainElement('a');
+            //expect($('li > a')).not.toContainElement('ul');
         });
 
     });
