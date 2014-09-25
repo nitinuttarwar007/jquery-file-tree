@@ -69,6 +69,12 @@ $(document).ready(function(){
             <td>The key whose value is to be used for title attribute in anchor link for folders</td>
         </tr>
         <tr>
+            <td>nodeFormmatter</td>
+            <td>function</td>
+            <td>function(node){ return node; }</td>
+            <td>A function that can be used to customize a node. This can be used to add extra classes depending on associated data<b>Note: Remember to return the node at end</b></td>
+        </tr>
+        <tr>
             <td>ajax</td>
             <td>boolean</td>
             <td>false</td>

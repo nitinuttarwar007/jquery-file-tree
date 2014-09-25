@@ -16,6 +16,9 @@
     folderNodeName: 'name',
     fileNodeTitle: 'name',
     folderNodeTitle: 'name',
+    nodeFormatter: function(node) {
+      return node;
+    },
     ajax: false,
     url: "./",
     requestSettings: {},
@@ -133,6 +136,7 @@
             a.data(key, value);
           }
         }
+        a = this.settings.nodeFormatter.call(null, a);
         li.append(a);
         ul.append(li);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {

@@ -17,6 +17,7 @@
         folderNodeName: 'name'
         fileNodeTitle: 'name'
         folderNodeTitle: 'name'
+        nodeFormatter: (node)-> node
         ajax: false
         url: "./"
         requestSettings: {}
@@ -129,6 +130,8 @@
                 for key,value of item
                     if item.hasOwnProperty(key) and key isnt 'children'
                         a.data(key, value)
+
+                a = @settings.nodeFormatter.call(null, a)
 
                 li.append(a)
                 ul.append(li)
