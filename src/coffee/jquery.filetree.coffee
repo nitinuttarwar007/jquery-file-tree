@@ -222,7 +222,7 @@
                 'li.folder.is-collapsed.has-children > button.arrow'
                 (event) ->
                     that._openFolder @
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(
@@ -230,7 +230,7 @@
                 'li.folder.is-expanded.has-children > button.arrow'
                 (event) ->
                     that._closeFolder @
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(
@@ -238,7 +238,7 @@
                 'li.folder > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'click.folder.filetree')
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(
@@ -246,7 +246,7 @@
                 'li.file > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'click.file.filetree')
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(
@@ -257,11 +257,17 @@
             )
 
             $root.on(
+                'click'
+                (event) ->
+                    event.stopImmediatePropagation()
+            )
+
+            $root.on(
                 'dblclick'
                 'li.folder > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'dblclick.folder.filetree')
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             $root.on(
@@ -269,7 +275,7 @@
                 'li.file > a'
                 (event) ->
                     that._triggerClickEvent.call(@, 'dblclick.file.filetree')
-                    event.stopPropagation()
+                    event.stopImmediatePropagation()
             )
 
             return

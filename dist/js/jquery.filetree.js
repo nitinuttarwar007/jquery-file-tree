@@ -215,30 +215,33 @@
       that = this;
       $root.on('click', 'li.folder.is-collapsed.has-children > button.arrow', function(event) {
         that._openFolder(this);
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('click', 'li.folder.is-expanded.has-children > button.arrow', function(event) {
         that._closeFolder(this);
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('click', 'li.folder > a', function(event) {
         that._triggerClickEvent.call(this, 'click.folder.filetree');
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('click', 'li.file > a', function(event) {
         that._triggerClickEvent.call(this, 'click.file.filetree');
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('click', 'li.file, li.folder', function(event) {
         return event.stopImmediatePropagation();
       });
+      $root.on('click', function(event) {
+        return event.stopImmediatePropagation();
+      });
       $root.on('dblclick', 'li.folder > a', function(event) {
         that._triggerClickEvent.call(this, 'dblclick.folder.filetree');
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
       $root.on('dblclick', 'li.file > a', function(event) {
         that._triggerClickEvent.call(this, 'dblclick.file.filetree');
-        return event.stopPropagation();
+        return event.stopImmediatePropagation();
       });
     };
 
