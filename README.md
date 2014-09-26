@@ -279,7 +279,7 @@ $('#example').on('click.folder.filetree', function(e){
 ```
 
 ###select
-selects a file/folder
+Selects a file/folder
 ```js
 $('#example').on('click.folder.filetree click.file.filetree', function(e){
    $(this).filetree('select', e.target);
@@ -287,7 +287,7 @@ $('#example').on('click.folder.filetree click.file.filetree', function(e){
 ```
 
 ###getSelected
-returns an array of selected elements where each element is a `jQuery Object`
+Returns an array of selected elements where each element is a `jQuery Object`
 requires **multiselect** to be `true`
 ```js
 $('#example').filetree('getSelected')
