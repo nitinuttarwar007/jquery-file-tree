@@ -17,13 +17,17 @@ ul.filetree{
 		text-decoration: none;
 		color: inherit;
 		vertical-align: top;
-		margin-left: 10px;
+		margin-left: 5px;
 	}
 
+
 	li{
+
 		position: relative;
-		line-height: 20px;
-		//padding-left: @triangle-width;
+		
+		a, button, input[type=checkbox] {
+		 	vertical-align: middle;
+		}
 
 		&.folder {
 			&.is-collapsed > ul {
@@ -41,28 +45,13 @@ ul.filetree{
 	}
 
 	button.arrow{
+		width: 0;
+		height: 0;	
 		background: transparent;
 		outline: none;
-		border: none;
-		width: @triangle-width;
-		outline: none;
 		cursor: pointer;
-		position: absolute;
-		top: 10px;
-		left: 0;
-
-		&:before{
-			content: '';
-			width: 0;
-			height: 0;
-			line-height: 0;
-			position: absolute;
-			top:50%;
-			left: 0;
-			margin-top: -5px;
-			border-top: 5px solid transparent;
-			border-bottom: 5px solid transparent;
-			border-left:5px solid #000;  
-		} 
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent transparent #000;  
 	}	
 }
