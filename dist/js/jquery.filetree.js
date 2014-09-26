@@ -120,6 +120,39 @@
       }
     };
 
+    FileTree.prototype.expandAll = function() {
+      var self;
+      self = this;
+      return $(this.element).find('li.folder').each(function() {
+        return self._openFolder($(this).find('> a'));
+      });
+    };
+
+    FileTree.prototype.search = function(str) {
+      str = str.toLowerCase();
+      $(this.element).find('li.file').each(function() {
+        var e, sub;
+        e = $(this);
+        sub = e.find('> a').text().toString().toLowerCase();
+        if (sub.indexOf(str) < 0) {
+          return e.addClass('is-hidden');
+        } else {
+          return e.removeClass('is-hidden');
+        }
+      });
+      return $(this.element).find('li.folder').each(function() {
+        var children, e, hidden;
+        e = $(this);
+        children = e.find('> ul').children('li');
+        hidden = e.find('> ul').children('li.is-hidden');
+        if (children.length === hidden.length && children.length > 0) {
+          return e.addClass('is-hidden');
+        } else {
+          return e.removeClass('is-hidden');
+        }
+      });
+    };
+
     FileTree.prototype.destroy = function() {
       return $(this.element).off().empty();
     };

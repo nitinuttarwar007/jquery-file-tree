@@ -107,6 +107,35 @@
             if @settings.multiselect is true
                 return $(@element).find('input[type=checkbox]:checked').map(-> $(@).siblings('a')).get()
 
+        expandAll: ->
+            self = @
+            $(@element).find('li.folder').each(->self._openFolder($(@).find('> a')))
+
+        search: (str)->
+
+            str = str.toLowerCase()
+
+            $(@element).find('li.file').each( ->
+                e = $(this)
+                sub = e.find('> a').text().toString().toLowerCase()
+                if sub.indexOf(str) < 0
+                    e.addClass('is-hidden')
+                else
+                    e.removeClass('is-hidden')
+            )
+
+            $(@element).find('li.folder').each( ->
+                e = $(this)
+                children = e.find('> ul').children('li')
+                hidden = e.find('> ul').children('li.is-hidden')
+                #console.log e.find('> a').text(), children.length, hidden.length
+                if children.length is hidden.length and children.length > 0 
+                    e.addClass('is-hidden')
+                else
+                    e.removeClass('is-hidden')
+            )
+
+
         destroy:()->
             $(@element).off().empty()
 
