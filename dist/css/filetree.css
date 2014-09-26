@@ -42,3 +42,6 @@ ul.filetree button.arrow {
   border-style: solid;
   border-color: transparent transparent transparent #000;
 }
+.is-hidden {
+  display: none !important;
+}
