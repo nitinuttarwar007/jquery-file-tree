@@ -19,6 +19,8 @@
 - Added options for folder nodes: `folderNodeName` and `folderNodeTitle`
 - Added `responseHandler` for customizing ajax response data
 - Added `nodeFormatter` for customizing the tree nodes
+- Added `multiselect` for checkbox selections of file/folders
+- Added `getSelected` method for retrival of selected values if multiselect is enabled
 
 #v0.0.2
 - Added options to automatocally load data via AJAX

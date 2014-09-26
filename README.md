@@ -45,6 +45,12 @@ $(document).ready(function(){
             <td>Hides files and displays only folders</td>
         </tr>
         <tr>
+            <td>multiselect</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Enable checkboxes for selecting multiple files/folders</td>
+        </tr>
+        <tr>
             <td>fileNodeName</td>
             <td>string</td>
             <td>'name'</td>
@@ -278,6 +284,13 @@ selects a file/folder
 $('#example').on('click.folder.filetree click.file.filetree', function(e){
    $(this).filetree('select', e.target);
 });
+```
+
+###getSelected
+returns an array of selected elements where each element is a `jQuery Object`
+requires **multiselect** to be `true`
+```js
+$('#example').filetree('getSelected')
 ```
 
 ###destroy

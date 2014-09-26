@@ -10,6 +10,7 @@
     data: [],
     animationSpeed: 400,
     folderTrigger: "click",
+    multiselect: false,
     hideFiles: false,
     fileContainer: null,
     fileNodeName: 'name',
@@ -78,8 +79,21 @@
     };
 
     FileTree.prototype.select = function(elem) {
+      var checkbox;
       $(this.element).find('li.is-selected').removeClass('is-selected');
-      return $(elem).closest('li').addClass('is-selected');
+      $(elem).closest('li').addClass('is-selected');
+      if (this.settings.multiselect === true) {
+        checkbox = $(elem).siblings('input[type=checkbox]');
+        return checkbox.prop('checked', !checkbox.prop('checked'));
+      }
+    };
+
+    FileTree.prototype.getSelected = function() {
+      if (this.settings.multiselect === true) {
+        return $(this.element).find('input[type=checkbox]:checked').map(function() {
+          return $(this).siblings('a');
+        }).get();
+      }
     };
 
     FileTree.prototype.destroy = function() {
@@ -97,7 +111,7 @@
     };
 
     FileTree.prototype._createTree = function(elem, data) {
-      var $elem, a, arrow, file, item, key, li, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
+      var $elem, a, arrow, checkbox, file, item, key, li, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
       $elem = $(elem);
       _files = [];
       _folders = [];
@@ -137,6 +151,10 @@
           }
         }
         a = this.settings.nodeFormatter.call(null, a);
+        if (this.settings.multiselect === true) {
+          checkbox = $(document.createElement('input')).attr('type', 'checkbox');
+          li.append(checkbox);
+        }
         li.append(a);
         ul.append(li);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {
@@ -293,7 +311,9 @@
       PLUGIN DEFINITION
    */
   Plugin = function(options, obj) {
-    return this.each(function() {
+    var retVal;
+    retVal = this;
+    this.each(function() {
       var $this, data;
       $this = $(this);
       data = $this.data('$.filetree');
@@ -301,9 +321,10 @@
         $this.data("$.filetree", (data = new FileTree(this, options)));
       }
       if (typeof options === 'string' && options.substr(0, 1) !== '_') {
-        return data[options].call(data, obj);
+        retVal = data[options].call(data, obj);
       }
     });
+    return retVal;
   };
   old = $.fn.filetree;
   $.fn.filetree = Plugin;

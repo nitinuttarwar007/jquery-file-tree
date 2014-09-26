@@ -11,6 +11,7 @@
         data: []
         animationSpeed : 400
         folderTrigger: "click"
+        multiselect: false
         hideFiles: false
         fileContainer: null
         fileNodeName: 'name'
@@ -74,6 +75,14 @@
             $(@element).find('li.is-selected').removeClass('is-selected')
             $(elem).closest('li').addClass('is-selected')
 
+            if @settings.multiselect is true
+                checkbox = $(elem).siblings('input[type=checkbox]')
+                checkbox.prop('checked', not checkbox.prop('checked'))
+
+        getSelected: ->
+            if @settings.multiselect is true
+                return $(@element).find('input[type=checkbox]:checked').map(-> $(@).siblings('a')).get()
+
         destroy:()->
             $(@element).off().empty()
 
@@ -132,6 +141,11 @@
                         a.data(key, value)
 
                 a = @settings.nodeFormatter.call(null, a)
+
+                if @settings.multiselect is true
+                    checkbox = $ document.createElement 'input'
+                        .attr('type','checkbox')
+                    li.append(checkbox)
 
                 li.append(a)
                 ul.append(li)
@@ -315,6 +329,7 @@
         PLUGIN DEFINITION
     ###
     Plugin = (options, obj) ->
+        retVal = @
         @each ->
             $this = $(this)
             data = $this.data('$.filetree')
@@ -323,7 +338,11 @@
                 $this.data "$.filetree", (data = new FileTree(@, options))
 
             if typeof options is 'string' and options.substr(0,1) isnt '_'
-                data[options].call(data,obj)
+                retVal =data[options].call(data,obj)
+
+            return
+
+        retVal
 
     old = $.fn.filetree
 
