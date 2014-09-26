@@ -6,6 +6,31 @@
     return
 )(($) ->
 
+    ###
+        Utility functions
+    ###
+
+    $.fn.check = ->
+        @each(->
+            $(@).prop('indeterminate', false).prop('checked' ,true)
+    )
+
+    $.fn.uncheck = ->
+        @each(->
+            $(@).prop('indeterminate', false).prop('checked' ,false)
+    )
+
+    $.fn.semicheck = ->
+        @each(->
+            $(@).prop('indeterminate', true).prop('checked' ,false)
+    )
+
+    $.fn.togglecheck = ->
+        @each(->
+            e = $(@)
+            e.prop('checked', not e.prop('checked'))
+    )
+
     # Create the defaults once
     defaults =
         data: []
@@ -76,8 +101,7 @@
             $(elem).closest('li').addClass('is-selected')
 
             if @settings.multiselect is true
-                checkbox = $(elem).siblings('input[type=checkbox]')
-                checkbox.prop('checked', not checkbox.prop('checked'))
+                $(elem).siblings('input[type=checkbox]').togglecheck().change()
 
         getSelected: ->
             if @settings.multiselect is true
@@ -296,6 +320,42 @@
                     that._triggerClickEvent.call(@, 'dblclick.file.filetree')
                     event.stopImmediatePropagation()
             )
+
+            if @settings.multiselect is true
+                $root.on(
+                    'change'
+                    'input[type=checkbox]'
+                    (event)->
+                        
+                        $currentNode = $(event.target).closest('li')
+                        
+                        if $currentNode.hasClass('folder') and $currentNode.hasClass('has-children')
+                            ischecked = $currentNode.find('> input[type=checkbox]').prop('checked')
+                            $currentNode
+                                .find('> ul')
+                                .find('input[type=checkbox]')
+                                .prop('checked', ischecked)
+                                .prop('indeterminate', false)
+                            
+                        $currentNode.parentsUntil($root, 'li.folder').each(->
+                            $parentNode = $(@)
+
+                            childNodes = $parentNode.find('> ul').find('input[type=checkbox]')
+                            immediateChild = $parentNode.find('> input[type=checkbox]')
+                            checkedNodes = $parentNode.find('> ul').find('input[type=checkbox]:checked')
+
+                            if checkedNodes.length > 0
+                                immediateChild.semicheck()
+
+                                if checkedNodes.length is childNodes.length
+                                    immediateChild.check()
+
+                            else
+                                immediateChild.uncheck()
+                        )
+                        
+                        event.stopImmediatePropagation()
+                )
 
             return
 
