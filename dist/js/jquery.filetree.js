@@ -32,6 +32,17 @@
       return e.prop('checked', !e.prop('checked'));
     });
   };
+  $.fn.searchide = function(bool) {
+    return this.each(function() {
+      var e;
+      e = $(this);
+      if (bool) {
+        return e.addClass('is-hidden');
+      } else {
+        return e.removeClass('is-hidden');
+      }
+    });
+  };
   defaults = {
     data: [],
     animationSpeed: 400,
@@ -82,6 +93,9 @@
         this._parseTree.call(this, $root);
       }
       this._addListeners();
+      this._data = $.makeArray($root.find('li').map(function(k, v) {
+        return $(v).text().toLowerCase();
+      }));
       data = null;
       return $root;
     };
@@ -129,27 +143,13 @@
     };
 
     FileTree.prototype.search = function(str) {
+      var self;
       str = str.toLowerCase();
-      $(this.element).find('li.file').each(function() {
-        var e, sub;
+      self = this;
+      return $(this.element).find('li').each(function(index, value) {
+        var e;
         e = $(this);
-        sub = e.find('> a').text().toString().toLowerCase();
-        if (sub.indexOf(str) < 0) {
-          return e.addClass('is-hidden');
-        } else {
-          return e.removeClass('is-hidden');
-        }
-      });
-      return $(this.element).find('li.folder').each(function() {
-        var children, e, hidden;
-        e = $(this);
-        children = e.find('> ul').children('li');
-        hidden = e.find('> ul').children('li.is-hidden');
-        if (children.length === hidden.length && children.length > 0) {
-          return e.addClass('is-hidden');
-        } else {
-          return e.removeClass('is-hidden');
-        }
+        return $(value).searchide(self._data[index].indexOf(str) < 0);
       });
     };
 

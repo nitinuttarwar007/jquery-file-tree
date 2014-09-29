@@ -29,7 +29,13 @@
         @each(->
             e = $(@)
             e.prop('checked', not e.prop('checked'))
-    )
+        )
+
+    $.fn.searchide = (bool)->
+        @each(->
+            e = $(@)
+            if bool then e.addClass('is-hidden') else e.removeClass('is-hidden')
+        )
 
     # Create the defaults once
     defaults =
@@ -79,6 +85,12 @@
 
             @_addListeners()
             
+            @._data = $.makeArray($root.find('li').map(
+                    (k,v) ->
+                        $(v).text().toLowerCase()
+                )
+            )
+            
             data = null
 
             return $root
@@ -115,24 +127,11 @@
 
             str = str.toLowerCase()
 
-            $(@element).find('li.file').each( ->
-                e = $(this)
-                sub = e.find('> a').text().toString().toLowerCase()
-                if sub.indexOf(str) < 0
-                    e.addClass('is-hidden')
-                else
-                    e.removeClass('is-hidden')
-            )
+            self = @ 
 
-            $(@element).find('li.folder').each( ->
+            $(@element).find('li').each( (index,value)->
                 e = $(this)
-                children = e.find('> ul').children('li')
-                hidden = e.find('> ul').children('li.is-hidden')
-                #console.log e.find('> a').text(), children.length, hidden.length
-                if children.length is hidden.length and children.length > 0 
-                    e.addClass('is-hidden')
-                else
-                    e.removeClass('is-hidden')
+                $(value).searchide(self._data[index].indexOf(str) < 0)
             )
 
 
