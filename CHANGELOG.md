@@ -21,6 +21,7 @@
 - Added `nodeFormatter` for customizing the tree nodes
 - Added `multiselect` for checkbox selections of file/folders
 - Added `getSelected` method for retrival of selected values if multiselect is enabled
+- Added `search` method
 
 #v0.0.2
 - Added options to automatocally load data via AJAX

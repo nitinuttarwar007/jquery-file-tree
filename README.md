@@ -293,6 +293,13 @@ requires **multiselect** to be `true`
 $('#example').filetree('getSelected')
 ```
 
+###Search
+Filter/Search the stucture
+```js
+$('#example').filetree('search', 'subject to be searched')
+```
+
+
 ###destroy
 Destroys the file tree.
 ```js
@@ -303,4 +310,4 @@ $('#example').filetree('destroy');
 You can find change log [here](CHANGELOG.md)
 
 ##TODO
-- Add <code>append</code> method for appending new nodes to existing nodes
+- Add more options to customize the search behaviour  
