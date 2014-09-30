@@ -192,7 +192,6 @@
                     if item.hasOwnProperty(key) and key isnt 'children'
                         a.data(key, value)
 
-                a = @settings.nodeFormatter.call(null, a)
 
                 if @settings.multiselect is true
                     checkbox = $ document.createElement 'input'
@@ -200,6 +199,7 @@
                     li.append(checkbox)
 
                 li.append(a)
+                li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)
     
                 if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0

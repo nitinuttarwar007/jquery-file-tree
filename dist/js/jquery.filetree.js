@@ -207,12 +207,12 @@
             a.data(key, value);
           }
         }
-        a = this.settings.nodeFormatter.call(null, a);
         if (this.settings.multiselect === true) {
           checkbox = $(document.createElement('input')).attr('type', 'checkbox');
           li.append(checkbox);
         }
         li.append(a);
+        li = this.settings.nodeFormatter.call(null, li);
         ul.append(li);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {
           li.addClass('is-collapsed').addClass('has-children');
