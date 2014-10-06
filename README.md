@@ -115,9 +115,10 @@ The following data formats are in order of precedence
 The response must be a JSON object in a format shown below.
 
 ###JSON
-- <code>name</code> and <code>type</code> keys required for all
-- <code>ext</code> is optional. If provided, a class (with the value of the key) will be added to <code>li</code>. This can be used to customize the folder/file icons
-- <code>children</code> must be provided only for folders
+- `name` and `type` keys required for all
+- `ext` is optional. If provided, a class (with the value of the key) will be added to <code>li</code>. This can be used to customize the folder/file icons
+- `children` must be provided only for folders
+- `readOnly` can be provided as a boolean for disabling select/checkbox on particular folder/file (applicable only when `mutliselect` is `true`)
 ```js
 [
     {
