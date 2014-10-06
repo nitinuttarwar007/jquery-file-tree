@@ -146,11 +146,12 @@
       var self;
       str = str.toLowerCase();
       self = this;
-      return $(this.element).find('li').each(function(index, value) {
+      $(this.element).find('li').each(function(index, value) {
         var e;
         e = $(this);
-        return $(value).searchide(self._data[index].indexOf(str) < 0);
+        $(value).searchide(self._data[index].indexOf(str) < 0);
       });
+      return this;
     };
 
     FileTree.prototype.destroy = function() {

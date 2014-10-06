@@ -132,7 +132,10 @@
             $(@element).find('li').each( (index,value)->
                 e = $(this)
                 $(value).searchide(self._data[index].indexOf(str) < 0)
+                return
             )
+
+            @
 
 
         destroy:()->
