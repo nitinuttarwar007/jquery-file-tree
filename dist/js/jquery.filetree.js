@@ -328,19 +328,19 @@
         return event.stopImmediatePropagation();
       });
       if (this.settings.multiselect === true) {
-        $root.on('change', 'input[type=checkbox]', function(event) {
+        $root.on('change', 'input[type=checkbox]:not([disabled])', function(event) {
           var $currentNode, ischecked;
           $currentNode = $(event.target).closest('li');
           if ($currentNode.hasClass('folder') && $currentNode.hasClass('has-children')) {
-            ischecked = $currentNode.find('> input[type=checkbox]').prop('checked');
-            $currentNode.find('> ul').find('input[type=checkbox]').prop('checked', ischecked).prop('indeterminate', false);
+            ischecked = $currentNode.find('> input[type=checkbox]:not([disabled])').prop('checked');
+            $currentNode.find('> ul').find('input[type=checkbox]:not([disabled])').prop('checked', ischecked).prop('indeterminate', false);
           }
           $currentNode.parentsUntil($root, 'li.folder').each(function() {
             var $parentNode, checkedNodes, childNodes, immediateChild;
             $parentNode = $(this);
-            childNodes = $parentNode.find('> ul').find('input[type=checkbox]');
-            immediateChild = $parentNode.find('> input[type=checkbox]');
-            checkedNodes = $parentNode.find('> ul').find('input[type=checkbox]:checked');
+            childNodes = $parentNode.find('> ul').find('input[type=checkbox]:not([disabled])');
+            immediateChild = $parentNode.find('> input[type=checkbox]:not([disabled])');
+            checkedNodes = $parentNode.find('> ul').find('input[type=checkbox]:not([disabled]):checked');
             if (checkedNodes.length > 0) {
               immediateChild.semicheck();
               if (checkedNodes.length === childNodes.length) {

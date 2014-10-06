@@ -355,25 +355,25 @@
             if @settings.multiselect is true
                 $root.on(
                     'change'
-                    'input[type=checkbox]'
+                    'input[type=checkbox]:not([disabled])'
                     (event)->
                         
                         $currentNode = $(event.target).closest('li')
                         
                         if $currentNode.hasClass('folder') and $currentNode.hasClass('has-children')
-                            ischecked = $currentNode.find('> input[type=checkbox]').prop('checked')
+                            ischecked = $currentNode.find('> input[type=checkbox]:not([disabled])').prop('checked')
                             $currentNode
                                 .find('> ul')
-                                .find('input[type=checkbox]')
+                                .find('input[type=checkbox]:not([disabled])')
                                 .prop('checked', ischecked)
                                 .prop('indeterminate', false)
                             
                         $currentNode.parentsUntil($root, 'li.folder').each(->
                             $parentNode = $(@)
 
-                            childNodes = $parentNode.find('> ul').find('input[type=checkbox]')
-                            immediateChild = $parentNode.find('> input[type=checkbox]')
-                            checkedNodes = $parentNode.find('> ul').find('input[type=checkbox]:checked')
+                            childNodes = $parentNode.find('> ul').find('input[type=checkbox]:not([disabled])')
+                            immediateChild = $parentNode.find('> input[type=checkbox]:not([disabled])')
+                            checkedNodes = $parentNode.find('> ul').find('input[type=checkbox]:not([disabled]):checked')
 
                             if checkedNodes.length > 0
                                 immediateChild.semicheck()
