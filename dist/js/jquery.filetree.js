@@ -210,7 +210,7 @@
         }
         if (this.settings.multiselect === true) {
           checkbox = $(document.createElement('input')).attr('type', 'checkbox');
-          if (!!items.readOnly) {
+          if (!!item.readOnly) {
             checkbox.prop('disabled', true);
             li.addClass('is-read-only');
           }

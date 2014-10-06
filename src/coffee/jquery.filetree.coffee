@@ -199,7 +199,7 @@
                 if @settings.multiselect is true
                     checkbox = $ document.createElement 'input'
                         .attr('type','checkbox')
-                    if not not items.readOnly
+                    if not not item.readOnly
                         checkbox.prop('disabled', true)
                         li.addClass('is-read-only')
                     li.append(checkbox)
