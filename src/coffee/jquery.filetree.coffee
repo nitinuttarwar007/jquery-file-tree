@@ -197,17 +197,6 @@
                         a.data(key, value)
 
 
-                if @settings.multiselect is true
-                    checkbox = $ document.createElement 'input'
-                        .attr('type','checkbox')
-                    if not not item.readOnly
-                        checkbox.prop('disabled', true)
-                        li.addClass('is-read-only')
-                    li.append(checkbox)
-
-                li.append(a)
-                li = @settings.nodeFormatter.call(null, li)
-                ul.append(li)
     
                 if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0
 
@@ -229,6 +218,18 @@
 
                     @_createTree.call(@,li,item.children)
                 
+                if @settings.multiselect is true
+                    checkbox = $ document.createElement 'input'
+                        .attr('type','checkbox')
+                    if not not item.readOnly
+                        checkbox.prop('disabled', true)
+                        li.addClass('is-read-only')
+                    li.prepend(checkbox)
+
+                li.append(a)
+                li = @settings.nodeFormatter.call(null, li)
+                ul.append(li)
+            
             $elem.append(ul)
 
         _openFolder: (elem)->

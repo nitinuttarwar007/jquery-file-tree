@@ -206,17 +206,6 @@
             a.data(key, value);
           }
         }
-        if (this.settings.multiselect === true) {
-          checkbox = $(document.createElement('input')).attr('type', 'checkbox');
-          if (!!item.readOnly) {
-            checkbox.prop('disabled', true);
-            li.addClass('is-read-only');
-          }
-          li.append(checkbox);
-        }
-        li.append(a);
-        li = this.settings.nodeFormatter.call(null, li);
-        ul.append(li);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {
           li.addClass('is-collapsed').addClass('has-children');
           arrow = $(document.createElement('button')).addClass('arrow');
@@ -232,6 +221,17 @@
           }
           this._createTree.call(this, li, item.children);
         }
+        if (this.settings.multiselect === true) {
+          checkbox = $(document.createElement('input')).attr('type', 'checkbox');
+          if (!!item.readOnly) {
+            checkbox.prop('disabled', true);
+            li.addClass('is-read-only');
+          }
+          li.prepend(checkbox);
+        }
+        li.append(a);
+        li = this.settings.nodeFormatter.call(null, li);
+        ul.append(li);
       }
       return $elem.append(ul);
     };
