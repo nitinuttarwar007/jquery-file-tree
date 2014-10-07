@@ -32,17 +32,6 @@
       return e.prop('checked', !e.prop('checked'));
     });
   };
-  $.fn.searchide = function(bool) {
-    return this.each(function() {
-      var e;
-      e = $(this);
-      if (bool) {
-        return e.addClass('is-hidden');
-      } else {
-        return e.removeClass('is-hidden');
-      }
-    });
-  };
   defaults = {
     data: [],
     animationSpeed: 400,
@@ -146,10 +135,19 @@
       var self;
       str = str.toLowerCase();
       self = this;
-      $(this.element).find('li').each(function(index, value) {
-        var e;
-        e = $(this);
-        $(value).searchide(self._data[index].indexOf(str) < 0);
+      $(this.element).find('li').each(function(index, item) {
+        var e, exists;
+        e = $(item);
+        exists = self._data[index].indexOf(str) < 0;
+        if (exists) {
+          if (e.hasClass('folder') && e.find('> ul > li').length > 0) {
+            e.children('li').removeClass('is-hidden');
+          } else {
+            e.addClass('is-hidden');
+          }
+        } else {
+          e.removeClass('is-hidden');
+        }
       });
       return this;
     };

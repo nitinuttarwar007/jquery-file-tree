@@ -31,12 +31,6 @@
             e.prop('checked', not e.prop('checked'))
         )
 
-    $.fn.searchide = (bool)->
-        @each(->
-            e = $(@)
-            if bool then e.addClass('is-hidden') else e.removeClass('is-hidden')
-        )
-
     # Create the defaults once
     defaults =
         data: []
@@ -127,11 +121,18 @@
 
             str = str.toLowerCase()
 
-            self = @ 
+            self = @
 
-            $(@element).find('li').each( (index,value)->
-                e = $(this)
-                $(value).searchide(self._data[index].indexOf(str) < 0)
+            $(@element).find('li').each( (index,item)->
+                e = $(item)
+                exists = self._data[index].indexOf(str) < 0
+                if exists
+                    if e.hasClass('folder') and e.find('> ul > li').length > 0
+                        e.children('li').removeClass('is-hidden')
+                    else 
+                        e.addClass('is-hidden')
+                else
+                    e.removeClass('is-hidden')
                 return
             )
 
