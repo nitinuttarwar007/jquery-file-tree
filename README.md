@@ -32,6 +32,7 @@ $(document).ready(function(){
  Only the following are applicable
   - animationSpeed
   - folderTrigger
+  - multiselect
 
 ##Data format
 The following data formats are in order of precedence

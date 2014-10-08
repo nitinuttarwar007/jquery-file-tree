@@ -358,7 +358,7 @@
     };
 
     FileTree.prototype._parseTree = function(elem) {
-      var $elem, $temp, arrow, children, file, files, item, sublist, _i, _j, _len, _len1;
+      var $elem, $temp, arrow, checkbox, children, file, files, item, sublist, _i, _j, _len, _len1;
       $elem = $(elem);
       $temp = $(document.createElement('span')).insertAfter($elem);
       $elem.detach();
@@ -367,7 +367,7 @@
         file = files[_i];
         sublist = $(file).find("> ul");
         children = $(sublist).find("> li");
-        if (children.length > 0 || file.hasClass('folder')) {
+        if (children.length > 0 || $(file).hasClass('folder')) {
           arrow = $(document.createElement('button')).addClass('arrow');
           $(file).addClass('folder has-children is-collapsed').prepend(arrow);
           for (_j = 0, _len1 = sublist.length; _j < _len1; _j++) {
@@ -376,6 +376,10 @@
           }
         } else {
           $(file).addClass('file');
+        }
+        if (this.settings.multiselect === true) {
+          checkbox = $(document.createElement('input')).attr('type', 'checkbox');
+          $(file).prepend(checkbox);
         }
       }
       $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file');

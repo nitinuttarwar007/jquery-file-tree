@@ -404,15 +404,21 @@
             files = $elem.find("> li")
 
             for file in files
+
                 sublist = $(file).find("> ul")
                 children = $(sublist).find("> li")
                 
-                if children.length > 0 or file.hasClass('folder')
+                if children.length > 0 or $(file).hasClass('folder')
                     arrow = $(document.createElement('button')).addClass('arrow')
                     $(file).addClass('folder has-children is-collapsed').prepend(arrow)
                     @_parseTree item for item in sublist
                 else
                     $(file).addClass('file')
+
+                if @settings.multiselect is true
+                    checkbox = $ document.createElement 'input'
+                        .attr('type','checkbox')
+                    $(file).prepend(checkbox)
 
             $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file')
 
