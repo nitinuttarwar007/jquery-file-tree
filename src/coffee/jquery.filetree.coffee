@@ -407,7 +407,7 @@
                 sublist = $(file).find("> ul")
                 children = $(sublist).find("> li")
                 
-                if children.length > 0
+                if children.length > 0 or file.hasClass('folder')
                     arrow = $(document.createElement('button')).addClass('arrow')
                     $(file).addClass('folder has-children is-collapsed').prepend(arrow)
                     @_parseTree item for item in sublist

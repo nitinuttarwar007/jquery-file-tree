@@ -367,7 +367,7 @@
         file = files[_i];
         sublist = $(file).find("> ul");
         children = $(sublist).find("> li");
-        if (children.length > 0) {
+        if (children.length > 0 || file.hasClass('folder')) {
           arrow = $(document.createElement('button')).addClass('arrow');
           $(file).addClass('folder has-children is-collapsed').prepend(arrow);
           for (_j = 0, _len1 = sublist.length; _j < _len1; _j++) {

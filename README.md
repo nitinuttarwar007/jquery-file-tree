@@ -32,7 +32,7 @@ $(document).ready(function(){
  Only the following are applicable
   - animationSpeed
   - folderTrigger
-  
+
 ##Data format
 The following data formats are in order of precedence
 
@@ -129,7 +129,10 @@ If you need to use an exisiting <code>ul</code> as a filtree, just call filetree
 $('#my-filtree').filtree();
 ```
 
-> Each li will be considered as a file unless it has a non-empty <code>ul</code> as its child or has an attribute of <code>data-type="folder"</code> on its anchor link.
+> Each `li` will be considered as a file unless 
+ - It has a non-empty `ul` as its child 
+ - It has a class `folder`
+ - It has an attribute of `data-type="folder"` on its anchor link.
 
 ##Events
 | event                   | description                                        |
