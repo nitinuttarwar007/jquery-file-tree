@@ -130,6 +130,7 @@ $('#my-filtree').filtree();
 ```
 
 > Each `li` will be considered as a file unless 
+
  - It has a non-empty `ul` as its child 
  - It has a class `folder`
  - It has an attribute of `data-type="folder"` on its anchor link.
