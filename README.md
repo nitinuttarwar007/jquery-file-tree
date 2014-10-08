@@ -10,22 +10,22 @@ $(document).ready(function(){
 });
 ```
 ##Options
-| option          |  type    | default                        | descrpition                                                                                                                                                          |
-|-----------------|----------|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| data            | object   | []                             | The Data that is to be displayed                                                                                                                                     |
-| animationSpeed  | integer  | 400                            | Duration of sliding animation in *milliseconds*                                                                                                                      |
-| folderTrigger   | string   | click                          | Mouse event, on which a folder expansion must be triggered. Initial support for `click` and `dblclick` only                                                          |
-| hideFiles       | boolean  | false                          | Hides files and displays only folders                                                                                                                                |
-| multiselect     | boolean  | false                          | Enable checkboxes for selecting multiple files/folders                                                                                                               |
-| fileNodeName    | string   | name                           | The key whose value is to be used for display text for files                                                                                                         |
-| fileNodeTitle   | string   | name                           | The key whose value is to be used for title attribute in anchor link for files                                                                                       |
-| folderNodeName  | string   | name                           | The key whose value is to be used for display text for folders                                                                                                       |
-| folderNodeTitle | string   | name                           | The key whose value is to be used for title attribute in anchor link for folders                                                                                     |
-| nodeFormatter   | function | function(node){ return node; } | A function that can be used to customize a node. This can be used to add extra classes depending on associated data<br> **Note: Remember to return the node at end** |
-| ajax            | boolean  | false                          | Determines if data is to be fetched via AJAX                                                                                                                         |
-| url             | string   | "./"                           | URL to be used for ajax call                                                                                                                                         |
-| requestSettings | object   | {}                             | `$.ajax` [settings](http://api.jquery.com/jquery.ajax/) that are to be used while making the ajax call                                                               |
-| responseHandler | function | function(data){ return data; } | A function that can be used to customize the ajax response data.<br> **Note: Remember to return data at end**                                                        |
+| option          |  type    | default                                            | descrpition                                                                                                                                                          |
+|-----------------|----------|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| data            | object   | []                                                 | The Data that is to be displayed                                                                                                                                     |
+| animationSpeed  | integer  | 400                                                | Duration of sliding animation in *milliseconds*                                                                                                                      |
+| folderTrigger   | string   | click                                              | Mouse event, on which a folder expansion must be triggered. Initial support for `click` and `dblclick` only                                                          |
+| hideFiles       | boolean  | false                                              | Hides files and displays only folders                                                                                                                                |
+| multiselect     | boolean  | false                                              | Enable checkboxes for selecting multiple files/folders                                                                                                               |
+| fileNodeName    | string   | name                                               | The key whose value is to be used for display text for files                                                                                                         |
+| fileNodeTitle   | string   | name                                               | The key whose value is to be used for title attribute in anchor link for files                                                                                       |
+| folderNodeName  | string   | name                                               | The key whose value is to be used for display text for folders                                                                                                       |
+| folderNodeTitle | string   | name                                               | The key whose value is to be used for title attribute in anchor link for folders                                                                                     |
+| nodeFormatter   | function | function(node){ <br>&nbsp;&nbsp;return node; <br>} | A function that can be used to customize a node. This can be used to add extra classes depending on associated data<br> **Note: Remember to return the node at end** |
+| ajax            | boolean  | false                                              | Determines if data is to be fetched via AJAX                                                                                                                         |
+| url             | string   | "./"                                               | URL to be used for ajax call                                                                                                                                         |
+| requestSettings | object   | {}                                                 | `$.ajax` [settings](http://api.jquery.com/jquery.ajax/) that are to be used while making the ajax call                                                               |
+| responseHandler | function | function(data){ <br>&nbsp;&nbsp;return data; <br>} | A function that can be used to customize the ajax response data.<br> **Note: Remember to return data at end**                                                        |
 
  > Not all the options mentioned above are applicable on DOM source
 
@@ -41,7 +41,7 @@ The response must be a JSON object in a format shown below.
 
 ###JSON
 - `name` and `type` keys required for all
-- `ext` is optional. If provided, a class (with the value of the key) will be added to <code>li</code>. This can be used to customize the folder/file icons
+- `ext` is optional. If provided, a class (with the value of the key) will be added to `li`. This can be used to customize the folder/file icons
 - `children` must be provided only for folders
 - `readOnly` can be provided as a boolean for disabling select/checkbox on particular folder/file (applicable only when `mutliselect` is `true`)
 ```js
@@ -95,10 +95,10 @@ The response must be a JSON object in a format shown below.
     }
 ]
 ```
-> **Note**: Any extra information passed is bound on the respective anchor using <code>$('a').data(key,value)</code>. Hence, it can be retreived using <code>$(event.target).data(key)</code> on any of the events mentioned below.
+> **Note**: Any extra information passed is bound on the respective anchor using `$('a').data(key,value)`. Hence, it can be retreived using `$(event.target).data(key)` on any of the events mentioned below.
 
 ###DOM
-If you need to use an exisiting <code>ul</code> as a filtree, just call filetree method on it without specifying the data.
+If you need to use an exisiting `ul` as a filtree, just call filetree method on it without specifying the data.
 ```html
 <ul id="my-filetree">
     <li><a href="#">Folder A</a>
@@ -129,8 +129,7 @@ If you need to use an exisiting <code>ul</code> as a filtree, just call filetree
 $('#my-filtree').filtree();
 ```
 
-> Each `li` will be considered as a file unless 
-
+Each `li` will be considered as a file unless:
  - It has a non-empty `ul` as its child 
  - It has a class `folder`
  - It has an attribute of `data-type="folder"` on its anchor link.
@@ -209,4 +208,4 @@ $('#example').filetree('destroy');
 You can find change log [here](CHANGELOG.md)
 
 ##TODO
-- Add more options to customize the search behaviour  
+- Add more options to customize the search behaviour
