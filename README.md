@@ -10,104 +10,29 @@ $(document).ready(function(){
 });
 ```
 ##Options
-<table>
-    <thead>
-        <tr>
-            <th>option</th>
-            <th>type</th>
-            <th>default</th>
-            <th>description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>data</td>
-            <td>object</td>
-            <td>[ ]</td>
-            <td>The Data that is to be displayed</td>
-        </tr>
-        <tr>
-            <td>animationSpeed</td>
-            <td>integer</td>
-            <td>400</td>
-            <td>Duration of sliding animation in <em>milliseconds</em></td>
-        </tr>
-        <tr>
-            <td>folderTrigger</td>
-            <td>string</td>
-            <td>click</td>
-            <td>Mouse event, on which a folder expansion must be triggered. Initial support for <code>click</code> and <code>dblclick</code> only</td>
-        </tr>
-        <tr>
-            <td>hideFiles</td>
-            <td>boolean</td>
-            <td>false</td>
-            <td>Hides files and displays only folders</td>
-        </tr>
-        <tr>
-            <td>multiselect</td>
-            <td>boolean</td>
-            <td>false</td>
-            <td>Enable checkboxes for selecting multiple files/folders</td>
-        </tr>
-        <tr>
-            <td>fileNodeName</td>
-            <td>string</td>
-            <td>'name'</td>
-            <td>The key whose value is to be used for display text for files</td>
-        </tr>
-        <tr>
-            <td>fileNodeTitle</td>
-            <td>string</td>
-            <td>'name'</td>
-            <td>The key whose value is to be used for title attribute in anchor link for files</td>
-        </tr>
-        <tr>
-            <td>folderNodeName</td>
-            <td>string</td>
-            <td>'name'</td>
-            <td>The key whose value is to be used for display text for folders</td>
-        </tr>
-        <tr>
-            <td>folderNodeTitle</td>
-            <td>string</td>
-            <td>'name'</td>
-            <td>The key whose value is to be used for title attribute in anchor link for folders</td>
-        </tr>
-        <tr>
-            <td>nodeFormatter</td>
-            <td>function</td>
-            <td>function(node){ return node; }</td>
-            <td>A function that can be used to customize a node. This can be used to add extra classes depending on associated data<b>Note: Remember to return the node at end</b></td>
-        </tr>
-        <tr>
-            <td>ajax</td>
-            <td>boolean</td>
-            <td>false</td>
-            <td>Determines if data is to be fetched via AJAX</td>
-        </tr>
-        <tr>
-            <td>url</td>
-            <td>string</td>
-            <td>"./"</td>
-            <td>URL to be used for ajax call</td>
-        </tr>
-        <tr>
-            <td>requestSettings</td>
-            <td>object</td>
-            <td>{}</td>
-            <td><code>$.ajax</code> <a href="http://api.jquery.com/jquery.ajax/">settings</a> that are to be used while making the ajax call</td>
-        </tr>
-        <tr>
-            <td>responseHandler</td>
-            <td>function</td>
-            <td>function(data){ return data; }</td>
-            <td>A function that can be used to customize the ajax response data. <b>Note: Remember to return data at end</b></td>
-        </tr>
+| option          |  type    | default                        | descrpition                                                                                                                                                          |
+|-----------------|----------|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| data            | object   | []                             | The Data that is to be displayed                                                                                                                                     |
+| animationSpeed  | integer  | 400                            | Duration of sliding animation in *milliseconds*                                                                                                                      |
+| folderTrigger   | string   | click                          | Mouse event, on which a folder expansion must be triggered. Initial support for `click` and `dblclick` only                                                          |
+| hideFiles       | boolean  | false                          | Hides files and displays only folders                                                                                                                                |
+| multiselect     | boolean  | false                          | Enable checkboxes for selecting multiple files/folders                                                                                                               |
+| fileNodeName    | string   | name                           | The key whose value is to be used for display text for files                                                                                                         |
+| fileNodeTitle   | string   | name                           | The key whose value is to be used for title attribute in anchor link for files                                                                                       |
+| folderNodeName  | string   | name                           | The key whose value is to be used for display text for folders                                                                                                       |
+| folderNodeTitle | string   | name                           | The key whose value is to be used for title attribute in anchor link for folders                                                                                     |
+| nodeFormatter   | function | function(node){ return node; } | A function that can be used to customize a node. This can be used to add extra classes depending on associated data<br> **Note: Remember to return the node at end** |
+| ajax            | boolean  | false                          | Determines if data is to be fetched via AJAX                                                                                                                         |
+| url             | string   | "./"                           | URL to be used for ajax call                                                                                                                                         |
+| requestSettings | object   | {}                             | `$.ajax` [settings](http://api.jquery.com/jquery.ajax/) that are to be used while making the ajax call                                                               |
+| responseHandler | function | function(data){ return data; } | A function that can be used to customize the ajax response data.<br> **Note: Remember to return data at end**                                                        |
 
-    </tbody>
-</table>
+ > Not all the options mentioned above are applicable on DOM source
 
+ Only the following are applicable
+  - animationSpeed
+  - folderTrigger
+  
 ##Data format
 The following data formats are in order of precedence
 
@@ -207,48 +132,17 @@ $('#my-filtree').filtree();
 > Each li will be considered as a file unless it has a non-empty <code>ul</code> as its child or has an attribute of <code>data-type="folder"</code> on its anchor link.
 
 ##Events
-<table>
-    <thead>
-        <tr>
-            <th>event</th>
-            <th>description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>open.folder.filtree</td>
-            <td>Fired when a folder is being opended/expanded</td>
-        </tr>
-        <tr>
-            <td>opened.folder.filtree</td>
-            <td>Fired when a folder is completely opended/expanded</td>
-        </tr>
-        <tr>
-            <td>close.folder.filtree</td>
-            <td>Fired when a folder is being closed/collapsed</td>
-        </tr>
-        <tr>
-            <td>closed.folder.filtree</td>
-            <td>Fired when a folder is completely closed/collapsed</td>
-        </tr>
-        <tr>
-            <td>click.folder.filtree</td>
-            <td>Fired when a folder is clicked</td>
-        </tr>
-        <tr>
-            <td>click.file.filtree</td>
-            <td>Fired when a file is clicked</td>
-        </tr>
-        <tr>
-            <td>dblclick.folder.filtree</td>
-            <td>Fired when a folder is double-clicked</td>
-        </tr>
-        <tr>
-            <td>dblclick.file.filtree</td>
-            <td>Fired when a file is double-clicked</td>
-        </tr>
-    </tbody>
-</table>
+| event                   | description                                        |
+|-------------------------|----------------------------------------------------|        
+| open.folder.filtree     | Fired when a folder is being opended/expanded      |
+| opened.folder.filtree   | Fired when a folder is completely opended/expanded |
+| close.folder.filtree    | Fired when a folder is being closed/collapsed      |
+| closed.folder.filtree   | Fired when a folder is completely closed/collapsed |
+| click.folder.filtree    | Fired when a folder is clicked                     |
+| click.file.filtree      | Fired when a file is clicked                       |
+| dblclick.folder.filtree | Fired when a folder is double-clicked              |
+| dblclick.file.filtree   | Fired when a file is double-clicked                |
+
 
 > Event handler takes two parameters: event and data
 
