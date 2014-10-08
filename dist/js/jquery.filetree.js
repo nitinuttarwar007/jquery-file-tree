@@ -206,6 +206,7 @@
             a.data(key, value);
           }
         }
+        li.append(a);
         if (item.type === 'folder' && typeof item.children !== 'undefined' && item.children.length > 0) {
           li.addClass('is-collapsed').addClass('has-children');
           arrow = $(document.createElement('button')).addClass('arrow');
@@ -229,7 +230,6 @@
           }
           li.prepend(checkbox);
         }
-        li.append(a);
         li = this.settings.nodeFormatter.call(null, li);
         ul.append(li);
       }

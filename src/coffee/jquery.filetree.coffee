@@ -197,7 +197,9 @@
                         a.data(key, value)
 
 
+                li.append(a)
     
+                
                 if item.type is 'folder' and typeof item.children isnt 'undefined' and item.children.length > 0
 
                     li.addClass('is-collapsed').addClass('has-children')
@@ -226,7 +228,6 @@
                         li.addClass('is-read-only')
                     li.prepend(checkbox)
 
-                li.append(a)
                 li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)
             
