@@ -398,6 +398,8 @@
 
         _parseTree: (elem)->
             $elem = $(elem)
+            $temp = $(document.createElement('span')).insertAfter($elem)
+            $elem.detach()
 
             files = $elem.find("> li")
 
@@ -413,6 +415,10 @@
                     $(file).addClass('file')
 
             $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file')
+
+            $elem.insertBefore $temp
+            $temp.remove()
+
 
         _nameSort:(a,b)->
             if a.name.toLowerCase() < b.name.toLowerCase()

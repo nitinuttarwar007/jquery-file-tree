@@ -358,8 +358,10 @@
     };
 
     FileTree.prototype._parseTree = function(elem) {
-      var $elem, arrow, children, file, files, item, sublist, _i, _j, _len, _len1;
+      var $elem, $temp, arrow, children, file, files, item, sublist, _i, _j, _len, _len1;
       $elem = $(elem);
+      $temp = $(document.createElement('span')).insertAfter($elem);
+      $elem.detach();
       files = $elem.find("> li");
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
@@ -376,7 +378,9 @@
           $(file).addClass('file');
         }
       }
-      return $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file');
+      $elem.find('li > a[data-type=folder]').closest('li').addClass('folder').removeClass('file');
+      $elem.insertBefore($temp);
+      return $temp.remove();
     };
 
     FileTree.prototype._nameSort = function(a, b) {
