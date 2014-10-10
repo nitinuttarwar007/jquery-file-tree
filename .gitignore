@@ -7,6 +7,7 @@ pids
 *.pid
 *.seed
 *.glue
+*.cache
 
 # Dependency directory
 # Deployed apps should consider commenting this line out:
