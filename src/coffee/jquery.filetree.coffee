@@ -37,6 +37,7 @@
         animationSpeed : 400
         folderTrigger: "click"
         multiselect: false
+        hierarchy: true
         hideFiles: false
         fileContainer: null
         fileNodeName: 'name'
@@ -358,7 +359,7 @@
                     event.stopImmediatePropagation()
             )
 
-            if @settings.multiselect is true
+            if @settings.multiselect and @settings.hierarchy
                 $root.on(
                     'change'
                     'input[type=checkbox]:not([disabled])'

@@ -37,6 +37,7 @@
     animationSpeed: 400,
     folderTrigger: "click",
     multiselect: false,
+    hierarchy: true,
     hideFiles: false,
     fileContainer: null,
     fileNodeName: 'name',
@@ -329,7 +330,7 @@
         that._triggerClickEvent.call(this, 'dblclick.file.filetree');
         return event.stopImmediatePropagation();
       });
-      if (this.settings.multiselect === true) {
+      if (this.settings.multiselect && this.settings.hierarchy) {
         $root.on('change', 'input[type=checkbox]:not([disabled])', function(event) {
           var $currentNode, ischecked;
           $currentNode = $(event.target).closest('li');
