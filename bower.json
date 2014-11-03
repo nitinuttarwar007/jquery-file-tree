@@ -1,0 +1,38 @@
+{
+  "name": "jquery-file-tree",
+  "version": "0.1.0",
+  "homepage": "https://github.com/vkbansal/jquery-file-tree",
+  "authors": [
+    "Vivek Kumar Bansal <vivek@helicaltech.com>"
+  ],
+  "description": "Filetree Structure",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "main": [
+    "dist/js/jquery.filetree.js",
+    "dist/js/jquery.filetree.min.js",
+    "dist/css/filetree.css"
+  ],
+  "keywords": [
+    "filetree",
+    "tree",
+    "jquery",
+    "plugin"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "font-awesome": "~4.2.0",
+    "bootstrap": "~3.3.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
