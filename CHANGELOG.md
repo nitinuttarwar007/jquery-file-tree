@@ -1,6 +1,6 @@
 #Change Log
 
-##master
+##v0.1.0
 
 ###breaking changes
 - Renamed Classes
