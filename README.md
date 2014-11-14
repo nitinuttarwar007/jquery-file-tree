@@ -17,35 +17,153 @@ Download [zip](https://github.com/vkbansal/jquery-file-tree/archive/master.zip)
 ```js
 $(document).ready(function(){
 
-    $('#example').filtree([options]);
+    $('#example').filtree(options);
     
 });
 ```
 ##Options
-| option          |  type    | default                                            | descrpition                                                                                                                                                          |
-|-----------------|----------|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| data            | object   | []                                                 | The Data that is to be displayed                                                                                                                                     |
-| animationSpeed  | integer  | 400                                                | Duration of sliding animation in *milliseconds*                                                                                                                      |
-| folderTrigger   | string   | click                                              | Mouse event, on which a folder expansion must be triggered. Initial support for `click` and `dblclick` only                                                          |
-| hideFiles       | boolean  | false                                              | Hides files and displays only folders                                                                                                                                |
-| multiselect     | boolean  | false                                              | Enable checkboxes for selecting multiple files/folders                                                                                                               |
-| hierarchy       | boolean  | true                                               | Enable hierarchial selection of checkboxes. Requires **multiselect** to be `true`                                                                                    |
-| fileNodeName    | string   | name                                               | The key whose value is to be used for display text for files                                                                                                         |
-| fileNodeTitle   | string   | name                                               | The key whose value is to be used for title attribute in anchor link for files                                                                                       |
-| folderNodeName  | string   | name                                               | The key whose value is to be used for display text for folders                                                                                                       |
-| folderNodeTitle | string   | name                                               | The key whose value is to be used for title attribute in anchor link for folders                                                                                     |
-| nodeFormatter   | function | function(node){ <br>&nbsp;&nbsp;return node; <br>} | A function that can be used to customize a node. This can be used to add extra classes depending on associated data<br> **Note: Remember to return the node at end** |
-| ajax            | boolean  | false                                              | Determines if data is to be fetched via AJAX                                                                                                                         |
-| url             | string   | "./"                                               | URL to be used for ajax call                                                                                                                                         |
-| requestSettings | object   | {}                                                 | `$.ajax` [settings](http://api.jquery.com/jquery.ajax/) that are to be used while making the ajax call                                                               |
-| responseHandler | function | function(data){ <br>&nbsp;&nbsp;return data; <br>} | A function that can be used to customize the ajax response data.<br> **Note: Remember to return data at end**                                                        |
+**options.data**
 
- > Not all the options mentioned above are applicable on DOM source
+Type: *Array*
 
- Only the following are applicable
-  - animationSpeed
-  - folderTrigger
-  - multiselect
+The Data to be displayed
+
+**options.ajax**
+
+Type: *Boolean*
+
+Default: `false`
+
+Determines if data is to be fetched via AJAX
+
+**options.url**
+
+Type: *String*
+
+Default: `"./"`
+
+URL to be used for ajax call
+
+**options.requestSettings**
+
+Type: *Object*
+
+Default: `{}`
+
+`$.ajax` [settings](http://api.jquery.com/jquery.ajax/) that are to be used while making the ajax call
+
+**options.responseHandler**
+
+Type: *Function*
+
+Default:
+```js
+function(data){
+    return data;
+}
+```
+A function that can be used to customize the ajax response data.<br> **Note: Remember to return data at end**
+
+**options.animationSpeed**
+
+Type: *Number* 
+
+Default: `400`
+
+Duration of sliding animation in *milliseconds*                                                                                                                      |
+**options.hideFiles**
+
+Type: *Boolean*  
+
+Default: `false`
+
+Hides files and displays only folders
+
+**options.fileNodeName**
+
+Type: *String*
+
+Default: `'name'`
+
+The key whose value is to be used for display text for files
+
+**options.folderNodeName**
+
+Type: *String*
+
+Default: `'name'`
+
+The key whose value is to be used for display text for folders
+
+**options.fileNodeTitle**
+
+Type: *String*
+
+Default: `'name'`
+
+The key whose value is to be used for title attribute in anchor link for files
+
+**options.folderNodeTitle**
+
+Type: *String*
+
+Default: `'name'`
+
+The key whose value is to be used for title attribute in anchor link for folders
+
+**options.nodeFormatter**
+
+Type: *Function*
+
+Default: 
+```js
+function(node){
+    return node;
+}
+```
+A function that can be used to customize a node. This can be used to add extra classes depending on associated data<br> **Note: Remember to return the node at end**
+
+**options.columnView**
+
+Type: *Boolean*
+
+Default: `false`
+
+If true, uses mac like columns view
+
+**options.dblclickDelay**
+
+Type: *Number*
+
+Default: `300`
+
+Interval (in milliseconds) within which double click must be registered
+
+**options.classes.arrow**
+
+Type: *String*
+
+Default: `"glyphicon glyphicon-chevron-right"`
+
+The class to be used by arrow
+
+**options.checkboxes**
+
+Type: *Boolean*
+
+Default: `false`
+
+Enable checkboxes for selecting multiple files/folders. Only applicable in list/tree mode.
+
+**options.hierarchialCheck**
+
+Type: *Boolean*
+
+Default: `true`
+
+Enable hierarchial selection of checkboxes. Requires **multiselect** to be `true`
+
+> Not all the options mentioned above are applicable on DOM source
 
 ##Data format
 The following data formats are in order of precedence
@@ -111,65 +229,28 @@ The response must be a JSON object in a format shown below.
 ```
 > **Note**: Any extra information passed is bound on the respective anchor using `$('a').data(key,value)`. Hence, it can be retreived using `$(event.target).data(key)` on any of the events mentioned below.
 
-###DOM
-If you need to use an exisiting `ul` as a filtree, just call filetree method on it without specifying the data.
-```html
-<ul id="my-filetree">
-    <li><a href="#">Folder A</a>
-        <ul>
-            <li><a href="#">Folder AA</a>
-                <ul>
-                    <li><a href="#">File 003</a></li>
-                    <li><a href="#">File 004</a></li>
-                </ul>
-            </li>
-            <li><a href="#">File 001</a></li>
-            <li><a href="#">File 002</a></li>
-        </ul>
-    </li>
-    <li><a href="#">Folder B</a>
-        <ul>
-            <li>
-                <a href="#" data-type="folder">Folder B</a>
-            </li>
-            <li><a href="#">File 01</a></li>
-            <li><a href="#">File 02</a></li>
-        </ul>
-    </li>
-</ul>
-```
-
-```js
-$('#my-filtree').filtree();
-```
-
-Each `li` will be considered as a file unless:
- - It has a non-empty `ul` as its child 
- - It has a class `folder`
- - It has an attribute of `data-type="folder"` on its anchor link.
-
 ##Events
-| event                   | description                                        |
-|-------------------------|----------------------------------------------------|        
-| open.folder.filtree     | Fired when a folder is being opended/expanded      |
-| opened.folder.filtree   | Fired when a folder is completely opended/expanded |
-| close.folder.filtree    | Fired when a folder is being closed/collapsed      |
-| closed.folder.filtree   | Fired when a folder is completely closed/collapsed |
-| click.folder.filtree    | Fired when a folder is clicked                     |
-| click.file.filtree      | Fired when a file is clicked                       |
-| dblclick.folder.filtree | Fired when a folder is double-clicked              |
-| dblclick.file.filtree   | Fired when a file is double-clicked                |
+| event                   | fired when                              |
+|-------------------------|-----------------------------------------|        
+| folder.open.filtree     | A folder is being opended/expanded      |
+| folder.opened.filtree   | A folder is completely opended/expanded |
+| folder.close.filtree    | A folder is being closed/collapsed      |
+| folder.closed.filtree   | A folder is completely closed/collapsed |
+| folder.click.filtree    | A folder is clicked                     |
+| file.click.filtree      | A file is clicked                       |
+| folder.dblclick.filtree | A folder is double-clicked              |
+| file.dblclick.filtree   | A file is double-clicked                |
 
 
 > Event handler takes two parameters: event and data
 
 ##Methods
-Following methods can be used in conjunction to the events mentioned above
+Following methods can be used in along the events mentioned above
 
 ###open
 Opens a folder
 ```js
-$('#example').on('click.folder.filetree', function(e){
+$('#example').on('folder.click.filetree', function(e){
    $(this).filetree('open', e.target); 
 });
 ```
@@ -177,40 +258,61 @@ $('#example').on('click.folder.filetree', function(e){
 ###close
 Closes a folder
 ```js
-$('#example').on('click.folder.filetree', function(e){
+$('#example').on('folder.click.filetree', function(e){
    $(this).filetree('close', e.target); 
 });
 ```
 
 ###toggle
-Toggles a folder
+Toggles a folder. Applicable only in list view.
 ```js
-$('#example').on('click.folder.filetree', function(e){
+$('#example').on('folder.click.filetree', function(e){
    $(this).filetree('toggle', e.target); 
 });
 ```
 
 ###select
-Selects a file/folder
+Selects a file/folder. It applies `.active` to parent `li`.
 ```js
-$('#example').on('click.folder.filetree click.file.filetree', function(e){
+$('#example').on('folder.click.filetree file.click.filetree', function(e){
    $(this).filetree('select', e.target);
 });
 ```
 
 ###getSelected
-Returns an array of selected elements where each element is a `jQuery Object`
-requires **multiselect** to be `true`
+Returns an array of selected elements where each element is a `HTMLObject`. Requires **multiselect** to be `true`. Applicable only in list view.
 ```js
-$('#example').filetree('getSelected')
+$('#example').filetree('getSelected');
+```
+###getActivePath
+Gives current active path based on `.active`.
+```js
+$('#example').filetree('getActivePath');
 ```
 
-###Search
-Filter/Search the stucture
+###expandTo
+Expands structure to given path. Throws an `error` if given path is invalid.
 ```js
-$('#example').filetree('search', 'subject to be searched')
+$('#example').filetree('expandTo', 'path/to/expand');
 ```
 
+###expandAll
+Expands entire structure. Applicable only in list view.
+```js
+$('#example').filetree('expandAll');
+```
+
+###collapseAll
+Expands entire structure. Applicable only in list view.
+```js
+$('#example').filetree('collapseAll');
+```
+
+###search
+Filter/Search the stucture. **experimental**
+```js
+$('#example').filetree('search', 'subject to be searched');
+```
 
 ###destroy
 Destroys the file tree.
@@ -220,6 +322,3 @@ $('#example').filetree('destroy');
 
 ##Changelog
 You can find change log [here](CHANGELOG.md)
-
-##TODO
-- Add more options to customize the search behaviour

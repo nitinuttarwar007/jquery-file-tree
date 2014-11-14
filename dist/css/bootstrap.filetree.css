@@ -1,0 +1,138 @@
+.file-tree .arrow {
+  background: transparent;
+  color: #555555;
+  border: none;
+  outline: none;
+}
+.file-tree .active .arrow {
+  color: #ffffff;
+}
+.file-tree .list-group-item {
+  border-radius: 0;
+}
+.list-group {
+  margin-bottom: 0;
+}
+.list-group .list-group-item {
+  border-width: 1px 0;
+}
+.list-group .list-group-item:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+.list-group .list-group {
+  margin: 0;
+  margin-top: 10px;
+  padding-left: 0;
+}
+.list-group-item {
+  border-radius: 0;
+}
+.list-group-item li.list-group-item {
+  margin: 0 -15px;
+  border-top: 1px solid #dddddd;
+  border-bottom: 0;
+  padding-left: 40px;
+}
+.list-group-item.active > a {
+  color: #fff;
+}
+.folder > a,
+.file > a {
+  color: #555555;
+  display: inline-block;
+  position: relative;
+}
+.folder > a:hover,
+.file > a:hover {
+  color: #555555;
+  text-decoration: none;
+  background: #f5f5f5;
+}
+.folder > a:before,
+.file > a:before {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: 5px;
+}
+.folder.active > a,
+.file.active > a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.folder.active > a:hover,
+.file.active > a:hover {
+  color: #ffffff;
+  background: #337ab7;
+}
+.folder > input[type=checkbox],
+.file > input[type=checkbox] {
+  margin-right: 5px;
+}
+li.file > a:before {
+  content: "\e022";
+}
+li.folder > a:before {
+  content: "\e117";
+}
+li.folder.is-expanded > a:before {
+  content: "\e118";
+}
+li.folder.is-collapsed > ul,
+li.folder > div.columns {
+  display: none;
+}
+.list-group-item .list-group-item.file {
+  padding-left: 65px;
+}
+.file-tree-columns {
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 300px;
+}
+.file-tree-columns .arrow {
+  float: right;
+}
+.file-tree-columns .list-group-item {
+  padding: 0;
+}
+.file-tree-columns a {
+  padding: 10px 15px;
+  width: 100%;
+}
+.columns > .list-group {
+  overflow-y: auto;
+  height: 100%;
+}
+.list-group-wrapper {
+  display: table;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 100%;
+}
+.list-group-wrapper > .columns {
+  min-width: 200px;
+  display: table-cell;
+  height: 100%;
+  overflow-y: hidden;
+  border-color: #dddddd;
+  border-style: solid;
+  border-width: 0px 1px 1px 0;
+}
+.list-group-wrapper > .columns:first-child {
+  border-width: 0px 1px 1px 1px;
+}
+.list-group-wrapper > .columns.empty {
+  padding: 10px;
+  color: #777777;
+  background: #eeeeee;
+  text-align: center;
+  border-width: 1px 1px 1px 0;
+}

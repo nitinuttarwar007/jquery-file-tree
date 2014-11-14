@@ -1,0 +1,171 @@
+@import (reference) "../../bower_components/bootstrap/less/variables.less";
+@import (reference) "../../bower_components/bootstrap/less/glyphicons.less";
+
+.file-tree {
+
+    .arrow {
+        background: transparent;
+        color: @list-group-link-color;
+        border: none;
+        outline: none;
+
+    }
+
+    .active .arrow {
+        color: @list-group-active-color;
+    }
+
+    .list-group-item {
+        border-radius:0;
+    }
+
+}
+
+.list-group {
+
+    margin-bottom: 0;
+    
+    .list-group-item {
+        border-width: 1px 0;
+
+        &:first-child{
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+    }
+
+    & & {
+        margin: 0;
+        margin-top: 10px; 
+        padding-left: 0;
+    }
+}
+
+.list-group-item {
+    border-radius:0;
+    
+    li.list-group-item {
+        margin: 0 -15px;
+        border-top: 1px solid @list-group-border;
+        border-bottom: 0;
+        padding-left: 40px;
+    }
+
+    &.active > a{
+        color: #fff;
+    }
+}
+
+
+.folder, .file {
+    & > a {
+        color: @list-group-link-color;
+        display: inline-block;
+        position: relative;
+        
+        &:hover{
+            color: @list-group-link-hover-color;
+            text-decoration: none;
+            background: @list-group-hover-bg;
+        }
+
+        &:before{
+            .glyphicon;
+            margin-right: 5px;
+        }
+    }
+
+    &.active > a {
+        color: @list-group-active-color;
+        text-decoration: none;
+
+        &:hover{
+            color: @list-group-active-color;
+            background: @list-group-active-bg;
+        }
+    }
+
+    & > input[type=checkbox]{
+        margin-right: 5px;
+    }
+}
+
+
+li.file {
+   & > a {
+        .glyphicon-file;
+    }
+}
+
+
+li.folder{
+    
+    & > a {
+        .glyphicon-folder-close;
+    }
+
+    &.is-expanded > a {
+        .glyphicon-folder-open;
+    }
+    
+    &.is-collapsed > ul, & > div.columns {
+        display: none;
+    }
+}
+
+.list-group-item .list-group-item.file{
+    padding-left: 65px;
+}
+
+.file-tree-columns{
+    overflow-y: hidden;
+    overflow-x: auto;
+    height: 300px;
+
+    .arrow {
+        float: right;
+    }
+
+    .list-group-item {
+        padding: 0;
+    }
+
+    a {
+        padding: 10px 15px;
+        width: 100%;
+    }
+}
+
+.columns > .list-group{
+    overflow-y: auto;
+    height: 100%;
+}
+
+.list-group-wrapper{
+    display: table;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 100%;
+    
+    & > .columns{
+        min-width: 200px;
+        display: table-cell;
+        height: 100%;
+        overflow-y: hidden;
+        border-color: @list-group-border;
+        border-style: solid;
+        border-width: 0px 1px 1px 0;
+        
+        &:first-child{
+            border-width: 0px 1px 1px 1px;
+        }
+        
+        &.empty{
+            padding: 10px;
+            color: @list-group-disabled-color;
+            background: @list-group-disabled-bg;
+            text-align: center;
+            border-width: 1px 1px 1px 0;
+        }
+    }
+}

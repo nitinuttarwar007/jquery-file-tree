@@ -1,38 +1,44 @@
 var gulp = require('gulp'),
-    coffee = require('gulp-coffee'),
-    gutil = require('gulp-util'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename')
-    less = require('gulp-less'),
-    minify = require('gulp-minify-css'),
-    lr = require('gulp-livereload');
+    pack = require('path').join(process.cwd(), 'package.json'),
+    $ = require('gulp-load-plugins')({
+        pattern : 'gulp-*',
+        config: pack,
+        scope: ['devDependencies'],
+        replaceString: 'gulp-',
+        camelize: true,
+        lazy: true
+        
+    });
 
-    
 gulp.task('coffee', function () {
     return gulp.src('./src/coffee/*.coffee')
-        .pipe(coffee({bare : true })).on('error', gutil.log)
+        .pipe($.coffeelint())
+        .pipe($.coffeelint.reporter())
+        .pipe($.coffee({bare : true })).on('error', $.util.log)
+        //.pipe($.indent({amount:4}))
         .pipe(gulp.dest('./dist/js/'))
-        .pipe(uglify())
-        .pipe(rename({suffix : '.min'}))
+        .pipe($.jshint())
+        .pipe($.uglify())
+        .pipe($.rename({suffix : '.min'}))
         .pipe(gulp.dest('./dist/js/'))
-        .pipe(lr({auto: false}));
+        .pipe($.livereload({auto: false}));
 });
 
 gulp.task('less', function () {
     return gulp.src('./src/less/*.less')
-        .pipe(less()).on('error', gutil.log)
+        .pipe($.less()).on('error', $.util.log)
         .pipe(gulp.dest('./dist/css/'))
-        .pipe(minify())
-        .pipe(rename({suffix : '.min'}))
+        .pipe($.minifyCss())
+        .pipe($.rename({suffix : '.min'}))
         .pipe(gulp.dest('./dist/css/'))
-        .pipe(lr({auto: false}));
+        .pipe($.livereload({auto: false}));
 });
 
 gulp.task('default', ['watch']);
 
 gulp.task('watch', ['coffee','less'], function(){
-    lr.listen();
+    $.livereload.listen();
     gulp.watch('./src/coffee/*.coffee', ['coffee']);
     gulp.watch('./src/less/*.less', ['less']);
-    gulp.watch('./test/spec/*.js').on('change', lr.changed);
+    gulp.watch('./test/spec/*.js').on('change', $.livereload.changed);
 });
