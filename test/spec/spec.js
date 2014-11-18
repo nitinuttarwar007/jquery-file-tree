@@ -31,42 +31,42 @@ describe("filetree", function() {
         
         it("should trigger click events properly", function() {
             
-            var spy_folder = spyOnEvent('li.folder:first > a', 'click.folder.filetree');
-            var spy_file = spyOnEvent('li.file:first > a', 'click.file.filetree');
+            var spy_folder = spyOnEvent('#test', 'folder.click.filetree');
+            var spy_file   = spyOnEvent('#test', 'file.click.filetree');
 
-            $('li.folder:first > a').trigger('click');
+            $('li.folder:first > a').click();
             
-            expect('click.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
+            expect('folder.click.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_folder).toHaveBeenTriggered();
 
-            $('li.file:first > a').trigger('click');
+            $('li.file:first > a').click();
             
-            expect('click.file.filetree').toHaveBeenTriggeredOn('li.file:first > a');
+            expect('file.click.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_file).toHaveBeenTriggered();
         });
 
 
         it("should trigger open/close events", function() {
             
-            var spy_open = spyOnEvent('li.folder:first > a', 'open.folder.filetree');
-            var spy_opened = spyOnEvent('li.folder:first > a', 'opened.folder.filetree');
-            var spy_close = spyOnEvent('li.folder:first > a', 'close.folder.filetree');
-            var spy_closed = spyOnEvent('li.folder:first > a', 'closed.folder.filetree');
+            var spy_open   = spyOnEvent('#test', 'folder.open.filetree');
+            var spy_opened = spyOnEvent('#test', 'folder.opened.filetree');
+            var spy_close  = spyOnEvent('#test', 'folder.close.filetree');
+            var spy_closed = spyOnEvent('#test', 'folder.closed.filetree');
 
             button.trigger('click');
 
-            expect('open.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
+            expect('folder.open.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_open).toHaveBeenTriggered();
             
-            expect('opened.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
+            expect('folder.opened.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_opened).toHaveBeenTriggered();
     
             button.trigger('click');
 
-            expect('close.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
+            expect('folder.close.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_close).toHaveBeenTriggered();
 
-            expect('closed.folder.filetree').toHaveBeenTriggeredOn('li.folder:first > a');
+            expect('folder.closed.filetree').toHaveBeenTriggeredOn('#test');
             expect(spy_closed).toHaveBeenTriggered();
         });
         
@@ -79,31 +79,9 @@ describe("filetree", function() {
             button = $('li.folder').eq(0).find('button');
         });
 
-        it("should destroy properly", function(){
-            $('#test').filetree('destroy');
+        it("should trigger open and close events", function(){
 
-            var spy_open = spyOnEvent('li.folder:first > a', 'open.folder.filetree');
-            var spy_opened = spyOnEvent('li.folder:first > a', 'opened.folder.filetree');
-            var spy_close = spyOnEvent('li.folder:first > a', 'close.folder.filetree');
-            var spy_closed = spyOnEvent('li.folder:first > a', 'closed.folder.filetree');
-
-            button.trigger('click');
-
-            expect('open.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
-            expect(spy_open).not.toHaveBeenTriggered();
-            
-            expect('opened.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
-            expect(spy_opened).not.toHaveBeenTriggered();
-    
-            button.trigger('click');
-
-            expect('close.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
-            expect(spy_close).not.toHaveBeenTriggered();
-
-            expect('closed.folder.filetree').not.toHaveBeenTriggeredOn('li.folder:first > a');
-            expect(spy_closed).not.toHaveBeenTriggered();
-
-            expect('#test').toBeEmpty();
+            //expect('#test').toBeEmpty();
         })
     });
 
@@ -132,23 +110,4 @@ describe("filetree", function() {
         })
     });
 
-    describe("DOM as source", function(){
-
-        beforeEach(function(){
-            setupUlFixture();
-            init([]);
-            button = $('li.folder').eq(0).find('button');
-        });
-
-        it("must initialize properly",function(){
-            root = $('#test');
-            expect(root).toHaveClass('filetree');
-        });
-
-        xit("should wrap text in anchors", function() {
-            expect($('li').eq(0)).toContainElement('a');
-            //expect($('li > a')).not.toContainElement('ul');
-        });
-
-    });
 });
