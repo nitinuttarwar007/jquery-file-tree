@@ -191,7 +191,7 @@
         # @returns [Object] this
         ###
         expandTo: (path)->
-            path = path.trim('/').split('/')
+            path = path.replace(/^\/|\/$/g,"").split('/')
             $root = $(@element)
             if @settings.columnView
                 $root = $root.find('> .list-group-wrapper')

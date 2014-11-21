@@ -222,7 +222,7 @@ var __hasProp = {}.hasOwnProperty;
 
     FileTree.prototype.expandTo = function(path) {
       var $root, context, elem, index, _i, _j, _len, _len1;
-      path = path.trim('/').split('/');
+      path = path.replace(/^\/|\/$/g, "").split('/');
       $root = $(this.element);
       if (this.settings.columnView) {
         $root = $root.find('> .list-group-wrapper');
