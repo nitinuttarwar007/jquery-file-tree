@@ -1,15 +1,25 @@
 #Change Log
 
+##master
+###Added
+- `click` event is trgiggered on last item in path for `expandTo` method
+
+###Changes
+- `collapseAll` now closes all folders even in column view
+
+###Fixed
+- handle trailing slashes in path for `expandTo` method
+
 ##v0.2.0
 This version is a complete rewrite of the plugin.
 
-##Added
+###Added
 ####Options
 - `columnView` - enables mac styled column view
 - `dblclickDelay` - Interval (in milliseconds) within which double click must be registered
 - `classes.arrow` - class to be applied to arrow
 
-###Methods
+####Methods
 - `getActivePath` - returns currently selected path
 - `expandTo` - expands structure to given path
 - `collapseAll` - collapses entire structure
