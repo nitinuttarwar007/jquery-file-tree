@@ -1,7 +1,7 @@
 #jQuery-File-Tree
 A highly customisable jQuery filetree plugin for displaying folder structures.
 
-> Waring: This plugin is still in development and API may keep changing. **Do not use this in production**. If you want to use it, you are free to do it *at your own risk*. 
+> Warning: This plugin is still in development and API may keep changing. **Do not use this in production**. If you want to use it, you are free to do it *at your own risk*. 
 
 ##Installation
 **Via Bower**
