@@ -283,15 +283,17 @@ var __hasProp = {}.hasOwnProperty;
 
 
     /*
-     * Collapses all folders, applicable for only list/tree
+     * Collapses all folders
      * @param instant [Boolean] If animations are instant
      * @returns [Object] this
      */
 
     FileTree.prototype.collapseAll = function(instant) {
       var self;
-      if (!this.settings.columnView) {
-        self = this;
+      self = this;
+      if (this.settings.columnView) {
+        $(this.element).find('.columns:not(:first-child)').remove().end().find('.active').removeClass('active');
+      } else {
         if (instant) {
           this.settings._animationSpeed = this.settings.animationSpeed;
           this.settings.animationSpeed = 0;

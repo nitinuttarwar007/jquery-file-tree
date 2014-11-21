@@ -236,13 +236,16 @@
             return @
 
         ###
-        # Collapses all folders, applicable for only list/tree
+        # Collapses all folders
         # @param instant [Boolean] If animations are instant
         # @returns [Object] this
         ###
         collapseAll: (instant)->
-            unless @settings.columnView
-                self = @
+            self = @
+            if @settings.columnView
+                $(@element).find('.columns:not(:first-child)').remove()
+                    .end().find('.active').removeClass('active') 
+            else
                 if instant
                     @settings._animationSpeed = @settings.animationSpeed
                     @settings.animationSpeed = 0
