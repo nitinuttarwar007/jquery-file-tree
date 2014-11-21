@@ -197,23 +197,27 @@
                 $root = $root.find('> .list-group-wrapper')
                 for context,index in path
                     elem = $root.find("> .columns").eq(index)
-                        .find('> ul.list-group > li.folder > a')
+                        .find('> ul.list-group > li > a')
                         .filter(-> $(this).text() is context)
                     if elem.length < 1
-                        throw new Error("The folder #{context} does not exists")
+                        throw new Error("The folder/file #{context} does not exists")
                     else
-                        @open(elem.eq(0))
+                        @open(elem)
+                        if index is path.length - 1
+                            $(elem).click() 
             else
                 @collapseAll(true)
                 for context,index in path
-                    $root = $root.find('> ul.list-group > li.folder')
+                    $root = $root.find('> ul.list-group > li')
                         .filter(-> $(this).find('> a').text() is context)
 
                     if $root.length < 1
-                        throw new Error("The folder #{context} does not exists")
+                        throw new Error("The folder/file #{context} does not exists")
                     else
                         @_openFolder($root)
                         @_selectItem($root)
+                        if index is path.length - 1
+                            $root.find('> a').click()
             return @
 
         ###
@@ -244,7 +248,7 @@
             self = @
             if @settings.columnView
                 $(@element).find('.columns:not(:first-child)').remove()
-                    .end().find('.active').removeClass('active') 
+                    .end().find('.active').removeClass('active')
             else
                 if instant
                     @settings._animationSpeed = @settings.animationSpeed

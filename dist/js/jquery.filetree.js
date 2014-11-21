@@ -228,27 +228,33 @@ var __hasProp = {}.hasOwnProperty;
         $root = $root.find('> .list-group-wrapper');
         for (index = _i = 0, _len = path.length; _i < _len; index = ++_i) {
           context = path[index];
-          elem = $root.find("> .columns").eq(index).find('> ul.list-group > li.folder > a').filter(function() {
+          elem = $root.find("> .columns").eq(index).find('> ul.list-group > li > a').filter(function() {
             return $(this).text() === context;
           });
           if (elem.length < 1) {
-            throw new Error("The folder " + context + " does not exists");
+            throw new Error("The folder/file " + context + " does not exists");
           } else {
-            this.open(elem.eq(0));
+            this.open(elem);
+            if (index === path.length - 1) {
+              $(elem).click();
+            }
           }
         }
       } else {
         this.collapseAll(true);
         for (index = _j = 0, _len1 = path.length; _j < _len1; index = ++_j) {
           context = path[index];
-          $root = $root.find('> ul.list-group > li.folder').filter(function() {
+          $root = $root.find('> ul.list-group > li').filter(function() {
             return $(this).find('> a').text() === context;
           });
           if ($root.length < 1) {
-            throw new Error("The folder " + context + " does not exists");
+            throw new Error("The folder/file " + context + " does not exists");
           } else {
             this._openFolder($root);
             this._selectItem($root);
+            if (index === path.length - 1) {
+              $root.find('> a').click();
+            }
           }
         }
       }
