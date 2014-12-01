@@ -15,7 +15,7 @@ gulp.task('coffee', function () {
         .pipe($.coffeelint())
         .pipe($.coffeelint.reporter())
         .pipe($.coffee({bare : true })).on('error', $.util.log)
-        //.pipe($.indent({amount:4}))
+        .pipe($.stripDebug())
         .pipe(gulp.dest('./dist/js/'))
         .pipe($.jshint())
         .pipe($.uglify())
