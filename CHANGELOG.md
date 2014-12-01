@@ -1,6 +1,14 @@
 #Change Log
 
-##master
+##v0.2.2
+###Added
+- Added reference to parent while adding columns in column view
+- Auto scroll left on folder open in column view
+
+###Fixed
+- `destroy` method had invalid reference
+
+##v0.2.1
 ###Added
 - `click` event is trgiggered on last item in path for `expandTo` method
 
