@@ -446,7 +446,9 @@
                 @_selectItem(elem)
 
                 if $children.find('> ul > li').length > 0
-                    $children.clone(true).appendTo(wrapper)
+                    clone = $children.clone(true)
+                    clone.find('> ul').data('_parent', $a)
+                    clone.appendTo(wrapper)
                 else
                     wrapper.append("<div class=\"columns empty\"><p>empty folder</p></div>")
 

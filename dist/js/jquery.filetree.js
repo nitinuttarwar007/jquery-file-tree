@@ -486,7 +486,7 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype._openFolder = function(elem) {
-      var $a, $children, $root, ev_end, ev_start, offset, that, wrapper;
+      var $a, $children, $root, clone, ev_end, ev_start, offset, that, wrapper;
       $a = elem.find('> a');
       $root = $(this.element);
       $children = this.settings.columnView ? elem.find('> .columns') : elem.find('> ul');
@@ -498,7 +498,9 @@ var __hasProp = {}.hasOwnProperty;
         wrapper = $root.find('.list-group-wrapper').eq(0);
         this._selectItem(elem);
         if ($children.find('> ul > li').length > 0) {
-          $children.clone(true).appendTo(wrapper);
+          clone = $children.clone(true);
+          clone.find('> ul').data('_parent', $a);
+          clone.appendTo(wrapper);
         } else {
           wrapper.append("<div class=\"columns empty\"><p>empty folder</p></div>");
         }
