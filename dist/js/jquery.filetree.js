@@ -343,9 +343,7 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype.destroy = function() {
-      if ($this.data("$.filetree")) {
-        $this.data("$.filetree", null);
-      }
+      $(this.element).data("$.filetree", null);
       $(this.element).off().empty();
       return this;
     };

@@ -204,7 +204,7 @@
                     else
                         @open(elem)
                         if index is path.length - 1
-                            $(elem).click() 
+                            $(elem).click()
             else
                 @collapseAll(true)
                 for context,index in path
@@ -290,7 +290,7 @@
         # @returns [Object] this
         ###
         destroy: ->
-            $this.data("$.filetree", null) if $this.data("$.filetree")
+            $(@element).data("$.filetree", null)
             $(@element).off().empty()
             return @
         
