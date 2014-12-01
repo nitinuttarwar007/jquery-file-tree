@@ -449,6 +449,10 @@
                     $children.clone(true).appendTo(wrapper)
                 else
                     wrapper.append("<div class=\"columns empty\"><p>empty folder</p></div>")
+
+                if wrapper.outerWidth() > $root.outerWidth()
+                    offset = wrapper.outerWidth() - $root.outerWidth()
+                    $root.scrollLeft(offset)
                 $root.trigger(ev_end)
             else
                 $children.slideDown(that.settings.animationSpeed, ->
