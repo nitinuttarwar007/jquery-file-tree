@@ -1,7 +1,7 @@
 
 /*
  * Filtree plugin
- * @version 0.2.0
+ * @version 0.2.2
  * @author Vivek Kumar Bansal <contact@vkbansal.me>
  */
 var __hasProp = {}.hasOwnProperty;
