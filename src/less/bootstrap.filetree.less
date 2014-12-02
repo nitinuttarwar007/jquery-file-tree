@@ -142,14 +142,15 @@ li.folder{
 }
 
 .list-group-wrapper{
-    display: table;
     overflow-y: hidden;
     white-space: nowrap;
     height: 100%;
+    position: relative;
     
     & > .columns{
-        min-width: 200px;
-        display: table-cell;
+        width: 250px;
+        position: absolute;
+        top: 0;
         height: 100%;
         overflow-y: hidden;
         border-color: @list-group-border;

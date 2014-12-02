@@ -1,5 +1,9 @@
 #Change Log
 
+##v0.3.0
+###Fixed
+- no vertical scroll bars on IE and firefox, #5
+
 ##v0.2.2
 ###Added
 - Added reference to parent while adding columns in column view

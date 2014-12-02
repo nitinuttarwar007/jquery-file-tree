@@ -486,7 +486,7 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype._openFolder = function(elem) {
-      var $a, $children, $root, clone, ev_end, ev_start, offset, that, wrapper;
+      var $a, $children, $parent, $root, clone, ev_end, ev_start, left, that, wrapper;
       $a = elem.find('> a');
       $root = $(this.element);
       $children = this.settings.columnView ? elem.find('> .columns') : elem.find('> ul');
@@ -496,18 +496,18 @@ var __hasProp = {}.hasOwnProperty;
       $root.trigger(ev_start);
       if (this.settings.columnView) {
         wrapper = $root.find('.list-group-wrapper').eq(0);
+        $parent = elem.closest('.columns');
+        left = $parent.position().left + $parent.outerWidth() + wrapper.scrollLeft();
         this._selectItem(elem);
         if ($children.find('> ul > li').length > 0) {
           clone = $children.clone(true);
           clone.find('> ul').data('_parent', $a);
+          clone.css('left', "" + left + "px");
           clone.appendTo(wrapper);
         } else {
-          wrapper.append("<div class=\"columns empty\"><p>empty folder</p></div>");
+          wrapper.append("<div class=\"columns empty\" style=\"left: " + left + "px\"><p>empty folder</p></div>");
         }
-        if (wrapper.outerWidth() > $root.outerWidth()) {
-          offset = wrapper.outerWidth() - $root.outerWidth();
-          $root.scrollLeft(offset);
-        }
+        wrapper.scrollLeft(left);
         $root.trigger(ev_end);
       } else {
         $children.slideDown(that.settings.animationSpeed, function() {
