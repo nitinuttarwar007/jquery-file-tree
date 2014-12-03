@@ -1,6 +1,6 @@
 ###
 # Filtree plugin
-# @version 0.2.2
+# @version {{version}}
 # @author Vivek Kumar Bansal <contact@vkbansal.me>
 ###
 ((factory)->
@@ -72,7 +72,7 @@
         dblclickDelay: 200
         classes:
             arrow: "glyphicon glyphicon-chevron-right"
-        
+        searchInput: null
         checkboxes: false
         hierarchialCheck: true
     
@@ -81,8 +81,6 @@
     ###
     class FileTree
         constructor: (@element, options) ->
-
-            @VERSION = '0.2.0'
 
             @settings = $.extend({}, defaults, options)
             @_defaults = defaults
@@ -345,7 +343,7 @@
         # @param elem [HTMLObject]
         # @param data [Array]
         ###
-        _createTree: (elem, data)->
+        _createTree: (elem, data, path = "/")->
             $elem = $(elem)
             
             #Sort files and folders separately and combine them
@@ -376,8 +374,9 @@
                 if ['file', 'folder'].indexOf(item.type) > -1
                     a.attr('title',item[@settings["#{item.type}NodeTitle"]])
                         .html(item[@settings["#{item.type}NodeName"]])
+                        .data('__path', path + item[@settings["#{item.type}NodeName"]])
                 else
-                    a.attr('title',item.name).html(item.name)
+                    a.attr('title',item.name).html(item.name).data('__path', path + item.name)
                 
                 # Attach data to anchor
                 for own key,value of item when key isnt 'children'
@@ -414,7 +413,7 @@
                             li.removeClass('is-collapsed').addClass('is-empty')
 
                     # Recursive call on children
-                    @_createTree.call(@,li,item.children) if $.isArray(item.children)
+                    @_createTree.call(@,li,item.children, a.data('__path') + "/") if $.isArray(item.children)
 
                 li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)
@@ -661,6 +660,8 @@
             return
         )
         retVal
+
+    Plugin.VERSION : '{{version}}'
 
     old = $.fn.filetree
 

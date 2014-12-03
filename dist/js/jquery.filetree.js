@@ -1,7 +1,7 @@
 
 /*
  * Filtree plugin
- * @version 0.2.2
+ * @version 0.3.0
  * @author Vivek Kumar Bansal <contact@vkbansal.me>
  */
 var __hasProp = {}.hasOwnProperty;
@@ -82,6 +82,7 @@ var __hasProp = {}.hasOwnProperty;
     classes: {
       arrow: "glyphicon glyphicon-chevron-right"
     },
+    searchInput: null,
     checkboxes: false,
     hierarchialCheck: true
   };
@@ -91,8 +92,9 @@ var __hasProp = {}.hasOwnProperty;
    */
   FileTree = (function() {
     function FileTree(element, options) {
+      var VERSION;
       this.element = element;
-      this.VERSION = '0.2.0';
+      VERSION = '0.3.0';
       this.settings = $.extend({}, defaults, options);
       this._defaults = defaults;
       this._clicks = 0;
@@ -396,8 +398,11 @@ var __hasProp = {}.hasOwnProperty;
      * @param data [Array]
      */
 
-    FileTree.prototype._createTree = function(elem, data) {
+    FileTree.prototype._createTree = function(elem, data, path) {
       var $elem, a, arrow, checkbox, col, file, item, key, li, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
+      if (path == null) {
+        path = "/";
+      }
       $elem = $(elem);
       _files = [];
       _folders = [];
@@ -422,9 +427,9 @@ var __hasProp = {}.hasOwnProperty;
         li = $(document.createElement('li')).addClass("" + item.type + " list-group-item");
         a = $(document.createElement('a')).attr('href', '#');
         if (['file', 'folder'].indexOf(item.type) > -1) {
-          a.attr('title', item[this.settings["" + item.type + "NodeTitle"]]).html(item[this.settings["" + item.type + "NodeName"]]);
+          a.attr('title', item[this.settings["" + item.type + "NodeTitle"]]).html(item[this.settings["" + item.type + "NodeName"]]).data('__path', path + item[this.settings["" + item.type + "NodeName"]]);
         } else {
-          a.attr('title', item.name).html(item.name);
+          a.attr('title', item.name).html(item.name).data('__path', path + item.name);
         }
         for (key in item) {
           if (!__hasProp.call(item, key)) continue;
@@ -464,7 +469,7 @@ var __hasProp = {}.hasOwnProperty;
             }
           }
           if ($.isArray(item.children)) {
-            this._createTree.call(this, li, item.children);
+            this._createTree.call(this, li, item.children, a.data('__path') + "/");
           }
         }
         li = this.settings.nodeFormatter.call(null, li);
