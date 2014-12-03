@@ -87,6 +87,7 @@
 
             @_clicks = 0
             @_timer = null
+            @_itemId = 0
 
             # override inter-dependent settings
             @settings.checkboxes = if @settings.columnView then false
@@ -369,7 +370,7 @@
                 
                 li = $(document.createElement('li')).addClass("#{item.type} list-group-item")
 
-                a = $(document.createElement('a')).attr('href' , '#')
+                a = $(document.createElement('a')).attr('href' , '#').data('__itemId', ++@_itemId)
 
                 if ['file', 'folder'].indexOf(item.type) > -1
                     a.attr('title',item[@settings["#{item.type}NodeTitle"]])
@@ -661,7 +662,7 @@
         )
         retVal
 
-    Plugin.VERSION : '{{version}}'
+    Plugin.VERSION = '{{version}}'
 
     old = $.fn.filetree
 

@@ -92,13 +92,12 @@ var __hasProp = {}.hasOwnProperty;
    */
   FileTree = (function() {
     function FileTree(element, options) {
-      var VERSION;
       this.element = element;
-      VERSION = '0.3.0';
       this.settings = $.extend({}, defaults, options);
       this._defaults = defaults;
       this._clicks = 0;
       this._timer = null;
+      this._itemId = 0;
       this.settings.checkboxes = this.settings.columnView ? false : void 0;
       this._init();
     }
@@ -425,7 +424,7 @@ var __hasProp = {}.hasOwnProperty;
           continue;
         }
         li = $(document.createElement('li')).addClass("" + item.type + " list-group-item");
-        a = $(document.createElement('a')).attr('href', '#');
+        a = $(document.createElement('a')).attr('href', '#').data('__itemId', ++this._itemId);
         if (['file', 'folder'].indexOf(item.type) > -1) {
           a.attr('title', item[this.settings["" + item.type + "NodeTitle"]]).html(item[this.settings["" + item.type + "NodeName"]]).data('__path', path + item[this.settings["" + item.type + "NodeName"]]);
         } else {
@@ -708,6 +707,7 @@ var __hasProp = {}.hasOwnProperty;
     });
     return retVal;
   };
+  Plugin.VERSION = '0.3.0';
   old = $.fn.filetree;
   $.fn.filetree = Plugin;
   $.fn.filetree.Constructor = FileTree;
