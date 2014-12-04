@@ -98,6 +98,7 @@ var __hasProp = {}.hasOwnProperty;
       this._clicks = 0;
       this._timer = null;
       this._itemId = 0;
+      this._lookup = {};
       this.settings.checkboxes = this.settings.columnView ? false : void 0;
       this._init();
     }
@@ -316,27 +317,6 @@ var __hasProp = {}.hasOwnProperty;
       return this;
     };
 
-    FileTree.prototype.search = function(str) {
-      var self;
-      str = str.toLowerCase();
-      self = this;
-      $(this.element).find('li').each(function(index, item) {
-        var e, exists;
-        e = $(item);
-        exists = self._data[index].indexOf(str) < 0;
-        if (exists) {
-          if (e.hasClass('folder') && e.find('> ul > li').length > 0) {
-            e.children('li').removeClass('is-hidden');
-          } else {
-            e.addClass('is-hidden');
-          }
-        } else {
-          e.removeClass('is-hidden');
-        }
-      });
-      return this;
-    };
-
 
     /*
      * Plugin destructor
@@ -360,7 +340,8 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype._init = function() {
-      var $root, $temp, data, self;
+      var $root, $temp, data, self, that;
+      that = this;
       $root = $(this.element).addClass('file-tree');
       $temp = $(document.createElement('span')).insertAfter($(this.element));
       $(this.element).detach();
@@ -383,9 +364,6 @@ var __hasProp = {}.hasOwnProperty;
       this._addListeners();
       $(this.element).insertBefore($temp);
       $temp.remove();
-      this._data = $.makeArray($root.find('li').map(function(k, v) {
-        return $(v).text().toLowerCase();
-      }));
       data = null;
       return this.element;
     };
@@ -398,7 +376,7 @@ var __hasProp = {}.hasOwnProperty;
      */
 
     FileTree.prototype._createTree = function(elem, data, path) {
-      var $elem, a, arrow, checkbox, col, file, item, key, li, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
+      var $elem, a, arrow, checkbox, col, currentPath, file, item, key, li, text, title, ul, value, _files, _folders, _i, _j, _len, _len1, _subfolders;
       if (path == null) {
         path = "/";
       }
@@ -426,10 +404,15 @@ var __hasProp = {}.hasOwnProperty;
         li = $(document.createElement('li')).addClass("" + item.type + " list-group-item");
         a = $(document.createElement('a')).attr('href', '#').data('__itemId', ++this._itemId);
         if (['file', 'folder'].indexOf(item.type) > -1) {
-          a.attr('title', item[this.settings["" + item.type + "NodeTitle"]]).html(item[this.settings["" + item.type + "NodeName"]]).data('__path', path + item[this.settings["" + item.type + "NodeName"]]);
+          title = item[this.settings["" + item.type + "NodeTitle"]];
+          text = item[this.settings["" + item.type + "NodeName"]];
+          currentPath = path + item[this.settings["" + item.type + "NodeName"]];
         } else {
-          a.attr('title', item.name).html(item.name).data('__path', path + item.name);
+          title = text = item.name;
+          currentPath = path + item.name;
         }
+        a.attr('title', title).html(text).data('__path', currentPath);
+        this._lookup["" + this._itemId + ":" + text] = a;
         for (key in item) {
           if (!__hasProp.call(item, key)) continue;
           value = item[key];
@@ -468,7 +451,7 @@ var __hasProp = {}.hasOwnProperty;
             }
           }
           if ($.isArray(item.children)) {
-            this._createTree.call(this, li, item.children, a.data('__path') + "/");
+            this._createTree.call(this, li, item.children, currentPath + "/");
           }
         }
         li = this.settings.nodeFormatter.call(null, li);

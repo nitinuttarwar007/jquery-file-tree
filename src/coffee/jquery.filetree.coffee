@@ -88,6 +88,7 @@
             @_clicks = 0
             @_timer = null
             @_itemId = 0
+            @_lookup = {}
 
             # override inter-dependent settings
             @settings.checkboxes = if @settings.columnView then false
@@ -261,29 +262,6 @@
                 
             return @
 
-        #Searches a given tree
-        #FIXME
-        search: (str)->
-
-            str = str.toLowerCase()
-
-            self = @
-
-            $(@element).find('li').each( (index,item)->
-                e = $(item)
-                exists = self._data[index].indexOf(str) < 0
-                if exists
-                    if e.hasClass('folder') and e.find('> ul > li').length > 0
-                        e.children('li').removeClass('is-hidden')
-                    else
-                        e.addClass('is-hidden')
-                else
-                    e.removeClass('is-hidden')
-                return
-            )
-
-            @
-
         ###
         # Plugin destructor
         # @returns [Object] this
@@ -301,6 +279,7 @@
         # Plugin Initializor
         ###
         _init: ->
+            that = this
             $root = $(@element).addClass('file-tree')
 
             #Temporarily detach element. Prevents excessive repaints.
@@ -312,6 +291,7 @@
                 $root.addClass('file-tree-columns')
                 $root = $(document.createElement('div')).addClass('list-group-wrapper').appendTo($root)
             
+
 
             data = @settings.data
             self = @
@@ -332,10 +312,9 @@
             #Reattach element after processing
             $(@element).insertBefore($temp)
             $temp.remove()
-
-            @._data = $.makeArray($root.find('li').map((k,v) -> $(v).text().toLowerCase()))
             
             data = null
+
 
             @element
 
@@ -373,11 +352,16 @@
                 a = $(document.createElement('a')).attr('href' , '#').data('__itemId', ++@_itemId)
 
                 if ['file', 'folder'].indexOf(item.type) > -1
-                    a.attr('title',item[@settings["#{item.type}NodeTitle"]])
-                        .html(item[@settings["#{item.type}NodeName"]])
-                        .data('__path', path + item[@settings["#{item.type}NodeName"]])
+                    title = item[@settings["#{item.type}NodeTitle"]]
+                    text = item[@settings["#{item.type}NodeName"]]
+                    currentPath = path + item[@settings["#{item.type}NodeName"]]
                 else
-                    a.attr('title',item.name).html(item.name).data('__path', path + item.name)
+                    title = text = item.name
+                    currentPath = path + item.name
+                
+                a.attr('title',title).html(text).data('__path', currentPath)
+
+                @_lookup["#{@_itemId}:#{text}"] = a
                 
                 # Attach data to anchor
                 for own key,value of item when key isnt 'children'
@@ -414,7 +398,7 @@
                             li.removeClass('is-collapsed').addClass('is-empty')
 
                     # Recursive call on children
-                    @_createTree.call(@,li,item.children, a.data('__path') + "/") if $.isArray(item.children)
+                    @_createTree.call(@,li,item.children, currentPath + "/") if $.isArray(item.children)
 
                 li = @settings.nodeFormatter.call(null, li)
                 ul.append(li)
@@ -506,6 +490,8 @@
             @_closeFolder(elem) if @settings.columnView # In column view, close successive columns
             
             elem.addClass('active') # Make current active
+
+            
 
         ###
         # Factory for click events
