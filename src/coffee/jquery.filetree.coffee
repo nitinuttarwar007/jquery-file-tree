@@ -415,6 +415,8 @@
         # @param elem [HTMLObject]
         ###
         _openFolder: (elem)->
+            return false if elem.hasClass('disabled')
+            
             $a = elem.find('> a')
             $root= $(@element)
             $children = if @settings.columnView then elem.find('> .columns') else elem.find('> ul')
@@ -483,6 +485,8 @@
         # @param elem [HTMLObject]
         ###
         _selectItem: (elem) ->
+            return false if elem.hasClass('disabled')
+
             $parent = if @settings.columnView then elem.closest('.columns') else $(@element)
             
             $parent.find('li.active').removeClass('active') # Remove current active classes
@@ -491,7 +495,7 @@
             
             elem.addClass('active') # Make current active
 
-            
+            return
 
         ###
         # Factory for click events

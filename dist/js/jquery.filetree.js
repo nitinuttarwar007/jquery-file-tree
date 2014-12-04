@@ -474,6 +474,9 @@ var __hasProp = {}.hasOwnProperty;
 
     FileTree.prototype._openFolder = function(elem) {
       var $a, $children, $parent, $root, clone, ev_end, ev_start, left, that, wrapper;
+      if (elem.hasClass('disabled')) {
+        return false;
+      }
       $a = elem.find('> a');
       $root = $(this.element);
       $children = this.settings.columnView ? elem.find('> .columns') : elem.find('> ul');
@@ -540,12 +543,15 @@ var __hasProp = {}.hasOwnProperty;
 
     FileTree.prototype._selectItem = function(elem) {
       var $parent;
+      if (elem.hasClass('disabled')) {
+        return false;
+      }
       $parent = this.settings.columnView ? elem.closest('.columns') : $(this.element);
       $parent.find('li.active').removeClass('active');
       if (this.settings.columnView) {
         this._closeFolder(elem);
       }
-      return elem.addClass('active');
+      elem.addClass('active');
     };
 
 
